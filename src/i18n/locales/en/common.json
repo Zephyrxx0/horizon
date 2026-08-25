@@ -1,0 +1,39 @@
+{
+  "save": {
+    "idle": "Not saved",
+    "dirty": "Unsaved changes",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "error": "Couldn't save — Retry"
+  },
+  "empty": {
+    "heading": "Your application starts here",
+    "body": "Answer at your own pace. Everything you enter is saved automatically on this device — leave any time and pick up where you stopped."
+  },
+  "storage": {
+    "heading": "We couldn't save your changes",
+    "body": "Your browser storage may be full or unavailable, so your latest edits aren't saved yet. Free up space, then tap Retry.",
+    "retry": "Retry"
+  },
+  "quotaWarning": "Storage is running low. Documents are compressed before saving, but if storage fills up, new uploads won't be saved. Remove old files or free up device space.",
+  "clearDraft": {
+    "trigger": "Clear saved draft",
+    "title": "Clear everything you've entered?",
+    "body": "This permanently deletes your saved answers and documents from this device. You'll start from the beginning.",
+    "confirm": "Yes, delete my draft",
+    "cancel": "No, keep my draft"
+  },
+  "notice": {
+    "translationPending": "{{language}} translation is coming soon. The app is showing English for now."
+  },
+  "app": {
+    "skipToContent": "Skip to main content",
+    "appName": "VisaReThink",
+    "footer": "VisaReThink prototype · Secure client-side processing"
+  },
+  "actions": {
+    "continue": "Continue application",
+    "back": "Back",
+    "close": "Close"
+  }
+}

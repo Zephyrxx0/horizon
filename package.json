@@ -13,6 +13,7 @@
     "test": "vitest run",
     "e2e": "playwright test",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:fonts": "node scripts/check-font-budget.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -66,5 +67,10 @@
     "*.{css,json,md}": [
       "prettier --write"
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100
   }
 }

@@ -1,4 +1,5 @@
 import { Loader2, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { SaveState } from '../persistence/autosave';
 import { FOCUS_RING_CLASS } from './ui/focus';
 
@@ -13,16 +14,18 @@ export interface SaveIndicatorProps {
 }
 
 export function SaveIndicator({ state, onRetry, className = '' }: SaveIndicatorProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       role="status"
       aria-live="polite"
       className={`inline-flex items-center gap-1.5 text-sm font-medium ${className}`}
     >
-      {state === 'idle' && <span className="text-[var(--color-ink-muted)]">Not saved</span>}
+      {state === 'idle' && <span className="text-[var(--color-ink-muted)]">{t('save.idle')}</span>}
 
       {state === 'dirty' && (
-        <span className="text-[var(--color-saffron-deep)]">Unsaved changes</span>
+        <span className="text-[var(--color-saffron-deep)]">{t('save.dirty')}</span>
       )}
 
       {state === 'saving' && (
@@ -31,14 +34,14 @@ export function SaveIndicator({ state, onRetry, className = '' }: SaveIndicatorP
             className="w-4 h-4 animate-spin text-[var(--color-indigo-primary)]"
             aria-hidden="true"
           />
-          <span>Saving…</span>
+          <span>{t('save.saving')}</span>
         </span>
       )}
 
       {state === 'saved' && (
         <span className="text-[var(--color-success)] flex items-center gap-1.5">
           <Check className="w-4 h-4 stroke-[3]" aria-hidden="true" />
-          <span>Saved</span>
+          <span>{t('save.saved')}</span>
         </span>
       )}
 
@@ -48,7 +51,7 @@ export function SaveIndicator({ state, onRetry, className = '' }: SaveIndicatorP
           onClick={onRetry}
           className={`min-h-[var(--spacing-touch)] px-3 py-1 rounded-[var(--radius-input)] text-[var(--color-error)] font-semibold border border-[var(--color-error)] hover:bg-[var(--color-error)]/10 flex items-center gap-1 ${FOCUS_RING_CLASS}`}
         >
-          Couldn't save — Retry
+          {t('save.error')}
         </button>
       )}
     </div>

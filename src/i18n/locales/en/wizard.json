@@ -1,0 +1,47 @@
+{
+  "steps": {
+    "trip": "Trip Type",
+    "dependent": "Passport & Identity",
+    "review": "Review & Confirm"
+  },
+  "trip": {
+    "legend": "What kind of trip are you planning?",
+    "options": {
+      "tourism": {
+        "label": "Tourism & Sightseeing",
+        "desc": "For holidays, visiting friends or family, and casual visits."
+      },
+      "business": {
+        "label": "Business & Commercial",
+        "desc": "For attending meetings, conferences, or setting up business."
+      },
+      "medical": {
+        "label": "Medical Treatment",
+        "desc": "For short-term treatment in recognized Indian medical centers."
+      }
+    }
+  },
+  "dependent": {
+    "passportLabel": "Passport Number",
+    "passportPlaceholder": "e.g. AB1234567",
+    "passportHint": "Enter 2 letters followed by 7 digits exactly as shown on your passport.",
+    "passportError": "Please enter a valid passport number (2 letters followed by 7 digits).",
+    "needsAttention": "Trip selection was updated. Please re-verify your passport details."
+  },
+  "review": {
+    "title": "Application Summary",
+    "tripType": "Trip Type",
+    "passportNumber": "Passport Number",
+    "documentsAttached": "Documents Attached",
+    "notSpecified": "Not specified"
+  },
+  "documents": {
+    "title": "Supporting Documents",
+    "attachPrompt": "Attach photo or passport copy",
+    "savingPrompt": "Compressing & saving…",
+    "formatHint": "JPG, PNG, or PDF up to 5MB (compressed to ≤2MB)",
+    "ready": "Ready",
+    "checking": "Checking…",
+    "remove": "Remove {{name}}"
+  }
+}

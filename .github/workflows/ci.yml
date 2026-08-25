@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality:
-    name: Quality Checks (Typecheck, Lint, Test, Contrast)
+    name: Quality Checks (Typecheck, Lint, Test, Contrast, Fonts)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -37,7 +37,11 @@ jobs:
       - name: WCAG Contrast Check
         run: pnpm check:contrast
 
-      # FOUND-04 font bundle-budget job appended in plan 06
+      - name: Build
+        run: pnpm build
+
+      - name: Font Budget Check
+        run: pnpm check:fonts
 
   e2e:
     name: Playwright E2E Smoke Tests
@@ -60,13 +64,5 @@ jobs:
       - name: Install Playwright Browsers with OS dependencies
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Playwright tests
+      - name: Run Playwright E2E tests
         run: pnpm e2e
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 14

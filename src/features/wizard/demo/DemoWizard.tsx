@@ -4,6 +4,7 @@
  */
 import { useState } from 'react';
 import { useSelector } from '@xstate/react';
+import { useTranslation } from 'react-i18next';
 import { useWizardActor, useSaveState, useWizardReset } from '../context';
 import { DEMO_STEPS, type StepId } from '../machine';
 import { deriveStepStatuses, isValidPassport } from '../selectors';
@@ -24,6 +25,7 @@ import { SaveIndicator } from '../../../components/SaveIndicator';
 import { DocumentStep, type DocumentMetadata } from './DocumentStep';
 
 export function DemoWizard() {
+  const { t } = useTranslation(['common', 'wizard']);
   const actor = useWizardActor();
   const saveState = useSaveState();
   const resetDraft = useWizardReset();
@@ -36,7 +38,11 @@ export function DemoWizard() {
   const statuses = deriveStepStatuses(answers, currentStepId);
   const stepperSteps = DEMO_STEPS.map((s) => ({
     id: s.id,
-    label: s.label,
+    label: t(
+      `wizard:steps.${s.id}` as
+        'wizard:steps.trip' | 'wizard:steps.dependent' | 'wizard:steps.review',
+      { defaultValue: s.label },
+    ),
     status: statuses[s.id],
   }));
 
@@ -78,12 +84,9 @@ export function DemoWizard() {
           className="p-4 rounded-[var(--radius-input)] bg-[var(--color-error)]/10 border border-[var(--color-error)] text-[var(--color-ink)]"
         >
           <h2 className="font-semibold text-[var(--color-error)] text-base mb-1">
-            We couldn't save your changes
+            {t('storage.heading')}
           </h2>
-          <p className="text-sm text-[var(--color-ink-muted)] mb-3">
-            Your browser storage may be full or unavailable, so your latest edits aren't saved yet.
-            Free up space, then tap Retry.
-          </p>
+          <p className="text-sm text-[var(--color-ink-muted)] mb-3">{t('storage.body')}</p>
           <Button
             variant="destructive"
             onClick={() =>
@@ -91,7 +94,7 @@ export function DemoWizard() {
             }
             className="w-auto px-4 py-2 min-h-[44px]"
           >
-            Retry
+            {t('storage.retry')}
           </Button>
         </div>
       )}
@@ -100,12 +103,9 @@ export function DemoWizard() {
       {!hasAnyAnswers && currentStepId === 'trip' && (
         <Card className="bg-white border-l-4 border-l-[var(--color-indigo-primary)]">
           <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-1">
-            Your application starts here
+            {t('empty.heading')}
           </h2>
-          <p className="text-sm text-[var(--color-ink-muted)] leading-relaxed">
-            Answer at your own pace. Everything you enter is saved automatically on this device —
-            leave any time and pick up where you stopped.
-          </p>
+          <p className="text-sm text-[var(--color-ink-muted)] leading-relaxed">{t('empty.body')}</p>
         </Card>
       )}
 
@@ -113,30 +113,30 @@ export function DemoWizard() {
       {currentStepId === 'trip' && (
         <div className="space-y-6">
           <RadioCardGroup
-            legend="What kind of trip are you planning?"
+            legend={t('wizard:trip.legend')}
             value={tripType}
             onChange={handleTripChange}
           >
             <RadioCard
               value="tourism"
-              label="Tourism & Sightseeing"
-              description="For holidays, visiting friends or family, and casual visits."
+              label={t('wizard:trip.options.tourism.label')}
+              description={t('wizard:trip.options.tourism.desc')}
             />
             <RadioCard
               value="business"
-              label="Business & Commercial"
-              description="For attending meetings, conferences, or setting up business."
+              label={t('wizard:trip.options.business.label')}
+              description={t('wizard:trip.options.business.desc')}
             />
             <RadioCard
               value="medical"
-              label="Medical Treatment"
-              description="For short-term treatment in recognized Indian medical centers."
+              label={t('wizard:trip.options.medical.label')}
+              description={t('wizard:trip.options.medical.desc')}
             />
           </RadioCardGroup>
 
           <div className="flex gap-3 pt-4">
             <Button variant="primary" disabled={!tripType} onClick={() => goTo('dependent')}>
-              Continue application
+              {t('actions.continue')}
             </Button>
           </div>
         </div>
@@ -150,7 +150,7 @@ export function DemoWizard() {
               role="alert"
               className="p-3 rounded-lg bg-[var(--color-saffron-deep)]/10 text-[var(--color-saffron-deep)] text-sm font-medium"
             >
-              Trip selection was updated. Please re-verify your passport details.
+              {t('wizard:dependent.needsAttention')}
             </div>
           )}
 
@@ -158,33 +158,29 @@ export function DemoWizard() {
             id="passport-number"
             invalid={Boolean(passportNumber && !isValidPassport(passportNumber))}
           >
-            <FieldLabel>Passport Number</FieldLabel>
+            <FieldLabel>{t('wizard:dependent.passportLabel')}</FieldLabel>
             <Input
               value={passportNumber}
               onChange={handlePassportChange}
-              placeholder="e.g. AB1234567"
+              placeholder={t('wizard:dependent.passportPlaceholder')}
               autoCapitalize="characters"
             />
-            <FieldHint>
-              Enter 2 letters followed by 7 digits exactly as shown on your passport.
-            </FieldHint>
+            <FieldHint>{t('wizard:dependent.passportHint')}</FieldHint>
             {passportNumber && !isValidPassport(passportNumber) && (
-              <FieldError>
-                Please enter a valid passport number (2 letters followed by 7 digits).
-              </FieldError>
+              <FieldError>{t('wizard:dependent.passportError')}</FieldError>
             )}
           </Field>
 
           <div className="flex gap-3 pt-4">
             <Button variant="secondary" onClick={() => goTo('trip')}>
-              Back
+              {t('actions.back')}
             </Button>
             <Button
               variant="primary"
               disabled={!isValidPassport(passportNumber)}
               onClick={() => goTo('review')}
             >
-              Continue application
+              {t('actions.continue')}
             </Button>
           </div>
         </div>
@@ -199,23 +195,30 @@ export function DemoWizard() {
           {/* Application Summary */}
           <Card>
             <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">
-              Application Summary
+              {t('wizard:review.title')}
             </h2>
             <dl className="divide-y divide-[var(--color-border)] text-sm">
               <div className="py-2.5 flex justify-between">
-                <dt className="text-[var(--color-ink-muted)]">Trip Type</dt>
+                <dt className="text-[var(--color-ink-muted)]">{t('wizard:review.tripType')}</dt>
                 <dd className="font-semibold text-[var(--color-ink)] capitalize">
-                  {tripType || 'Not specified'}
+                  {tripType === 'tourism' && t('wizard:trip.options.tourism.label')}
+                  {tripType === 'business' && t('wizard:trip.options.business.label')}
+                  {tripType === 'medical' && t('wizard:trip.options.medical.label')}
+                  {!tripType && t('wizard:review.notSpecified')}
                 </dd>
               </div>
               <div className="py-2.5 flex justify-between">
-                <dt className="text-[var(--color-ink-muted)]">Passport Number</dt>
+                <dt className="text-[var(--color-ink-muted)]">
+                  {t('wizard:review.passportNumber')}
+                </dt>
                 <dd className="font-mono font-semibold text-[var(--color-ink)]">
-                  {passportNumber || 'Not specified'}
+                  {passportNumber || t('wizard:review.notSpecified')}
                 </dd>
               </div>
               <div className="py-2.5 flex justify-between">
-                <dt className="text-[var(--color-ink-muted)]">Documents Attached</dt>
+                <dt className="text-[var(--color-ink-muted)]">
+                  {t('wizard:review.documentsAttached')}
+                </dt>
                 <dd className="font-semibold text-[var(--color-ink)]">
                   {documents.length} file{documents.length !== 1 ? 's' : ''}
                 </dd>
@@ -225,10 +228,10 @@ export function DemoWizard() {
 
           <div className="flex flex-col gap-3 pt-4">
             <Button variant="secondary" onClick={() => goTo('dependent')}>
-              Back
+              {t('actions.back')}
             </Button>
             <Button variant="destructive" onClick={() => setClearDraftOpen(true)}>
-              Clear saved draft
+              {t('clearDraft.trigger')}
             </Button>
           </div>
         </div>
@@ -238,8 +241,8 @@ export function DemoWizard() {
       <Sheet
         open={clearDraftOpen}
         onClose={() => setClearDraftOpen(false)}
-        title="Clear everything you've entered?"
-        description="This permanently deletes your saved answers and documents from this device. You'll start from the beginning."
+        title={t('clearDraft.title')}
+        description={t('clearDraft.body')}
       >
         <div className="flex flex-col sm:flex-row gap-3 mt-6">
           <Button
@@ -249,10 +252,10 @@ export function DemoWizard() {
               setClearDraftOpen(false);
             }}
           >
-            Yes, delete my draft
+            {t('clearDraft.confirm')}
           </Button>
           <Button variant="secondary" onClick={() => setClearDraftOpen(false)}>
-            No, keep my draft
+            {t('clearDraft.cancel')}
           </Button>
         </div>
       </Sheet>

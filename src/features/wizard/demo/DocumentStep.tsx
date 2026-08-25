@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSelector } from '@xstate/react';
+import { useTranslation } from 'react-i18next';
 import { Upload, FileText, CheckCircle2, Trash2, AlertTriangle, Loader2 } from 'lucide-react';
 import { useWizardActor } from '../context';
 import { compressToBudget } from '../../../persistence/compress';
@@ -23,6 +24,7 @@ const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 const MAX_RAW_BYTES = 5 * 1024 * 1024; // 5MB
 
 export function DocumentStep() {
+  const { t } = useTranslation(['common', 'wizard']);
   const actor = useWizardActor();
   const { show } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -115,8 +117,7 @@ export function DocumentStep() {
       console.error('[DocumentStep] Upload or storage failed:', err);
       show({
         kind: 'error',
-        message:
-          "We couldn't save your changes. Your browser storage may be full or unavailable. Free up space, then tap Retry.",
+        message: t('storage.body'),
       });
     } finally {
       setUploading(false);
@@ -142,7 +143,9 @@ export function DocumentStep() {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-[var(--color-ink)]">Supporting Documents</h3>
+      <h3 className="text-lg font-semibold text-[var(--color-ink)]">
+        {t('wizard:documents.title')}
+      </h3>
 
       {/* Quota Warning Banner */}
       {quotaWarning && (
@@ -155,10 +158,7 @@ export function DocumentStep() {
               className="w-5 h-5 text-[var(--color-saffron-deep)] shrink-0 mt-0.5"
               aria-hidden="true"
             />
-            <p>
-              Storage is running low. Documents are compressed before saving, but if storage fills
-              up, new uploads won't be saved. Remove old files or free up device space.
-            </p>
+            <p>{t('quotaWarning')}</p>
           </div>
         </div>
       )}
@@ -187,10 +187,10 @@ export function DocumentStep() {
             )}
           </div>
           <span className="font-semibold text-[var(--color-indigo-primary)] text-base">
-            {uploading ? 'Compressing & saving…' : 'Attach photo or passport copy'}
+            {uploading ? t('wizard:documents.savingPrompt') : t('wizard:documents.attachPrompt')}
           </span>
           <span className="text-xs text-[var(--color-ink-muted)]">
-            JPG, PNG, or PDF up to 5MB (compressed to ≤2MB)
+            {t('wizard:documents.formatHint')}
           </span>
         </label>
       </div>
@@ -224,18 +224,18 @@ export function DocumentStep() {
                   {isReady ? (
                     <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-success)] bg-[var(--color-success)]/10 px-2.5 py-1 rounded-full">
                       <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
-                      <span>Ready</span>
+                      <span>{t('wizard:documents.ready')}</span>
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 text-xs text-[var(--color-ink-muted)]">
                       <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
-                      <span>Checking…</span>
+                      <span>{t('wizard:documents.checking')}</span>
                     </span>
                   )}
 
                   <button
                     type="button"
-                    aria-label={`Remove ${doc.name}`}
+                    aria-label={t('wizard:documents.remove', { name: doc.name })}
                     onClick={() => handleDelete(doc.id)}
                     className="p-1.5 rounded-full text-[var(--color-ink-muted)] hover:text-[var(--color-error)] hover:bg-[var(--color-error)]/10 min-h-[44px] min-w-[44px] flex items-center justify-center"
                   >

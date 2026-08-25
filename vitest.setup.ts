@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import * as matchers from 'vitest-axe/matchers';
 import { expect } from 'vitest';
 import { configureAxe } from 'vitest-axe';
+import './src/i18n';
 
 expect.extend(matchers);
 

@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { SkipLink, AppHeader } from './components/AppShell';
 import { DemoWizard } from './features/wizard/demo/DemoWizard';
 import { ToastProvider } from './components/ui/Toast';
 
 export default function App() {
+  const { t } = useTranslation();
+
   return (
     <ToastProvider>
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
@@ -13,7 +16,7 @@ export default function App() {
           <DemoWizard />
         </main>
         <footer className="py-6 px-4 text-center text-sm text-[var(--color-ink-muted)] border-t border-[var(--color-border)] bg-white mt-auto">
-          <p>VisaReThink prototype · Secure client-side processing</p>
+          <p>{t('app.footer')}</p>
         </footer>
       </div>
     </ToastProvider>
