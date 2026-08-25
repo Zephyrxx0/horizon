@@ -32,7 +32,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Attaching a photo-sized file persists it in IndexedDB compressed to ≤2MB and it survives a full reload; quota errors surface honestly instead of silently dropping data
   4. Mock passport/payment/OTP/notification/tracking services respond through typed interfaces with configurable success/failure/timeout scenarios behind a single swap point
   5. Changing an already-answered answer flips dependent downstream steps back to "needs attention" — step status is always recomputed from answers, never persisted separately (pure wizard-machine reducer)
-**Plans**: TBD
+**Plans:** 6 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold, theme tokens, quality gates (lint/hooks/Vitest+axe/Playwright/CI)
+- [ ] 01-02-PLAN.md — Ten-primitive custom design system with axe-gated a11y contracts
+- [ ] 01-03-PLAN.md — Typed mock service layer behind single getService() swap point
+- [ ] 01-04-PLAN.md — XState wizard machine + honest autosave engine + kill-the-tab E2E
+- [ ] 01-05-PLAN.md — IndexedDB document persistence with ≤2MB compression + quota honesty
+- [ ] 01-06-PLAN.md — i18n machinery, live six-locale switcher, Noto font subsets + CI budget gate
 **UI hint**: yes
 
 ### Phase 2: Guided Journey — Visa Selection & Personal Details
