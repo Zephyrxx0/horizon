@@ -18,14 +18,14 @@ reviewed_at: 2026-08-25
 
 ## Design System
 
-| Property | Value |
-|----------|-------|
-| Tool | none — custom component library per D-06 (**no shadcn/ui, no Radix**) |
-| Preset | not applicable |
-| Component library | Custom primitives in `src/components/ui/` (~10 base components, inventory below) |
-| Icon library | `lucide-react` (recommended default, agent discretion) — 24px grid, 2px stroke. **Delta vs RESEARCH.md install list:** add to the batched human checkpoint before install. Fallback if declined: hand-inlined SVG set (check, alert-triangle, x, chevron-down, globe, rotate-ccw) following identical sizing rules |
-| Font | Noto Sans via Fontsource (`@fontsource/noto-sans` latin 400 + 600 eager; per-script Devanagari/Tamil/Telugu/Kannada 400 lazy-loaded on locale switch per D-10). Marathi shares Devanagari package |
-| Styling engine | Tailwind v4, CSS-first `@theme` tokens in `src/styles/theme.css` (D-05) — every value in this contract exists as a token, not an ad-hoc class |
+| Property          | Value                                                                                                                                                                                                                                                                                                              |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tool              | none — custom component library per D-06 (**no shadcn/ui, no Radix**)                                                                                                                                                                                                                                              |
+| Preset            | not applicable                                                                                                                                                                                                                                                                                                     |
+| Component library | Custom primitives in `src/components/ui/` (~10 base components, inventory below)                                                                                                                                                                                                                                   |
+| Icon library      | `lucide-react` (recommended default, agent discretion) — 24px grid, 2px stroke. **Delta vs RESEARCH.md install list:** add to the batched human checkpoint before install. Fallback if declined: hand-inlined SVG set (check, alert-triangle, x, chevron-down, globe, rotate-ccw) following identical sizing rules |
+| Font              | Noto Sans via Fontsource (`@fontsource/noto-sans` latin 400 + 600 eager; per-script Devanagari/Tamil/Telugu/Kannada 400 lazy-loaded on locale switch per D-10). Marathi shares Devanagari package                                                                                                                  |
+| Styling engine    | Tailwind v4, CSS-first `@theme` tokens in `src/styles/theme.css` (D-05) — every value in this contract exists as a token, not an ad-hoc class                                                                                                                                                                      |
 
 ---
 
@@ -33,17 +33,18 @@ reviewed_at: 2026-08-25
 
 Declared values (multiples of 4 only):
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| xs | 4px | Icon-to-label gap, tight inline pairs |
-| sm | 8px | Gap between adjacent touch targets (minimum), compact internal padding |
-| md | 16px | Default element spacing, page horizontal padding, input/button vertical padding |
-| lg | 24px | Card padding, form-group separation, section inner padding |
-| xl | 32px | Space between screen sections |
-| 2xl | 48px | **Minimum touch-target size (all interactive elements)**, major section breaks |
-| 3xl | 64px | Page-level vertical rhythm, header height |
+| Token | Value | Usage                                                                           |
+| ----- | ----- | ------------------------------------------------------------------------------- |
+| xs    | 4px   | Icon-to-label gap, tight inline pairs                                           |
+| sm    | 8px   | Gap between adjacent touch targets (minimum), compact internal padding          |
+| md    | 16px  | Default element spacing, page horizontal padding, input/button vertical padding |
+| lg    | 24px  | Card padding, form-group separation, section inner padding                      |
+| xl    | 32px  | Space between screen sections                                                   |
+| 2xl   | 48px  | **Minimum touch-target size (all interactive elements)**, major section breaks  |
+| 3xl   | 64px  | Page-level vertical rhythm, header height                                       |
 
 Exceptions:
+
 - Input control height is **56px** (48px target + breathing room) — multiple of 4, composed from md tokens.
 - RadioCard minimum card height **64px** for comfortable whole-card tapping.
 - There is deliberately NO 44px exception — FOUND-01 sets the floor at 48px, stricter than platform minimums.
@@ -55,15 +56,16 @@ Exceptions:
 
 Font family: `Noto Sans` (all scripts render Noto Sans for their range — no second display face).
 
-| Role | Size | Weight | Line Height | Usage |
-|------|------|--------|-------------|-------|
-| Display | 28px | 600 | 1.2 | One per screen — page/screen title |
-| Heading | 20px | 600 | 1.2 | Section titles, card titles, sheet titles |
-| Label | 16px | 600 | 1.4 | Form field labels, stepper labels, button text inherits body size |
-| Body | 16px | 400 | 1.5 | All body copy, inputs, buttons, hints-that-matter |
-| Meta | 14px | 400 | 1.4 | SaveIndicator text, hints, helper text, timestamps — **floor: nothing renders below 14px** |
+| Role    | Size | Weight | Line Height | Usage                                                                                      |
+| ------- | ---- | ------ | ----------- | ------------------------------------------------------------------------------------------ |
+| Display | 28px | 600    | 1.2         | One per screen — page/screen title                                                         |
+| Heading | 20px | 600    | 1.2         | Section titles, card titles, sheet titles                                                  |
+| Label   | 16px | 600    | 1.4         | Form field labels, stepper labels, button text inherits body size                          |
+| Body    | 16px | 400    | 1.5         | All body copy, inputs, buttons, hints-that-matter                                          |
+| Meta    | 14px | 400    | 1.4         | SaveIndicator text, hints, helper text, timestamps — **floor: nothing renders below 14px** |
 
 Rules:
+
 - Exactly two weights ship: **400 (regular)** and **600 (semibold)**. No 300/500/700 anywhere.
 - Inputs render at **16px** minimum — prevents iOS Safari focus-zoom (mobile-first requirement).
 - Indic scripts load weight 400 only this phase (payload budget, Pitfall 6); 600 falls back to browser synthesis for Indic headings — accepted, revisited at Phase 6 localization completion.
@@ -77,14 +79,15 @@ Rules:
 
 Direction locked by D-07: **calm government-trust** — deep indigo primary, saffron accent, generous whitespace. Hexes below are the agent-discretion defaults, chosen so every declared pair passes WCAG AA (≥4.5:1 body text, ≥3:1 large text / UI boundaries). First UI task MUST run a programmatic pair-check (script or axe) and fix drift before components land.
 
-| Role | Value | Usage |
-|------|-------|-------|
-| Dominant (60%) | `#F7F7FA` (surface-bg) | Page background, content areas — the calm canvas |
-| Secondary (30%) | `#FFFFFF` (surface-card) | Cards, inputs, sheets, header surface |
-| Accent (10%) | `#3730A3` (indigo-primary) | See reserved-for list below |
-| Destructive | `#B91C1C` (red-error) | Destructive actions and error semantics ONLY |
+| Role            | Value                      | Usage                                            |
+| --------------- | -------------------------- | ------------------------------------------------ |
+| Dominant (60%)  | `#F7F7FA` (surface-bg)     | Page background, content areas — the calm canvas |
+| Secondary (30%) | `#FFFFFF` (surface-card)   | Cards, inputs, sheets, header surface            |
+| Accent (10%)    | `#3730A3` (indigo-primary) | See reserved-for list below                      |
+| Destructive     | `#B91C1C` (red-error)      | Destructive actions and error semantics ONLY     |
 
 Accent (`#3730A3`) reserved for — never "all interactive elements":
+
 1. Primary button fill ("Continue application")
 2. Links and inline text actions
 3. Focus-visible rings (2px ring, 2px offset)
@@ -93,17 +96,17 @@ Accent (`#3730A3`) reserved for — never "all interactive elements":
 
 Supporting tokens (declared once here, consumed everywhere):
 
-| Token | Value | Passes | Usage |
-|-------|-------|--------|-------|
-| `--color-ink` | `#1E1B4B` | 15:1 on bg | Headings, body text |
-| `--color-ink-muted` | `#4A5072` | 7.4:1 on bg | Hints, meta text, inactive labels |
-| `--color-indigo-hover` | `#312E81` | — | Button/link hover |
-| `--color-border` | `#DDDFEC` | decorative | Non-meaningful hairlines (meaning-carrying borders use indigo/red) |
-| `--color-saffron-bright` | `#F59E0B` | 5.4:1 vs indigo | **Decorative/on-dark only**: active-step marker on indigo surfaces, identity flourish. NEVER small text or lone meaning-carrier on light surfaces (fails 3:1 on white — research anti-pattern) |
-| `--color-saffron-deep` | `#B45309` | 5.0:1 on white | Saffron-hued meaning carriers on light surfaces: "needs attention" step status, warning icons/text |
-| `--color-success` | `#166534` | 7.1:1 on white | "Saved" indicator, valid-field checkmarks (Phase 2 consumes) |
-| `--color-error` | `#B91C1C` | 5.9:1 on white | Field errors, save-failure state, destructive fills |
-| Disabled pair | text `#8B90AB` on `#EFF0F6` | exempt (WCAG) | Must still be locatable by position + label |
+| Token                    | Value                       | Passes          | Usage                                                                                                                                                                                          |
+| ------------------------ | --------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--color-ink`            | `#1E1B4B`                   | 15:1 on bg      | Headings, body text                                                                                                                                                                            |
+| `--color-ink-muted`      | `#4A5072`                   | 7.4:1 on bg     | Hints, meta text, inactive labels                                                                                                                                                              |
+| `--color-indigo-hover`   | `#312E81`                   | —               | Button/link hover                                                                                                                                                                              |
+| `--color-border`         | `#DDDFEC`                   | decorative      | Non-meaningful hairlines (meaning-carrying borders use indigo/red)                                                                                                                             |
+| `--color-saffron-bright` | `#F59E0B`                   | 5.4:1 vs indigo | **Decorative/on-dark only**: active-step marker on indigo surfaces, identity flourish. NEVER small text or lone meaning-carrier on light surfaces (fails 3:1 on white — research anti-pattern) |
+| `--color-saffron-deep`   | `#B45309`                   | 5.0:1 on white  | Saffron-hued meaning carriers on light surfaces: "needs attention" step status, warning icons/text                                                                                             |
+| `--color-success`        | `#166534`                   | 7.1:1 on white  | "Saved" indicator, valid-field checkmarks (Phase 2 consumes)                                                                                                                                   |
+| `--color-error`          | `#B91C1C`                   | 5.9:1 on white  | Field errors, save-failure state, destructive fills                                                                                                                                            |
+| Disabled pair            | text `#8B90AB` on `#EFF0F6` | exempt (WCAG)   | Must still be locatable by position + label                                                                                                                                                    |
 
 Contrast obligations baked into components (FOUND-01): white text on indigo-primary ✓ 9.9:1; white on red-error ✓ 5.9:1; every text/background combination above ≥4.5:1.
 
@@ -115,20 +118,20 @@ Dark mode: **out of scope Phase 1** (no requirement anywhere in v1). Do not buil
 
 All strings live in `src/i18n/locales/en/common.json` (D-09) — this table is the source of truth for the key deck. Tone: plain-language, honest, reassuring; never blame the user; always say what happened AND what to do next (ERR-02 pattern set here).
 
-| Element | Copy |
-|---------|------|
-| Primary CTA | `Continue application` (demo wizard forward action; back action: `Back`) |
-| Empty state heading | `Your application starts here` |
-| Empty state body | `Answer at your own pace. Everything you enter is saved automatically on this device — leave any time and pick up where you stopped.` |
-| Storage error state | Heading: `We couldn't save your changes` · Body: `Your browser storage may be full or unavailable, so your latest edits aren't saved yet. Free up space, then tap Retry.` · Action: `Retry` |
-| Quota warning (documents, STATE-03 honesty) | `Storage is running low. Documents are compressed before saving, but if storage fills up, new uploads won't be saved. Remove old files or free up device space.` |
-| Destructive: Clear saved draft | Trigger: `Clear saved draft` → bottom sheet. Title: `Clear everything you've entered?` · Body: `This permanently deletes your saved answers and documents from this device. You'll start from the beginning.` · Confirm: `Yes, delete my draft` (destructive fill) · Cancel: `No, keep my draft` |
-| Translation pending (D-11) | `{language} translation is coming soon. The app is showing English for now.` — dismissible notice under header when a non-EN locale is selected |
-| SaveIndicator — idle | `Not saved` |
-| SaveIndicator — dirty | `Unsaved changes` |
-| SaveIndicator — saving | `Saving…` (with spinner) |
-| SaveIndicator — saved | `Saved` (with check icon) |
-| SaveIndicator — error | `Couldn't save — Retry` (acts as button) |
+| Element                                     | Copy                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Primary CTA                                 | `Continue application` (demo wizard forward action; back action: `Back`)                                                                                                                                                                                                                         |
+| Empty state heading                         | `Your application starts here`                                                                                                                                                                                                                                                                   |
+| Empty state body                            | `Answer at your own pace. Everything you enter is saved automatically on this device — leave any time and pick up where you stopped.`                                                                                                                                                            |
+| Storage error state                         | Heading: `We couldn't save your changes` · Body: `Your browser storage may be full or unavailable, so your latest edits aren't saved yet. Free up space, then tap Retry.` · Action: `Retry`                                                                                                      |
+| Quota warning (documents, STATE-03 honesty) | `Storage is running low. Documents are compressed before saving, but if storage fills up, new uploads won't be saved. Remove old files or free up device space.`                                                                                                                                 |
+| Destructive: Clear saved draft              | Trigger: `Clear saved draft` → bottom sheet. Title: `Clear everything you've entered?` · Body: `This permanently deletes your saved answers and documents from this device. You'll start from the beginning.` · Confirm: `Yes, delete my draft` (destructive fill) · Cancel: `No, keep my draft` |
+| Translation pending (D-11)                  | `{language} translation is coming soon. The app is showing English for now.` — dismissible notice under header when a non-EN locale is selected                                                                                                                                                  |
+| SaveIndicator — idle                        | `Not saved`                                                                                                                                                                                                                                                                                      |
+| SaveIndicator — dirty                       | `Unsaved changes`                                                                                                                                                                                                                                                                                |
+| SaveIndicator — saving                      | `Saving…` (with spinner)                                                                                                                                                                                                                                                                         |
+| SaveIndicator — saved                       | `Saved` (with check icon)                                                                                                                                                                                                                                                                        |
+| SaveIndicator — error                       | `Couldn't save — Retry` (acts as button)                                                                                                                                                                                                                                                         |
 
 Destructive-action policy for Phase 1: exactly one destructive flow (clear draft). Confirmation is ALWAYS the Modal/Sheet primitive — never `window.confirm`.
 
@@ -136,10 +139,10 @@ Destructive-action policy for Phase 1: exactly one destructive flow (clear draft
 
 ## Registry Safety
 
-| Registry | Blocks Used | Safety Gate |
-|----------|-------------|-------------|
-| shadcn official | none — D-06 mandates a custom library; shadcn explicitly excluded | not applicable |
-| Third-party registries | none declared | not applicable |
+| Registry               | Blocks Used                                                       | Safety Gate    |
+| ---------------------- | ----------------------------------------------------------------- | -------------- |
+| shadcn official        | none — D-06 mandates a custom library; shadcn explicitly excluded | not applicable |
+| Third-party registries | none declared                                                     | not applicable |
 
 Note: `lucide-react` is an npm dependency (vetted: MIT, official repo, 5M+/wk downloads), not a registry block — no shadcn view-gate applies. It joins the existing batched install checkpoint from RESEARCH.md.
 
@@ -149,20 +152,20 @@ Note: `lucide-react` is an npm dependency (vetted: MIT, official repo, 5M+/wk do
 
 Ten base components (D-06) plus two Phase-1 composites. Every component: jsdom-rendered Vitest suite with a zero-violations axe assertion (D-08), keyboard-operable, visible focus ring, 48px minimum target where interactive.
 
-| Component | Contract |
-|-----------|----------|
-| **Button** | Variants: `primary` (indigo fill/white), `secondary` (white fill, indigo border+text), `destructive` (red fill/white). Height 48px, full-width below 640px viewport (max-width 360px centered above). States: hover `indigo-hover`, focus-visible ring, disabled (muted pair, `aria-disabled`), loading (`aria-busy="true"`, spinner prefixes label — label never disappears). Feedback = background shift, 150ms; no transform play |
-| **Input** | Height 56px, full-width, 16px text, radius 12px, border 1px `border` (invalid → `error` + `aria-invalid="true"`). Label always visible above (placeholder is example text only, never the label). Slots: hint (meta, muted) and error (14/600, error color, ⚠ icon) — both wired via `aria-describedby`; error additionally mirrored to any error-summary region |
-| **Select** | Native `<select>` styled to match Input (native picker wins on mobile UX); chevron-down icon right; min-height 48px; label/hint/error identical wiring to Input |
-| **RadioCard** | Whole-card radio option, min-height 64px, full-width; selected = 2px indigo border + `#EEF0FB` fill + filled radio dot; unselected = 1px border. Group = `role="radiogroup"` + `fieldset/legend`, arrow-key navigation, `aria-checked` per option |
-| **Checkbox** | Visual box 24px inside a 48px hit area; checked = indigo fill + white check; error state = red border. Native `<input type="checkbox">` visually-hidden underneath (free keyboard/SR behavior) |
-| **ProgressStepper** | `<ol>` with `aria-current="step"`; four step statuses derived from answers (never stored — SC#5): `complete` (indigo check-circle), `current` (saffron-bright marker on indigo chip + 600 label), `incomplete` (muted hollow), `needs-attention` (saffron-deep alert icon + label). Horizontal compact variant (header) + vertical variant (demo). Container announces "Step X of Y" via polite live region on change (A11Y-02 groundwork) |
-| **FieldLabel / Hint / Error** | Label 16/600 with muted `(optional)` suffix when not required; hint 14/400 muted; error 14/600 error-color with alert icon. Rendered as one `Field` wrapper composing label+control+hint+error ids so consumers can't miswire describedby |
-| **Card** | White surface, radius 16px, border 1px `border`, padding 24px. `interactive` variant: hover/focus border indigo; becomes a 48px target |
-| **Modal / Sheet** | Bottom sheet on mobile (slide-up 200ms), centered dialog ≥768px. Focus trapped, focus restored to trigger on close, Esc closes, `role="dialog"` + `aria-modal="true"` + accessible name from title. Overlay `rgba(30,27,75,0.45)`. Used for destructive confirms and (Phase 2+) pickers |
-| **Toast** | Bottom-center above safe-area; success/info `role="status"` auto-dismiss 5s; errors persist with manual dismiss. Max 3 stacked. Consumed by autosave/quota error paths |
-| **SaveIndicator** *(composite)* | Pill rendering the autosave pipeline's true state verbatim: `idle→dirty→saving→saved/error` union from `persistence/autosave.ts` (research Pattern). Polite live region; sticky row beneath header whenever a draft exists. Honesty rule (SC#2): "Saved" renders ONLY after a completed `setItem`; "error" renders on ANY failed write |
-| **LanguageSwitcher** *(composite)* | Header control listing all six locales in native script: English, हिन्दी, தமிழ், తెలుగు, ಕನ್ನಡ, मराठी. Switching lazily loads the locale chunk + script font CSS, persists choice to localStorage, sets `document.documentElement.lang` (I18N-03 groundwork). Selecting an untranslated locale shows the translation-pending notice (copy table) — never silently hides the option (D-11) |
+| Component                          | Contract                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Button**                         | Variants: `primary` (indigo fill/white), `secondary` (white fill, indigo border+text), `destructive` (red fill/white). Height 48px, full-width below 640px viewport (max-width 360px centered above). States: hover `indigo-hover`, focus-visible ring, disabled (muted pair, `aria-disabled`), loading (`aria-busy="true"`, spinner prefixes label — label never disappears). Feedback = background shift, 150ms; no transform play       |
+| **Input**                          | Height 56px, full-width, 16px text, radius 12px, border 1px `border` (invalid → `error` + `aria-invalid="true"`). Label always visible above (placeholder is example text only, never the label). Slots: hint (meta, muted) and error (14/600, error color, ⚠ icon) — both wired via `aria-describedby`; error additionally mirrored to any error-summary region                                                                           |
+| **Select**                         | Native `<select>` styled to match Input (native picker wins on mobile UX); chevron-down icon right; min-height 48px; label/hint/error identical wiring to Input                                                                                                                                                                                                                                                                            |
+| **RadioCard**                      | Whole-card radio option, min-height 64px, full-width; selected = 2px indigo border + `#EEF0FB` fill + filled radio dot; unselected = 1px border. Group = `role="radiogroup"` + `fieldset/legend`, arrow-key navigation, `aria-checked` per option                                                                                                                                                                                          |
+| **Checkbox**                       | Visual box 24px inside a 48px hit area; checked = indigo fill + white check; error state = red border. Native `<input type="checkbox">` visually-hidden underneath (free keyboard/SR behavior)                                                                                                                                                                                                                                             |
+| **ProgressStepper**                | `<ol>` with `aria-current="step"`; four step statuses derived from answers (never stored — SC#5): `complete` (indigo check-circle), `current` (saffron-bright marker on indigo chip + 600 label), `incomplete` (muted hollow), `needs-attention` (saffron-deep alert icon + label). Horizontal compact variant (header) + vertical variant (demo). Container announces "Step X of Y" via polite live region on change (A11Y-02 groundwork) |
+| **FieldLabel / Hint / Error**      | Label 16/600 with muted `(optional)` suffix when not required; hint 14/400 muted; error 14/600 error-color with alert icon. Rendered as one `Field` wrapper composing label+control+hint+error ids so consumers can't miswire describedby                                                                                                                                                                                                  |
+| **Card**                           | White surface, radius 16px, border 1px `border`, padding 24px. `interactive` variant: hover/focus border indigo; becomes a 48px target                                                                                                                                                                                                                                                                                                     |
+| **Modal / Sheet**                  | Bottom sheet on mobile (slide-up 200ms), centered dialog ≥768px. Focus trapped, focus restored to trigger on close, Esc closes, `role="dialog"` + `aria-modal="true"` + accessible name from title. Overlay `rgba(30,27,75,0.45)`. Used for destructive confirms and (Phase 2+) pickers                                                                                                                                                    |
+| **Toast**                          | Bottom-center above safe-area; success/info `role="status"` auto-dismiss 5s; errors persist with manual dismiss. Max 3 stacked. Consumed by autosave/quota error paths                                                                                                                                                                                                                                                                     |
+| **SaveIndicator** _(composite)_    | Pill rendering the autosave pipeline's true state verbatim: `idle→dirty→saving→saved/error` union from `persistence/autosave.ts` (research Pattern). Polite live region; sticky row beneath header whenever a draft exists. Honesty rule (SC#2): "Saved" renders ONLY after a completed `setItem`; "error" renders on ANY failed write                                                                                                     |
+| **LanguageSwitcher** _(composite)_ | Header control listing all six locales in native script: English, हिन्दी, தமிழ், తెలుగు, ಕನ್ನಡ, मराठी. Switching lazily loads the locale chunk + script font CSS, persists choice to localStorage, sets `document.documentElement.lang` (I18N-03 groundwork). Selecting an untranslated locale shows the translation-pending notice (copy table) — never silently hides the option (D-11)                                                  |
 
 Demo surface (throwaway, `features/wizard/demo/`): a 3-step wizard — (1) trip question via RadioCard, (2) dependent question whose step flips to `needs-attention` when step 1's answer is edited (proves SC#5 derive-don't-persist), (3) review line + clear-draft destructive flow. Exercises Button/Input/Stepper/Sheet/SaveIndicator end-to-end. Explicitly labeled throwaway in code comments; Phases 2–5 replace it.
 

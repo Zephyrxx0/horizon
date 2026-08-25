@@ -1,0 +1,39 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-surface-bg: #f7f7fa;
+  --color-surface-card: #ffffff;
+  --color-indigo-primary: #3730a3;
+  --color-indigo-hover: #312e81;
+  --color-ink: #1e1b4b;
+  --color-ink-muted: #4a5072;
+  --color-border: #dddfec;
+  --color-saffron-bright: #f59e0b;
+  --color-saffron-deep: #b45309;
+  --color-success: #166534;
+  --color-error: #b91c1c;
+  --color-disabled-text: #8b90ab;
+  --color-disabled-bg: #eff0f6;
+
+  --text-meta: 0.875rem;
+  --text-body: 1rem;
+  --text-heading: 1.25rem;
+  --text-display: 1.75rem;
+
+  --spacing-touch: 3rem;
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --font-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-surface-bg);
+}
+
+/* Ensure focus-visible always has high-contrast ring */
+:focus-visible {
+  outline: 2px solid var(--color-indigo-primary);
+  outline-offset: 2px;
+}

@@ -8,7 +8,7 @@
 
 The consensus across current sources (2025–2026) is unambiguous: **a multi-step guided application is a state machine whose UI happens to render fields — not a form with pagination.** Every major failure mode of wizard apps (lost data on Back, resumes landing on wrong steps, contradictory submissions after editing earlier answers) traces to treating steps as pages instead of states derived from answers. The second consensus: **answers are the only persisted truth; everything else (step completion, progress %, reachable path) is recomputed on load.**
 
-Because this project is frontend-centric with every backend mocked, the classic three-tier stack collapses into one client-side app — but the *service boundaries* from the PRD §8 diagram should be preserved as interfaces so real integrations can drop in later without touching UI code.
+Because this project is frontend-centric with every backend mocked, the classic three-tier stack collapses into one client-side app — but the _service boundaries_ from the PRD §8 diagram should be preserved as interfaces so real integrations can drop in later without touching UI code.
 
 ### System Overview
 
@@ -56,20 +56,20 @@ Because this project is frontend-centric with every backend mocked, the classic 
 
 ### Component Responsibilities
 
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| **Wizard shell layout** (`app/apply/layout.tsx`) | Persistent chrome across step routes: progress header, time estimate, language switcher. Never unmounts while user moves between steps. | App Router layout (client component wrapper); stays mounted across child navigations |
-| **StepGuard** | Treats the URL step id as *untrusted input*: if that step is not reachable given recomputed answers, redirect to first incomplete step. Single place enforcing "a step is reachable only if every prior step is complete." | Client component or `redirect()` in each step page; pure function over store state |
-| **Wizard machine** (`useWizardMachine`) | Pure reducer over answers: derives path, per-step status (`locked / available / complete / stale`), handles PATCH/NEXT/BACK/GOTO/SUBMIT intents. No network, no React. | Plain TypeScript reducer + Zustand actions wrapping it; unit-testable as a pure function |
-| **Step screens** (5 stages) | Render fields for one stage via a local react-hook-form instance seeded from the store; validate slice with zod on advance; emit one PATCH to the machine. | Per-route client components; uncontrolled inputs (RHF) to minimize re-renders on budget phones |
-| **Design-system primitives** | Buttons, inputs, progress stepper, upload tile, timeline, tooltip/help — all ≥48px targets, WCAG 2.1 AA contrast, screen-reader labeled. | shadcn/ui customized with mobile-first tokens; single-column layouts enforced at primitive level |
-| **applicationStore** | Single source of truth for application answers + submission state. Persisted. | Zustand + persist middleware; `partialize` persists answers only; `version` + `migrate` for schema evolution; `skipHydration` for SSR safety |
-| **Validation schemas** (`lib/validation`) | One zod schema per step + a composed full-schema used at final submit for cross-step rules (e.g., documents required only for chosen visa type). | zod; schemas keyed by step id, consumed by RHF resolver and by resume-replay logic |
-| **Mock service layer** (`lib/services`) | Interfaces (ports) + mock implementations (adapters) for payment, OTP, passport lookup, notifications, tracking, document storage. Simulated latency + realistic payloads. | TypeScript interfaces; `getService()` factory returns mock today, real impl later; mocks live beside interfaces, never inside components |
-| **Draft persistence** | Debounced auto-save (~500ms debounce + flush on step change & `visibilitychange`; PRD's "~10s" satisfied), resume-code backup snapshots, draft expiry (~7 days), clear-on-submit. | Thin module over zustand persist + raw localStorage; every storage access wrapped in try/catch (private mode/quota throw) |
-| **Document store** | Holds uploaded File/Blob objects + metadata (name, size, mime, doc-type). Async, non-blocking. | IndexedDB via `idb` promise wrapper; File blobs stored directly (structured clone), metadata in parallel record |
-| **i18n layer** | Locale selection without URL prefixes (cookie-based), message loading, ICU plurals for 6 locales. | next-intl `getRequestConfig` reading cookie; `messages/{en,hi,ta,te,kn,mr}.json` namespaced per feature |
-| **Service worker** | Precache app shell, offline navigation fallback, runtime caching. | Serwist (`@serwist/next`): `swSrc: app/sw.ts`, `swDest: public/sw.js`, `/~offline` precached fallback |
+| Component                                        | Responsibility                                                                                                                                                                                                             | Typical Implementation                                                                                                                       |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Wizard shell layout** (`app/apply/layout.tsx`) | Persistent chrome across step routes: progress header, time estimate, language switcher. Never unmounts while user moves between steps.                                                                                    | App Router layout (client component wrapper); stays mounted across child navigations                                                         |
+| **StepGuard**                                    | Treats the URL step id as _untrusted input_: if that step is not reachable given recomputed answers, redirect to first incomplete step. Single place enforcing "a step is reachable only if every prior step is complete." | Client component or `redirect()` in each step page; pure function over store state                                                           |
+| **Wizard machine** (`useWizardMachine`)          | Pure reducer over answers: derives path, per-step status (`locked / available / complete / stale`), handles PATCH/NEXT/BACK/GOTO/SUBMIT intents. No network, no React.                                                     | Plain TypeScript reducer + Zustand actions wrapping it; unit-testable as a pure function                                                     |
+| **Step screens** (5 stages)                      | Render fields for one stage via a local react-hook-form instance seeded from the store; validate slice with zod on advance; emit one PATCH to the machine.                                                                 | Per-route client components; uncontrolled inputs (RHF) to minimize re-renders on budget phones                                               |
+| **Design-system primitives**                     | Buttons, inputs, progress stepper, upload tile, timeline, tooltip/help — all ≥48px targets, WCAG 2.1 AA contrast, screen-reader labeled.                                                                                   | shadcn/ui customized with mobile-first tokens; single-column layouts enforced at primitive level                                             |
+| **applicationStore**                             | Single source of truth for application answers + submission state. Persisted.                                                                                                                                              | Zustand + persist middleware; `partialize` persists answers only; `version` + `migrate` for schema evolution; `skipHydration` for SSR safety |
+| **Validation schemas** (`lib/validation`)        | One zod schema per step + a composed full-schema used at final submit for cross-step rules (e.g., documents required only for chosen visa type).                                                                           | zod; schemas keyed by step id, consumed by RHF resolver and by resume-replay logic                                                           |
+| **Mock service layer** (`lib/services`)          | Interfaces (ports) + mock implementations (adapters) for payment, OTP, passport lookup, notifications, tracking, document storage. Simulated latency + realistic payloads.                                                 | TypeScript interfaces; `getService()` factory returns mock today, real impl later; mocks live beside interfaces, never inside components     |
+| **Draft persistence**                            | Debounced auto-save (~500ms debounce + flush on step change & `visibilitychange`; PRD's "~10s" satisfied), resume-code backup snapshots, draft expiry (~7 days), clear-on-submit.                                          | Thin module over zustand persist + raw localStorage; every storage access wrapped in try/catch (private mode/quota throw)                    |
+| **Document store**                               | Holds uploaded File/Blob objects + metadata (name, size, mime, doc-type). Async, non-blocking.                                                                                                                             | IndexedDB via `idb` promise wrapper; File blobs stored directly (structured clone), metadata in parallel record                              |
+| **i18n layer**                                   | Locale selection without URL prefixes (cookie-based), message loading, ICU plurals for 6 locales.                                                                                                                          | next-intl `getRequestConfig` reading cookie; `messages/{en,hi,ta,te,kn,mr}.json` namespaced per feature                                      |
+| **Service worker**                               | Precache app shell, offline navigation fallback, runtime caching.                                                                                                                                                          | Serwist (`@serwist/next`): `swSrc: app/sw.ts`, `swDest: public/sw.js`, `/~offline` precached fallback                                        |
 
 **Boundary rule of thumb:** UI components may talk to stores and services; services never import UI; stores never import step components; the wizard machine imports nothing but types and validators.
 
@@ -145,23 +145,31 @@ src/
 
 ### Pattern 1: Wizard as a Pure State Machine over Answers (derive, don't persist)
 
-**What:** Step statuses (`locked/available/complete/stale`), the reachable path, and progress % are *computed* from the answers by a pure function — never stored. Editing an earlier answer marks later dependent steps `stale`: values are kept, but "complete" is revoked so they get re-reviewed. Submission stays outside the reducer.
+**What:** Step statuses (`locked/available/complete/stale`), the reachable path, and progress % are _computed_ from the answers by a pure function — never stored. Editing an earlier answer marks later dependent steps `stale`: values are kept, but "complete" is revoked so they get re-reviewed. Submission stays outside the reducer.
 **When to use:** Always for this project — steps are conditional on visa type (progressive disclosure), users navigate backwards, and drafts survive reloads. All three conditions hold.
 **Trade-offs:** Slightly more up-front design than a `currentStep` index; in exchange, resume bugs ("landed on step 4 with step 2 empty") become structurally impossible, and the machine is unit-testable without React.
 
 **Example:**
+
 ```typescript
 // features/wizard/machine.ts — pure, no React, no network
 type StepPhase = 'locked' | 'available' | 'complete' | 'stale';
 
-const path = (answers: Answers): string[] =>            // pure fn of answers
-  STEP_DEFS.filter(s => s.isVisible?.(answers) ?? true).map(s => s.id);
+const path = (answers: Answers): string[] =>
+  // pure fn of answers
+  STEP_DEFS.filter((s) => s.isVisible?.(answers) ?? true).map((s) => s.id);
 
 const computeStatuses = (answers: Answers): Record<string, StepPhase> =>
-  Object.fromEntries(path(answers).map(id =>
-    [id, !answers[id]                 ? 'locked'
-       : schemas[id].safeParse(answers[id]).success ? 'complete'
-       : 'available']));                               // replay validators on load too
+  Object.fromEntries(
+    path(answers).map((id) => [
+      id,
+      !answers[id]
+        ? 'locked'
+        : schemas[id].safeParse(answers[id]).success
+          ? 'complete'
+          : 'available',
+    ]),
+  ); // replay validators on load too
 
 // Reducer intents: PATCH (store values; revoke 'complete' → 'stale' downstream),
 // NEXT (validate current slice first), BACK, GOTO (only if reachable), SUBMIT.
@@ -175,14 +183,15 @@ const computeStatuses = (answers: Answers): Record<string, StepPhase> =>
 **Trade-offs:** Route changes tear down step component trees — any state living inside a step's `useState` dies on Next/Back. This is the #1 observed wizard failure (~70% of audited broken wizards have one of three root causes; route-teardown is one). The fix is structural: answers live in module-scope Zustand, never in step components.
 
 **Example:**
+
 ```tsx
 // app/apply/[step]/page.tsx
 export default function StepPage({ params }: { params: Promise<{ step: string }> }) {
-  const { step } = use(params);                       // untrusted!
-  const reachable = useWizardReachability(step);      // derived from store
-  if (!reachable) redirect(firstIncompleteStep());    // guard before render
+  const { step } = use(params); // untrusted!
+  const reachable = useWizardReachability(step); // derived from store
+  if (!reachable) redirect(firstIncompleteStep()); // guard before render
   const Stage = STAGE_COMPONENTS[step];
-  return <Stage />;                                   // reads/writes applicationStore
+  return <Stage />; // reads/writes applicationStore
 }
 ```
 
@@ -193,20 +202,23 @@ export default function StepPage({ params }: { params: Promise<{ step: string }>
 **Trade-offs:** One extra indirection layer. Negligible cost vs. being unable to demo "swap in real payment" — which is the prototype's stated purpose.
 
 **Example:**
+
 ```typescript
 // lib/services/types.ts
 export interface IPaymentService {
   createOrder(amount: FeeBreakdown): Promise<{ orderId: string }>;
-  confirmPayment(orderId: string, method: 'upi' | 'card' | 'netbanking'):
-    Promise<{ receiptId: string; paidAt: Date }>;
+  confirmPayment(
+    orderId: string,
+    method: 'upi' | 'card' | 'netbanking',
+  ): Promise<{ receiptId: string; paidAt: Date }>;
 }
 // lib/services/index.ts — THE swap point
 export const getService = {
-  payment: (): IPaymentService => mockPaymentService,   // ← real impl lands here
-  otp:     (): IOtpService     => mockOtpService,
-  lookup:  (): IPassportLookupService => mockPassportLookup,
-  notify:  (): INotificationService => consoleNotificationService,
-  tracking:(): ITrackingService => mockTrackingService,
+  payment: (): IPaymentService => mockPaymentService, // ← real impl lands here
+  otp: (): IOtpService => mockOtpService,
+  lookup: (): IPassportLookupService => mockPassportLookup,
+  notify: (): INotificationService => consoleNotificationService,
+  tracking: (): ITrackingService => mockTrackingService,
 };
 ```
 
@@ -238,7 +250,7 @@ export const getService = {
 
 ### Key Data Flows
 
-1. **Draft resume (same device):** app boot → `persist.rehydrate()` (after mount; `skipHydration` in SSR) → replay validators over restored answers → statuses recomputed → land on saved `currentStepId` *only if* recomputed state says it's reachable, else first incomplete step. Persisted completion flags are never trusted.
+1. **Draft resume (same device):** app boot → `persist.rehydrate()` (after mount; `skipHydration` in SSR) → replay validators over restored answers → statuses recomputed → land on saved `currentStepId` _only if_ recomputed state says it's reachable, else first incomplete step. Persisted completion flags are never trusted.
 2. **Resume via backup code (cross-device):** user requests code → draft snapshot serialized under `visa-rethink:backup:<CODE>` in localStorage (mocking the email round-trip; PRD's "email" notification goes through mock notify service) → on `/resume`, code entered → snapshot validated against current schemas → loaded into a fresh applicationStore. Later swap: same interface calls a real API instead of localStorage.
 3. **Document upload:** file selected/captured → client-side checks (mime, size) → Blob written to IndexedDB immediately (survives offline/close) → metadata {docType, name, size, idbKey} into store → upload tile reads metadata for "✓ PDF uploaded. 2.3 MB" display. Mock OCR service reads the metadata and returns simulated "Success."
 4. **Payment:** stage 4 composes itemized fees from visa catalog → `getService.payment().createOrder()` → fake gateway modal (UPI/Card/Netbanking) → `confirmPayment()` resolves after simulated latency → receipt persisted in submission record → confirmation screen + mock email/SMS via notify service.
@@ -248,27 +260,27 @@ export const getService = {
 
 ### State Ownership Map
 
-| State | Owner | Persisted? |
-|-------|-------|-----------|
-| Application answers | applicationStore | localStorage (versioned, answers-only) |
-| Derived path/statuses/progress | wizard machine (pure fn) | ❌ recomputed |
-| Current step | URL (hint copy in draft) | URL + hint |
-| Uploaded files | IndexedDB | ✅ blobs + metadata |
-| Tracking timeline | trackingStore | localStorage post-submit |
-| Locale | cookie | ✅ |
-| Online status, toasts | uiStore (memory) | ❌ |
+| State                          | Owner                    | Persisted?                             |
+| ------------------------------ | ------------------------ | -------------------------------------- |
+| Application answers            | applicationStore         | localStorage (versioned, answers-only) |
+| Derived path/statuses/progress | wizard machine (pure fn) | ❌ recomputed                          |
+| Current step                   | URL (hint copy in draft) | URL + hint                             |
+| Uploaded files                 | IndexedDB                | ✅ blobs + metadata                    |
+| Tracking timeline              | trackingStore            | localStorage post-submit               |
+| Locale                         | cookie                   | ✅                                     |
+| Online status, toasts          | uiStore (memory)         | ❌                                     |
 
 ## Scaling Considerations
 
 This is a single-milestone prototype — user-count scaling is out of scope (per PROJECT.md). The axes that actually stress this architecture:
 
-| Concern | Prototype (now) | If it grew toward PRD §8 production |
-|---------|-----------------|-------------------------------------|
-| Form size / re-renders | Uncontrolled inputs via RHF; per-step PATCH keeps the machine off the keystroke path | Same pattern holds; no change |
-| Draft persistence | localStorage + IndexedDB, one device + code backup | Server-owned draft table becomes truth; localStorage demoted to offline cache with replay-on-reconnect |
-| Documents | IndexedDB blobs | Presigned S3 uploads; idb keeps an upload queue for offline retry |
-| 6 locales | One JSON per locale, loaded whole | Namespace-split messages, lazy-load non-active locales to protect 3G bundle budget |
-| Mock latency realism | Fixed simulated delays | n/a — replaced by real services at the same interfaces |
+| Concern                | Prototype (now)                                                                      | If it grew toward PRD §8 production                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| Form size / re-renders | Uncontrolled inputs via RHF; per-step PATCH keeps the machine off the keystroke path | Same pattern holds; no change                                                                          |
+| Draft persistence      | localStorage + IndexedDB, one device + code backup                                   | Server-owned draft table becomes truth; localStorage demoted to offline cache with replay-on-reconnect |
+| Documents              | IndexedDB blobs                                                                      | Presigned S3 uploads; idb keeps an upload queue for offline retry                                      |
+| 6 locales              | One JSON per locale, loaded whole                                                    | Namespace-split messages, lazy-load non-active locales to protect 3G bundle budget                     |
+| Mock latency realism   | Fixed simulated delays                                                               | n/a — replaced by real services at the same interfaces                                                 |
 
 **First bottleneck (real):** main-thread jank on budget Android if steps re-render on every keystroke → prevented by RHF uncontrolled fields + memoized step components.
 **Second bottleneck:** initial JS payload on 3G (6 locales × messages + wizard code) → route-level code splitting (free with step-per-route), lazy message namespaces, Serwist precache makes repeat loads instant.
@@ -276,31 +288,37 @@ This is a single-milestone prototype — user-count scaling is out of scope (per
 ## Anti-Patterns
 
 ### Anti-Pattern 1: Persisting derived state (statuses, completion flags, progress %)
+
 **What people do:** Save `{ values, completedSteps: [...] }` so resume "just works."
 **Why it's wrong:** Persisted completion was computed under old rules/paths. After any schema or visibility change, resumes land on invalid steps or skip newly-required ones — the most commonly reported resume bug class.
 **Do this instead:** Persist answers + current-step-id hint only; replay validators on load; honor the hint only if still reachable.
 
 ### Anti-Pattern 2: Step-local `useState` in routed wizards
+
 **What people do:** Each `/apply/[step]` page owns its field state locally.
 **Why it's wrong:** App Router route changes unmount the subtree; Next/Back destroys answers. ~40% of audited broken wizards show exactly this.
 **Do this instead:** Module-scope Zustand store as sole owner of answers; steps are stateless views that seed from and patch into the store.
 
 ### Anti-Pattern 3: Three sources of truth
-**What people do:** Global Zustand store *plus* independent per-step form states *plus* a "submit everything" reconciler at the end.
+
+**What people do:** Global Zustand store _plus_ independent per-step form states _plus_ a "submit everything" reconciler at the end.
 **Why it's wrong:** Nobody knows which copy wins; data loss is intermittent and unreproducible.
 **Do this instead:** Exactly one owner per datum. Local RHF instances are write-through caches into the store (seed on mount, PATCH on settle) — not competing copies.
 
 ### Anti-Pattern 4: Files through JSON/localStorage
+
 **What people do:** `JSON.stringify(formData)` including `documents: File[]`, or storing base64 in localStorage.
 **Why it's wrong:** File objects aren't serializable to JSON; base64 bloats past the ~5MB localStorage cap instantly and blocks the main thread on every debounced save.
 **Do this instead:** Blobs → IndexedDB at selection time; metadata only in the JSON store.
 
 ### Anti-Pattern 5: Mock logic inline in components
+
 **What people do:** `setTimeout(() => setPaid(true), 1500)` inside the payment screen.
 **Why it's wrong:** The mock IS the architecture seam being tested; inline mocks make the future real integration a rewrite of every touched component, and untestable.
 **Do this instead:** All simulated behavior behind service interfaces resolved via `getService()`.
 
 ### Anti-Pattern 6: Validating every step on every transition
+
 **What people do:** Re-run all schemas when advancing.
 **Why it's wrong:** O(steps) work per click and renders errors on steps the user never reached — the top complaint about wizard UX.
 **Do this instead:** Validate the current slice on NEXT; full composed schema only once at SUBMIT.
@@ -309,37 +327,37 @@ This is a single-milestone prototype — user-count scaling is out of scope (per
 
 ### External Services (all mocked per PRD §4 — interfaces now, adapters later)
 
-| Service | Port (interface) | Mock behavior | Future real adapter |
-|---------|------------------|---------------|---------------------|
-| Payment gateway | `IPaymentService` | Fake Razorpay modal; order + confirm with latency; no money moves | Razorpay/NEFT SDK behind same interface |
-| OTP/SMS verification | `IOtpService` | Auto-accepts fixed demo code | Twilio SMS |
-| Government passport lookup | `IPassportLookupService` | Simulated success after delay | MEA passport validation API |
-| Notifications (email/SMS) | `INotificationService` | `console.log` per PRD | SendGrid/AWS SES |
-| Application tracking | `ITrackingService` | Deterministic timeline seeded from submission time; demo transitions | Backend status DB / VFS sync |
-| Document OCR/scanning | `IDocumentScanService` | Simulated "Success" on metadata | ML extraction service |
-| Interview scheduling | `ISchedulingService` | Mock calendar component data | VFS/embassy systems |
+| Service                    | Port (interface)         | Mock behavior                                                        | Future real adapter                     |
+| -------------------------- | ------------------------ | -------------------------------------------------------------------- | --------------------------------------- |
+| Payment gateway            | `IPaymentService`        | Fake Razorpay modal; order + confirm with latency; no money moves    | Razorpay/NEFT SDK behind same interface |
+| OTP/SMS verification       | `IOtpService`            | Auto-accepts fixed demo code                                         | Twilio SMS                              |
+| Government passport lookup | `IPassportLookupService` | Simulated success after delay                                        | MEA passport validation API             |
+| Notifications (email/SMS)  | `INotificationService`   | `console.log` per PRD                                                | SendGrid/AWS SES                        |
+| Application tracking       | `ITrackingService`       | Deterministic timeline seeded from submission time; demo transitions | Backend status DB / VFS sync            |
+| Document OCR/scanning      | `IDocumentScanService`   | Simulated "Success" on metadata                                      | ML extraction service                   |
+| Interview scheduling       | `ISchedulingService`     | Mock calendar component data                                         | VFS/embassy systems                     |
 
 ### Internal Boundaries
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| Step screens ↔ applicationStore | Zustand actions (`patchStep`, read slices) | Steps never read each other's components; only store |
-| Wizard machine ↔ stores | Machine is pure; thin action wrappers in store call it | Machine stays React-free and testable |
-| Steps ↔ validation schemas | zod schemas referenced by step id | Same schemas power resume replay — single definition |
-| UI ↔ services | `getService()` factory only | Components must not import from `services/mock/` directly |
-| i18n ↔ all UI | `useTranslations()` hooks per feature namespace | No user-facing strings hardcoded anywhere, including error copy |
-| Service worker ↔ app | Serwist build-time integration (`sw.ts` compiled to `public/sw.js`) | App code never talks to SW except registration + optional messages |
+| Boundary                        | Communication                                                       | Notes                                                              |
+| ------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Step screens ↔ applicationStore | Zustand actions (`patchStep`, read slices)                          | Steps never read each other's components; only store               |
+| Wizard machine ↔ stores         | Machine is pure; thin action wrappers in store call it              | Machine stays React-free and testable                              |
+| Steps ↔ validation schemas      | zod schemas referenced by step id                                   | Same schemas power resume replay — single definition               |
+| UI ↔ services                   | `getService()` factory only                                         | Components must not import from `services/mock/` directly          |
+| i18n ↔ all UI                   | `useTranslations()` hooks per feature namespace                     | No user-facing strings hardcoded anywhere, including error copy    |
+| Service worker ↔ app            | Serwist build-time integration (`sw.ts` compiled to `public/sw.js`) | App code never talks to SW except registration + optional messages |
 
 ## Suggested Build Order (dependency-driven)
 
 Each item depends only on items above it — maps directly onto phase structure:
 
-1. **Foundation:** Next.js app skeleton · design-system primitives (48px targets, tokens, a11y) · i18n wiring (cookie locale, 6 message files) · formatters (+91, passport, ₹). *No dependencies; everything composes these.*
-2. **Data spine:** zod step schemas + composed full schema · applicationStore with persist (versioned, answers-only, skipHydration) · wizard machine reducer + unit tests. *Pure logic; buildable before any screen exists.*
-3. **Wizard shell:** `apply/layout.tsx` persistent chrome · ProgressHeader · StepGuard + `[step]` routing. *Needs spine for reachability.*
+1. **Foundation:** Next.js app skeleton · design-system primitives (48px targets, tokens, a11y) · i18n wiring (cookie locale, 6 message files) · formatters (+91, passport, ₹). _No dependencies; everything composes these._
+2. **Data spine:** zod step schemas + composed full schema · applicationStore with persist (versioned, answers-only, skipHydration) · wizard machine reducer + unit tests. _Pure logic; buildable before any screen exists._
+3. **Wizard shell:** `apply/layout.tsx` persistent chrome · ProgressHeader · StepGuard + `[step]` routing. _Needs spine for reachability._
 4. **Stages 1–2 (Visa type → Personal details):** first vertical slice through the whole stack; proves the PATCH→derive→persist loop end-to-end.
-5. **Stage 3 (Documents):** IndexedDB document store + upload tiles (camera capture, drag-drop, size/format validation). *Needs foundation primitives + store.*
-6. **Stage 4–5 (Payment → Confirmation):** mock payment service + gateway modal flow; reference-number generation; confirmation package. *Needs services layer + store.*
+5. **Stage 3 (Documents):** IndexedDB document store + upload tiles (camera capture, drag-drop, size/format validation). _Needs foundation primitives + store._
+6. **Stage 4–5 (Payment → Confirmation):** mock payment service + gateway modal flow; reference-number generation; confirmation package. _Needs services layer + store._
 7. **Tracking & resume flows:** `/track?ref=` timeline view · backup-code snapshot/restore (`/resume`) · draft expiry + clear-on-submit hardening.
 8. **PWA/offline:** Serwist precache + `/~offline` fallback · `navigator.storage.persist()`.
 9. **Hardening pass:** WCAG 2.1 AA audit, Lighthouse a11y 90+, Core Web Vitals on throttled 3G, storage-quota edge cases (private mode), locale completeness.
@@ -361,5 +379,6 @@ Each item depends only on items above it — maps directly onto phase structure:
 - "How to Persist Form State in the Browser," openreplay.com blog (2026-05) — web
 
 ---
-*Architecture research for: VisaReThink — guided mobile-first visa application portal*
-*Researched: 2026-08-25*
+
+_Architecture research for: VisaReThink — guided mobile-first visa application portal_
+_Researched: 2026-08-25_
