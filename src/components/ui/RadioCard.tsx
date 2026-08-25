@@ -82,17 +82,17 @@ export function RadioCard({
         checked={isChecked}
         disabled={disabled}
         onChange={handleChange}
-        className="sr-only peer"
+        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10 peer"
         {...props}
       />
-      <div className="flex flex-col pr-4">
+      <div className="flex flex-col pr-4 pointer-events-none">
         <span className="text-base font-semibold text-[var(--color-ink)]">{label}</span>
         {description && (
           <span className="text-sm text-[var(--color-ink-muted)] mt-0.5">{description}</span>
         )}
       </div>
       <div
-        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-indigo-primary)] peer-focus-visible:ring-offset-2 ${
+        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 pointer-events-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-indigo-primary)] peer-focus-visible:ring-offset-2 ${
           isChecked ? 'border-[var(--color-indigo-primary)]' : 'border-[var(--color-border)]'
         }`}
       >

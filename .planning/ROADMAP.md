@@ -14,7 +14,7 @@ This milestone delivers the complete PRD scope as one continuous build: a mobile
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation, Design System & Persistence Engine** - Accessible mobile-first skeleton with mock services and never-lose-data draft persistence
-- [ ] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
+- [x] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
 - [ ] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks
 - [ ] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery
 - [ ] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection
@@ -75,7 +75,25 @@ Plans:
 4. A passport expiring within 6 months triggers a plain-language warning letting the user continue informed or go back
 5. Closing and reopening mid-journey drops the user on the first genuinely incomplete step ("Continue Application"), with visual progress and time estimates visible throughout
 
-**Plans**: TBD
+**Plans:** 5 plans
+Plans:
+**Wave 1**
+
+- [x] 02-01-PLAN.md — Journey Schema, Step Machine Topology & Validation Engine
+
+**Wave 2** _(blocked on Wave 1 completion)_
+
+- [x] 02-02-PLAN.md — Error Summary Component & Form UX Primitives
+- [x] 02-03-PLAN.md — Stage 1 — Visa Selection & Recommendation Screen
+
+**Wave 3** _(blocked on Wave 2 completion)_
+
+- [x] 02-04-PLAN.md — Stage 2 — Personal Details Multi-Screen Sub-steps
+
+**Wave 4** _(blocked on Wave 3 completion)_
+
+- [x] 02-05-PLAN.md — Guided Journey Integration, Step Navigation & E2E Verification
+
 **UI hint**: yes
 
 ### Phase 3: Document Upload Pipeline
@@ -152,8 +170,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase                                                 | Plans Complete | Status      | Completed |
 | ----------------------------------------------------- | -------------- | ----------- | --------- |
-| 1. Foundation, Design System & Persistence Engine     | 0/?            | Not started | -         |
-| 2. Guided Journey — Visa Selection & Personal Details | 0/?            | Not started | -         |
+| 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed   | Phase 1   |
+| 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed   | Phase 2   |
 | 3. Document Upload Pipeline                           | 0/?            | Not started | -         |
 | 4. Review, Payment & Submission                       | 0/?            | Not started | -         |
 | 5. Confirmation, Tracking & Recovery                  | 0/?            | Not started | -         |

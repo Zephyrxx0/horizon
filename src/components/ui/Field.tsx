@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useId } from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface FieldContextValue {
   id: string;
   hintId: string;
   errorId: string;
   invalid: boolean;
+  isValid: boolean;
   required: boolean;
   hasHint: boolean;
   hasError: boolean;
@@ -22,6 +23,7 @@ export function useFieldContext() {
 export interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
   id?: string;
   invalid?: boolean;
+  isValid?: boolean;
   required?: boolean;
   children: React.ReactNode;
 }
@@ -29,6 +31,7 @@ export interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Field({
   id: customId,
   invalid = false,
+  isValid = false,
   required = true,
   className = '',
   children,
@@ -49,6 +52,7 @@ export function Field({
         hintId,
         errorId,
         invalid,
+        isValid: isValid && !invalid,
         required,
         hasHint,
         hasError,
@@ -77,7 +81,15 @@ export function FieldLabel({ className = '', children, ...props }: FieldLabelPro
       className={`text-base font-semibold text-[var(--color-ink)] flex items-center justify-between ${className}`}
       {...props}
     >
-      <span>{children}</span>
+      <span className="flex items-center gap-1.5">
+        <span>{children}</span>
+        {ctx?.isValid && (
+          <CheckCircle2
+            className="w-4 h-4 text-[var(--color-success)] shrink-0"
+            aria-label="Valid entry"
+          />
+        )}
+      </span>
       {ctx && !ctx.required && (
         <span className="text-sm font-normal text-[var(--color-ink-muted)]">(optional)</span>
       )}

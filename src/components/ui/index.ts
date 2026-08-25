@@ -9,3 +9,5 @@ export * from './ProgressStepper';
 export * from './Card';
 export * from './Sheet';
 export * from './Toast';
+export * from './ErrorSummary';
+export * from './ExpiryWarning';

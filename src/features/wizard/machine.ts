@@ -1,6 +1,7 @@
 import { setup, assign } from 'xstate';
+import { type StepId, type WizardMachineContext, type WizardEvent, JOURNEY_STEPS } from './types';
 
-export type StepId = 'trip' | 'dependent' | 'review';
+export * from './types';
 
 export interface DemoStepItem {
   id: StepId;
@@ -14,19 +15,25 @@ export const DEMO_STEPS: readonly DemoStepItem[] = [
   { id: 'review', label: 'Review & Confirm', durationMin: 1 },
 ] as const;
 
-export interface WizardContext {
-  answers: Record<string, unknown>;
-  currentStepId: StepId;
+export function getNextStepId(current: StepId): StepId {
+  const currentIndex = JOURNEY_STEPS.findIndex((s) => s.id === current);
+  if (currentIndex === -1 || currentIndex >= JOURNEY_STEPS.length - 1) {
+    return current;
+  }
+  return JOURNEY_STEPS[currentIndex + 1].id;
 }
 
-export type WizardEvent =
-  | { type: 'ANSWER_CHANGED'; fieldId: string; value: unknown }
-  | { type: 'GOTO'; stepId: StepId }
-  | { type: 'RESET' };
+export function getPreviousStepId(current: StepId): StepId {
+  const currentIndex = JOURNEY_STEPS.findIndex((s) => s.id === current);
+  if (currentIndex <= 0) {
+    return current;
+  }
+  return JOURNEY_STEPS[currentIndex - 1].id;
+}
 
 export const wizardMachine = setup({
   types: {
-    context: {} as WizardContext,
+    context: {} as WizardMachineContext,
     events: {} as WizardEvent,
   },
   actions: {
@@ -39,15 +46,30 @@ export const wizardMachine = setup({
         };
       },
     }),
+    setAnswersBatched: assign({
+      answers: ({ context, event }) => {
+        if (event.type !== 'ANSWERS_BATCHED') return context.answers;
+        return {
+          ...context.answers,
+          ...event.answers,
+        };
+      },
+    }),
     setStep: assign({
       currentStepId: ({ event }) => {
-        if (event.type !== 'GOTO') return 'trip';
+        if (event.type !== 'GOTO') return 'visa-selection';
         return event.stepId;
       },
     }),
+    nextStep: assign({
+      currentStepId: ({ context }) => getNextStepId(context.currentStepId),
+    }),
+    prevStep: assign({
+      currentStepId: ({ context }) => getPreviousStepId(context.currentStepId),
+    }),
     resetAll: assign({
       answers: () => ({}),
-      currentStepId: () => 'trip' as StepId,
+      currentStepId: () => 'visa-selection' as StepId,
     }),
   },
 }).createMachine({
@@ -55,7 +77,7 @@ export const wizardMachine = setup({
   initial: 'idle',
   context: {
     answers: {},
-    currentStepId: 'trip',
+    currentStepId: 'visa-selection',
   },
   states: {
     idle: {
@@ -63,8 +85,17 @@ export const wizardMachine = setup({
         ANSWER_CHANGED: {
           actions: 'setAnswer',
         },
+        ANSWERS_BATCHED: {
+          actions: 'setAnswersBatched',
+        },
         GOTO: {
           actions: 'setStep',
+        },
+        NEXT: {
+          actions: 'nextStep',
+        },
+        BACK: {
+          actions: 'prevStep',
         },
         RESET: {
           actions: 'resetAll',

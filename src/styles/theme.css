@@ -32,6 +32,7 @@
   font-family: var(--font-sans);
   color: var(--color-ink);
   background-color: var(--color-surface-bg);
+  scroll-padding-top: 5rem;
 }
 
 :focus-visible {

@@ -40,4 +40,19 @@ describe('Field component', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it('renders green checkmark when isValid is true and not invalid (PERS-06)', async () => {
+    const { container } = render(
+      <Field id="valid-field" isValid>
+        <FieldLabel>First Name</FieldLabel>
+        <Input />
+      </Field>,
+    );
+
+    const checkmark = screen.getByLabelText('Valid entry');
+    expect(checkmark).toBeInTheDocument();
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });

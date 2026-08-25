@@ -31,7 +31,8 @@ export function DemoWizard() {
   const resetDraft = useWizardReset();
 
   const answers = useSelector(actor, (s) => s.context.answers);
-  const currentStepId = useSelector(actor, (s) => s.context.currentStepId);
+  const rawStepId = useSelector(actor, (s) => s.context.currentStepId);
+  const currentStepId = rawStepId === 'visa-selection' ? 'trip' : rawStepId;
 
   const [clearDraftOpen, setClearDraftOpen] = useState(false);
 

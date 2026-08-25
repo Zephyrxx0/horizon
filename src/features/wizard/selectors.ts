@@ -1,33 +1,14 @@
 import type { StepStatus } from '../../components/ui/ProgressStepper';
-import { DEMO_STEPS, type StepId } from './machine';
+import { JOURNEY_STEPS, type StepId } from './types';
+import {
+  validateVisaSelectionStep,
+  validateIdentityStep,
+  validateContactStep,
+  validateVisaSpecificStep,
+  isValidPassport,
+} from './validators';
 
-/**
- * Validation Predicates ported from prototype logic
- */
-export function isValidPassport(passport: string): boolean {
-  if (!passport || typeof passport !== 'string') return false;
-  const clean = passport.trim().toUpperCase();
-  // Validates passport format (e.g., 2 letters + 7 digits)
-  return /^[A-Z]{2}\d{7}$/.test(clean);
-}
-
-export function isValidEmail(email: string): boolean {
-  if (!email || typeof email !== 'string') return false;
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-}
-
-export function isValidPhone(phone: string): boolean {
-  if (!phone || typeof phone !== 'string') return false;
-  const digitsOnly = phone.replace(/\D/g, '');
-  return digitsOnly.length >= 10;
-}
-
-export function isExpiryValid(isoDate: string): boolean {
-  if (!isoDate) return false;
-  const expiry = new Date(isoDate).getTime();
-  const sixMonthsFromNow = Date.now() + 180 * 24 * 60 * 60 * 1000;
-  return !isNaN(expiry) && expiry >= sixMonthsFromNow;
-}
+export * from './validators';
 
 /**
  * Pure derivation of individual step status without storing derived state.
@@ -39,6 +20,7 @@ export function deriveStepStatus(
 ): StepStatus {
   const isCurrent = currentStepId === stepId;
 
+  // Legacy demo steps
   if (stepId === 'trip') {
     const hasTrip = Boolean(answers.tripType);
     if (isCurrent) return 'current';
@@ -50,7 +32,6 @@ export function deriveStepStatus(
     const passportVal = String(answers.passportNumber || '');
     const hasValidPassport = isValidPassport(passportVal);
 
-    // If passport entered but upstream tripType is missing/invalidated -> needs-attention!
     if (passportVal && !hasTrip) {
       return 'needs-attention';
     }
@@ -68,6 +49,91 @@ export function deriveStepStatus(
     return 'incomplete';
   }
 
+  // --- Real Guided Journey Stages ---
+
+  // Stage 1: Visa Selection
+  if (stepId === 'visa-selection') {
+    const errors = validateVisaSelectionStep(answers);
+    const isComplete = Object.keys(errors).length === 0;
+    if (isCurrent) return 'current';
+    return isComplete ? 'complete' : 'incomplete';
+  }
+
+  // Stage 2a: Identity & Passport
+  if (stepId === 'personal-identity') {
+    const visaErrors = validateVisaSelectionStep(answers);
+    const hasVisa = Object.keys(visaErrors).length === 0;
+    const identityErrors = validateIdentityStep(answers);
+    const isIdentityComplete = Object.keys(identityErrors).length === 0;
+
+    // Invalidation check: if identity answers entered but visa selection was cleared
+    if (Boolean(answers.firstName || answers.passportNumber) && !hasVisa) {
+      return 'needs-attention';
+    }
+
+    if (isCurrent) return 'current';
+    if (hasVisa && isIdentityComplete) return 'complete';
+    return 'incomplete';
+  }
+
+  // Stage 2b: Contact & Address
+  if (stepId === 'personal-contact') {
+    const identityStatus = deriveStepStatus('personal-identity', answers);
+    const isIdentityComplete = identityStatus === 'complete';
+    const contactErrors = validateContactStep(answers);
+    const isContactComplete = Object.keys(contactErrors).length === 0;
+
+    if (Boolean(answers.email || answers.phone) && !isIdentityComplete) {
+      return 'needs-attention';
+    }
+
+    if (isCurrent) return 'current';
+    if (isIdentityComplete && isContactComplete) return 'complete';
+    return 'incomplete';
+  }
+
+  // Stage 2c: Visa-Specific Details
+  if (stepId === 'personal-details') {
+    const contactStatus = deriveStepStatus('personal-contact', answers);
+    const isContactComplete = contactStatus === 'complete';
+    const specificErrors = validateVisaSpecificStep(answers);
+    const isSpecificComplete = Object.keys(specificErrors).length === 0;
+
+    if (
+      Boolean(answers.travelStartDate || answers.institutionName || answers.employerName) &&
+      !isContactComplete
+    ) {
+      return 'needs-attention';
+    }
+
+    if (isCurrent) return 'current';
+    if (isContactComplete && isSpecificComplete) return 'complete';
+    return 'incomplete';
+  }
+
+  // Stage 3: Document Upload (Phase 3 placeholder)
+  if (stepId === 'documents') {
+    const personalComplete = deriveStepStatus('personal-details', answers) === 'complete';
+    const hasDocs = Array.isArray(answers.documents) && answers.documents.length > 0;
+
+    if (isCurrent) return 'current';
+    if (personalComplete && hasDocs) return 'complete';
+    return 'incomplete';
+  }
+
+  // Stage 4: Review & Payment (Phase 4 placeholder)
+  if (stepId === 'review-payment') {
+    const isPaid = Boolean(answers.paymentCompleted);
+    if (isCurrent) return 'current';
+    return isPaid ? 'complete' : 'incomplete';
+  }
+
+  // Stage 5: Confirmation (Phase 5 placeholder)
+  if (stepId === 'confirmation') {
+    if (isCurrent) return 'current';
+    return answers.submitted ? 'complete' : 'incomplete';
+  }
+
   return 'incomplete';
 }
 
@@ -78,22 +144,40 @@ export function deriveStepStatuses(
   answers: Record<string, unknown>,
   currentStepId: StepId,
 ): Record<StepId, StepStatus> {
-  return {
-    trip: deriveStepStatus('trip', answers, currentStepId),
-    dependent: deriveStepStatus('dependent', answers, currentStepId),
-    review: deriveStepStatus('review', answers, currentStepId),
-  };
+  const result = {} as Record<StepId, StepStatus>;
+  for (const step of JOURNEY_STEPS) {
+    result[step.id] = deriveStepStatus(step.id, answers, currentStepId);
+  }
+  // Backwards compatibility with Phase 1 demo tests
+  result['trip'] = deriveStepStatus('trip', answers, currentStepId);
+  result['dependent'] = deriveStepStatus('dependent', answers, currentStepId);
+  result['review'] = deriveStepStatus('review', answers, currentStepId);
+
+  return result;
 }
 
 /**
- * Derives completion count and remaining estimate in minutes.
+ * Returns the first incomplete step by re-evaluating validators over answers (STATE-04).
+ */
+export function getFirstIncompleteStep(answers: Record<string, unknown>): StepId {
+  for (const step of JOURNEY_STEPS) {
+    const status = deriveStepStatus(step.id, answers);
+    if (status !== 'complete') {
+      return step.id;
+    }
+  }
+  return JOURNEY_STEPS[JOURNEY_STEPS.length - 1].id;
+}
+
+/**
+ * Derives progress completion count and remaining estimate in minutes.
  */
 export function deriveProgress(answers: Record<string, unknown>) {
-  const total = DEMO_STEPS.length;
+  const total = JOURNEY_STEPS.length;
   let completed = 0;
   let minutesRemaining = 0;
 
-  for (const step of DEMO_STEPS) {
+  for (const step of JOURNEY_STEPS) {
     const status = deriveStepStatus(step.id, answers);
     if (status === 'complete') {
       completed++;
@@ -108,6 +192,6 @@ export function deriveProgress(answers: Record<string, unknown>) {
     completed,
     total,
     percent,
-    minutesRemaining,
+    minutesRemaining: minutesRemaining === 0 && completed < total ? 1 : minutesRemaining,
   };
 }
