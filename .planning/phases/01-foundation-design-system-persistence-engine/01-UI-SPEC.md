@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: foundation-design-system-persistence-engine
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-08-25
+reviewed_at: 2026-08-25
 ---
 
 # Phase 1 — UI Design Contract
