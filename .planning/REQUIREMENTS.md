@@ -121,13 +121,64 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmapper) | | |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| STATE-01 | Phase 1 | Pending |
+| STATE-02 | Phase 1 | Pending |
+| STATE-03 | Phase 1 | Pending |
+| SELCT-01 | Phase 2 | Pending |
+| SELCT-02 | Phase 2 | Pending |
+| SELCT-03 | Phase 2 | Pending |
+| SELCT-04 | Phase 2 | Pending |
+| PERS-01 | Phase 2 | Pending |
+| PERS-02 | Phase 2 | Pending |
+| PERS-03 | Phase 2 | Pending |
+| PERS-04 | Phase 2 | Pending |
+| PERS-05 | Phase 2 | Pending |
+| PERS-06 | Phase 2 | Pending |
+| STATE-04 | Phase 2 | Pending |
+| ERR-01 | Phase 2 | Pending |
+| ERR-02 | Phase 2 | Pending |
+| DOCS-01 | Phase 3 | Pending |
+| DOCS-02 | Phase 3 | Pending |
+| DOCS-03 | Phase 3 | Pending |
+| DOCS-04 | Phase 3 | Pending |
+| DOCS-05 | Phase 3 | Pending |
+| REVW-01 | Phase 4 | Pending |
+| REVW-02 | Phase 4 | Pending |
+| PAY-01 | Phase 4 | Pending |
+| PAY-02 | Phase 4 | Pending |
+| PAY-03 | Phase 4 | Pending |
+| PAY-04 | Phase 4 | Pending |
+| CNFRM-01 | Phase 5 | Pending |
+| CNFRM-02 | Phase 5 | Pending |
+| CNFRM-03 | Phase 5 | Pending |
+| CNFRM-04 | Phase 5 | Pending |
+| TRCK-01 | Phase 5 | Pending |
+| TRCK-02 | Phase 5 | Pending |
+| TRCK-03 | Phase 5 | Pending |
+| STATE-05 | Phase 5 | Pending |
+| STATE-06 | Phase 5 | Pending |
+| SUPRT-01 | Phase 6 | Pending |
+| SUPRT-02 | Phase 6 | Pending |
+| TRUST-01 | Phase 6 | Pending |
+| I18N-01 | Phase 6 | Pending |
+| I18N-02 | Phase 6 | Pending |
+| I18N-03 | Phase 6 | Pending |
+| A11Y-01 | Phase 6 | Pending |
+| A11Y-02 | Phase 6 | Pending |
+| PERF-01 | Phase 6 | Pending |
+| PWA-01 | Phase 6 | Pending |
+| PWA-02 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: (count after roadmap)
-- Mapped to phases: (after roadmap)
-- Unmapped: ⚠️ pending roadmap
+- v1 requirements: 52
+- Mapped to phases: 52
+- Unmapped: none ✓
 
 ---
 *Requirements defined: 2026-08-25*
-*Last updated: 2026-08-25 after initial definition*
+*Last updated: 2026-08-25 — traceability populated during roadmap creation (52/52 mapped)*
