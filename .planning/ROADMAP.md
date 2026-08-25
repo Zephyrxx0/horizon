@@ -13,7 +13,7 @@ This milestone delivers the complete PRD scope as one continuous build: a mobile
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation, Design System & Persistence Engine** - Accessible mobile-first skeleton with mock services and never-lose-data draft persistence
+- [x] **Phase 1: Foundation, Design System & Persistence Engine** - Accessible mobile-first skeleton with mock services and never-lose-data draft persistence
 - [ ] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
 - [ ] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks
 - [ ] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery
@@ -40,24 +40,24 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Scaffold, theme tokens, quality gates (lint/hooks/Vitest+axe/Playwright/CI)
+- [x] 01-01-PLAN.md — Scaffold, theme tokens, quality gates (lint/hooks/Vitest+axe/Playwright/CI)
 
 **Wave 2** _(blocked on Wave 1 completion)_
 
-- [ ] 01-02-PLAN.md — Ten-primitive custom design system with axe-gated a11y contracts
-- [ ] 01-03-PLAN.md — Typed mock service layer behind single getService() swap point
+- [x] 01-02-PLAN.md — Ten-primitive custom design system with axe-gated a11y contracts
+- [x] 01-03-PLAN.md — Typed mock service layer behind single getService() swap point
 
 **Wave 3** _(blocked on Wave 2 completion)_
 
-- [ ] 01-04-PLAN.md — XState wizard machine + honest autosave engine + kill-the-tab E2E
+- [x] 01-04-PLAN.md — XState wizard machine + honest autosave engine + kill-the-tab E2E
 
 **Wave 4** _(blocked on Wave 3 completion)_
 
-- [ ] 01-05-PLAN.md — IndexedDB document persistence with ≤2MB compression + quota honesty
+- [x] 01-05-PLAN.md — IndexedDB document persistence with ≤2MB compression + quota honesty
 
 **Wave 5** _(blocked on Wave 4 completion)_
 
-- [ ] 01-06-PLAN.md — i18n machinery, live six-locale switcher, Noto font subsets + CI budget gate
+- [x] 01-06-PLAN.md — i18n machinery, live six-locale switcher, Noto font subsets + CI budget gate
 
 **UI hint**: yes
 
