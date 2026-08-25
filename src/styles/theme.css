@@ -14,6 +14,8 @@
   --color-error: #b91c1c;
   --color-disabled-text: #8b90ab;
   --color-disabled-bg: #eff0f6;
+  --color-selected-bg: #eef0fb;
+  --color-overlay: rgba(30, 27, 75, 0.45);
 
   --text-meta: 0.875rem;
   --text-body: 1rem;
@@ -32,7 +34,6 @@
   background-color: var(--color-surface-bg);
 }
 
-/* Ensure focus-visible always has high-contrast ring */
 :focus-visible {
   outline: 2px solid var(--color-indigo-primary);
   outline-offset: 2px;
