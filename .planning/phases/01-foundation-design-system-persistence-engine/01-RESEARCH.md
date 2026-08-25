@@ -596,16 +596,19 @@ const SCRIPT_CSS: Record<string, () => Promise<unknown>> = {
 | A6 | Phase 1 demo wizard needs no router (single-page stepper UI); routing deferred to shell phase | Structure | Planner may still add react-router now if preferred — isolated either way |
 | A7 | Machine topology with a single top-level machine (no nested/invoked actors) suffices for Phase 1 scope | Pattern 1 | If planner chooses nested actors, snapshot persistence still works (deep-persist documented) |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **vitest-axe vs jest-axe final call**
+   - **RESOLVED:** vitest-axe first (per D-08), with a predefined jest-axe (~11) fallback swap if Vitest 4/jsdom 30 errors appear — decision rule embedded in plan 01-01 Task 3 `read_first`; any swap is recorded in that plan's SUMMARY.
    - What we know: vitest-axe locked by D-08, peer-compatible with Vitest 4, but stale (Jan 2025) bundling older axe-core (^4.4.2 range resolves to 4.x latest? — dep spec is `^4.4.2`, so likely installs newer 4.13); jest-axe 11 is fresh (Jul 2026, axe-core 4.12 pinned).
    - What's unclear: real-world behavior under Vitest 4 + jsdom 30.
    - Recommendation: first component task runs a vitest-axe smoke test; predefined switch criterion keeps momentum. Either way the axe gate (D-08 intent) holds.
 2. **GitHub remote absence**
+   - **RESOLVED:** CI workflow is authored dormant in plan 01-01 Task 3; remote setup captured as a `user_setup` entry in plan 01-01 frontmatter (user adds remote and pushes to activate D-14 gates).
    - What we know: no git remote configured; D-14 wants GH Actions on PR+main from day one.
    - Recommendation: author the workflow now (harmless locally); confirm/push remote before relying on CI gates. Needs user action eventually.
 3. **Demo surface extent**
+   - **RESOLVED:** Planner sized it as an explicitly throwaway 3-step demo wizard under `features/wizard/demo/` — steps 1–3 built in plan 01-04, step 3 replaced by DocumentStep in plan 01-05.
    - What we know: SC #1/#2/#5 need a demonstration form exercising components + autosave + dependent-step invalidation.
    - Recommendation: minimal 3-step demo wizard under `features/wizard/demo/`, explicitly labeled throwaway; planner sizes it.
 
