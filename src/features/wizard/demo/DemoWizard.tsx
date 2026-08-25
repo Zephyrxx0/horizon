@@ -1,6 +1,6 @@
 /**
  * THROWAWAY demo surface — replaced by Phases 2–5.
- * Proves STATE-01, STATE-02, and UI design primitives end-to-end.
+ * Proves STATE-01, STATE-02, STATE-03, and UI design primitives end-to-end.
  */
 import { useState } from 'react';
 import { useSelector } from '@xstate/react';
@@ -21,6 +21,7 @@ import {
   Sheet,
 } from '../../../components/ui';
 import { SaveIndicator } from '../../../components/SaveIndicator';
+import { DocumentStep, type DocumentMetadata } from './DocumentStep';
 
 export function DemoWizard() {
   const actor = useWizardActor();
@@ -41,6 +42,7 @@ export function DemoWizard() {
 
   const tripType = answers.tripType as string | undefined;
   const passportNumber = (answers.passportNumber as string) || '';
+  const documents = (answers.documents as DocumentMetadata[]) || [];
 
   const handleTripChange = (val: string) => {
     actor.send({ type: 'ANSWER_CHANGED', fieldId: 'tripType', value: val });
@@ -188,9 +190,13 @@ export function DemoWizard() {
         </div>
       )}
 
-      {/* Step 3: Review & Confirm */}
+      {/* Step 3: Review & Confirm (Includes Document Upload Step) */}
       {currentStepId === 'review' && (
         <div className="space-y-6">
+          {/* Document Upload Surface */}
+          <DocumentStep />
+
+          {/* Application Summary */}
           <Card>
             <h2 className="text-lg font-semibold text-[var(--color-ink)] mb-4">
               Application Summary
@@ -206,6 +212,12 @@ export function DemoWizard() {
                 <dt className="text-[var(--color-ink-muted)]">Passport Number</dt>
                 <dd className="font-mono font-semibold text-[var(--color-ink)]">
                   {passportNumber || 'Not specified'}
+                </dd>
+              </div>
+              <div className="py-2.5 flex justify-between">
+                <dt className="text-[var(--color-ink-muted)]">Documents Attached</dt>
+                <dd className="font-semibold text-[var(--color-ink)]">
+                  {documents.length} file{documents.length !== 1 ? 's' : ''}
                 </dd>
               </div>
             </dl>

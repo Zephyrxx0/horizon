@@ -5,6 +5,7 @@ import { createActor } from 'xstate';
 import { DemoWizard } from './DemoWizard';
 import { wizardMachine } from '../machine';
 import { WizardContext } from '../context';
+import { ToastProvider } from '../../../components/ui/Toast';
 import { createAutosaveController } from '../../../persistence/autosave';
 import {
   saveAnswersEnvelope,
@@ -42,9 +43,11 @@ describe('DemoWizard Integration', () => {
     };
 
     return render(
-      <WizardContext.Provider value={{ actor, controller, resetDraft }}>
-        <DemoWizard />
-      </WizardContext.Provider>,
+      <ToastProvider>
+        <WizardContext.Provider value={{ actor, controller, resetDraft }}>
+          <DemoWizard />
+        </WizardContext.Provider>
+      </ToastProvider>,
     );
   }
 
