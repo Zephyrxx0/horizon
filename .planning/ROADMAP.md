@@ -140,7 +140,21 @@ Plans:
 3. The mock payment exercises success AND pending/failed states; a failed attempt offers retry preserving all entered data; double-submission is guarded
 4. Successful payment yields instant confirmation with an itemized receipt saved in-app
 
-**Plans**: TBD
+**Plans:** 4 plans
+Plans:
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — Payment Domain Models, Fee Calculator, Input Formatters & Wizard State Machine Topology
+
+**Wave 2** _(blocked on Wave 1 completion)_
+
+- [ ] 04-02-PLAN.md — Review Summary Cards, Deep-Link Round-Trip Editing & Sticky Banner
+- [ ] 04-03-PLAN.md — Payment Method Selectors, Checkout Forms, Fee Breakdown Card & Scenario Controller
+
+**Wave 3** _(blocked on Wave 2 completion)_
+
+- [ ] 04-04-PLAN.md — Payment Processing Modal, Failure/Pending Recovery Cards, Printable In-App Receipt, Wizard Lock & E2E Verification
+
 **UI hint**: yes
 
 ### Phase 5: Confirmation, Tracking & Recovery
