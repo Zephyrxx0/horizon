@@ -9,6 +9,7 @@ import { ToastProvider } from './components/ui/Toast';
 import { ResumeBanner } from './components/ResumeBanner';
 import { VisaSelectionScreen } from './features/visa';
 import { PersonalDetailsScreen } from './features/personal';
+import { DocumentsScreen } from './features/documents';
 import { Clock } from 'lucide-react';
 
 export default function App() {
@@ -99,23 +100,7 @@ export default function App() {
             currentStepId === 'personal-contact' ||
             currentStepId === 'personal-details') && <PersonalDetailsScreen />}
 
-          {currentStepId === 'documents' && (
-            <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">
-              <h2 className="text-xl font-bold text-[var(--color-ink)]">
-                Stage 3: Document Upload Pipeline
-              </h2>
-              <p className="text-sm text-[var(--color-ink-muted)]">
-                Documents pipeline will be fully wired in Phase 3.
-              </p>
-              <button
-                type="button"
-                onClick={() => actor.send({ type: 'BACK' })}
-                className="text-sm font-semibold text-[var(--color-indigo-primary)] underline"
-              >
-                ← Back to Personal Details
-              </button>
-            </div>
-          )}
+          {currentStepId === 'documents' && <DocumentsScreen />}
 
           {currentStepId === 'review-payment' && (
             <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">

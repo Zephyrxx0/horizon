@@ -5,6 +5,7 @@ import {
   validateIdentityStep,
   validateContactStep,
   validateVisaSpecificStep,
+  validateDocumentsStep,
   isValidPassport,
 } from './validators';
 
@@ -111,13 +112,22 @@ export function deriveStepStatus(
     return 'incomplete';
   }
 
-  // Stage 3: Document Upload (Phase 3 placeholder)
+  // Stage 3: Document Upload
   if (stepId === 'documents') {
     const personalComplete = deriveStepStatus('personal-details', answers) === 'complete';
-    const hasDocs = Array.isArray(answers.documents) && answers.documents.length > 0;
+    const docErrors = validateDocumentsStep(answers);
+    const isDocsComplete = Object.keys(docErrors).length === 0;
+
+    const hasAnyDocs =
+      Boolean(answers.documents) &&
+      Object.keys((answers.documents || {}) as Record<string, unknown>).length > 0;
+
+    if (hasAnyDocs && !personalComplete) {
+      return 'needs-attention';
+    }
 
     if (isCurrent) return 'current';
-    if (personalComplete && hasDocs) return 'complete';
+    if (personalComplete && isDocsComplete) return 'complete';
     return 'incomplete';
   }
 

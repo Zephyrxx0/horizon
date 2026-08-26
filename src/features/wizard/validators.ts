@@ -1,4 +1,6 @@
 import { cleanPhoneDigits } from './formatters';
+import { getDocumentSlotsForVisa } from '../documents/requirements';
+import type { DocumentAttachment } from '../documents/types';
 
 export function isValidPassport(passport: string): boolean {
   if (!passport || typeof passport !== 'string') return false;
@@ -306,6 +308,40 @@ export function validateVisaSpecificStep(answers: Record<string, unknown>): Reco
     // Default generic travel date check
     if (!answers.travelStartDate || !isValidIsoDate(String(answers.travelStartDate))) {
       errors.travelStartDate = getConstructiveError('travelStartDate');
+    }
+  }
+
+  return errors;
+}
+
+/**
+ * Validates Stage 3 (Document Upload Pipeline)
+ */
+export function validateDocumentsStep(answers: Record<string, unknown>): Record<string, string> {
+  const errors: Record<string, string> = {};
+  const visaId = String(answers.visaId || answers.visaType || 'us-tourist');
+  const { mandatory } = getDocumentSlotsForVisa(visaId);
+
+  const docs = (answers.documents || {}) as Record<string, DocumentAttachment>;
+
+  for (const slot of mandatory) {
+    if (slot.subSlots && slot.subSlots.length > 0) {
+      for (const sub of slot.subSlots) {
+        const subKey = `${slot.id}_${sub.id}`;
+        const att = docs[subKey] || docs[sub.id];
+        if (!att) {
+          errors[subKey] = `Please upload ${sub.title}.`;
+        } else if (att.isBlurWarning && !att.isBlurWarningAcknowledged) {
+          errors[subKey] = `${sub.title}: Image warning must be acknowledged or photo retaken.`;
+        }
+      }
+    } else {
+      const att = docs[slot.id];
+      if (!att) {
+        errors[slot.id] = `Please upload ${slot.title}.`;
+      } else if (att.isBlurWarning && !att.isBlurWarningAcknowledged) {
+        errors[slot.id] = `${slot.title}: Image warning must be acknowledged or photo retaken.`;
+      }
     }
   }
 

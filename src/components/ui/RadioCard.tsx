@@ -82,7 +82,7 @@ export function RadioCard({
         checked={isChecked}
         disabled={disabled}
         onChange={handleChange}
-        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10 peer"
+        className="opacity-0 absolute inset-0 cursor-pointer w-full h-full peer z-10"
         {...props}
       />
       <div className="flex flex-col pr-4 pointer-events-none">
