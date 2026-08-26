@@ -20,6 +20,7 @@ import { MockPaymentService } from '../../services/mock/payment';
 import { MockNotificationService } from '../../services/mock/notifications';
 import type { PaymentMethodType, PaymentReceiptData } from './types';
 import type { DocumentAttachment } from '../documents/types';
+import { SecuritySealBadge } from '../trust';
 import { Lock, ArrowRight } from 'lucide-react';
 
 const paymentService = new MockPaymentService();
@@ -463,6 +464,9 @@ export function ReviewScreen() {
           isChecking={isCheckingPending}
         />
       )}
+
+      {/* Application Integrity & Security Seal (D-08 / TRUST-01) */}
+      <SecuritySealBadge referenceNumber={answers.referenceNumber as string} />
 
       {/* Pay Now Submission Button */}
       <div className="pt-4 space-y-3">

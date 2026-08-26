@@ -1,4 +1,4 @@
-import { FaqCategory, FaqItem, JargonDefinition, JargonKey } from './types';
+import type { FaqCategory, FaqItem, JargonDefinition, JargonKey } from './types';
 
 export const FAQ_ITEMS: FaqItem[] = [
   {

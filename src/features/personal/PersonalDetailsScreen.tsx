@@ -4,6 +4,7 @@ import { useWizardActor } from '../wizard/context';
 import { IdentityStep } from './IdentityStep';
 import { ContactStep } from './ContactStep';
 import { VisaSpecificStep } from './VisaSpecificStep';
+import { PrivacyTrustCard } from '../trust';
 import type { StepId } from '../wizard/types';
 
 export interface PersonalDetailsScreenProps {
@@ -51,6 +52,9 @@ export const PersonalDetailsScreen: React.FC<PersonalDetailsScreenProps> = ({ cl
           })}
         </ol>
       </nav>
+
+      {/* Pre-flight Privacy Trust Card on Initial Identity Sub-step (D-05 / TRUST-01) */}
+      {currentStepId === 'personal-identity' && <PrivacyTrustCard className="max-w-xl mx-auto" />}
 
       {/* Active Sub-step Form */}
       {currentStepId === 'personal-identity' && <IdentityStep />}

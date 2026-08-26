@@ -6,7 +6,7 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
 import { Button } from '../../components/ui/Button';
 import { useToast } from '../../components/ui/Toast';
-import { SupportTicket } from './types';
+import type { SupportTicket } from './types';
 import { Send, CheckCircle2 } from 'lucide-react';
 
 export interface SupportTicketModalProps {

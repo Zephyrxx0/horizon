@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelpCircle, X, Lightbulb, BookOpen } from 'lucide-react';
-import { JargonKey } from './types';
+import type { JargonKey } from './types';
 import { JARGON_DEFINITIONS } from './faqCatalog';
-import { PassportDiagram, PassportHighlightZone } from './PassportDiagram';
+import { PassportDiagram, type PassportHighlightZone } from './PassportDiagram';
 
 export interface JargonTooltipProps {
   jargonKey?: JargonKey;

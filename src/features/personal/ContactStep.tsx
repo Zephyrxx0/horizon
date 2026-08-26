@@ -152,6 +152,10 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
               autoComplete="email"
             />
             <FieldHint>For receipt delivery & status alerts.</FieldHint>
+            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
+              <span aria-hidden="true">🔒</span>
+              <span>Kept secure on this device until final submission</span>
+            </div>
             {touched.email && !isValidEmail(email) && (
               <FieldError>
                 {!email.trim()
@@ -183,6 +187,10 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
               autoComplete="tel"
             />
             <FieldHint>Auto-prefixed with +91 country code.</FieldHint>
+            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
+              <span aria-hidden="true">🔒</span>
+              <span>Kept secure on this device until final submission</span>
+            </div>
             {touched.phone && !isValidPhone(phone) && (
               <FieldError>Please enter a valid 10-digit Indian mobile number.</FieldError>
             )}
@@ -203,6 +211,10 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
             placeholder="Flat/House No., Building, Street Name"
             autoComplete="address-line1"
           />
+          <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
+            <span aria-hidden="true">🔒</span>
+            <span>Kept secure on this device until final submission</span>
+          </div>
           {touched.addressLine1 && !addressLine1.trim() && (
             <FieldError>Address line 1 is required.</FieldError>
           )}

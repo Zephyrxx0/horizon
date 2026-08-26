@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Sheet } from '../../components/ui/Sheet';
 import { Button } from '../../components/ui/Button';
-import { FaqCategory, FaqItem } from './types';
+import type { FaqCategory, FaqItem } from './types';
 import { FAQ_ITEMS, HELPLINE_INFO, searchFaqs } from './faqCatalog';
 import { SupportTicketModal } from './SupportTicketModal';
 import {
@@ -39,7 +39,10 @@ export const FaqSheet: React.FC<FaqSheetProps> = ({ open, onClose, initialCatego
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
 
   const filteredFaqs = useMemo(() => {
-    return searchFaqs(searchQuery, activeCategory, t);
+    return searchFaqs(searchQuery, activeCategory, (k: string, def?: string) => {
+      const translateFn = t as (key: string, options?: { defaultValue?: string }) => string;
+      return translateFn(k, { defaultValue: def || '' });
+    });
   }, [searchQuery, activeCategory, t]);
 
   const toggleFaq = (id: string) => {
@@ -170,7 +173,6 @@ export const FaqSheet: React.FC<FaqSheetProps> = ({ open, onClose, initialCatego
               </p>
               <Button
                 variant="secondary"
-                size="sm"
                 onClick={() => {
                   setSearchQuery('');
                   setActiveCategory('all');

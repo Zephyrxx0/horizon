@@ -234,6 +234,10 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
               onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
               onBlur={() => handleBlur('dateOfBirth')}
             />
+            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
+              <span aria-hidden="true">🔒</span>
+              <span>Kept secure on this device until final submission</span>
+            </div>
             {touched.dateOfBirth && !isValidIsoDate(dateOfBirth) && (
               <FieldError>Valid date of birth is required.</FieldError>
             )}
@@ -302,6 +306,10 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
             className="uppercase tracking-widest font-mono font-semibold"
           />
           <FieldHint>2 letters followed by 7 numbers (e.g. AA1234567).</FieldHint>
+          <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
+            <span aria-hidden="true">🔒</span>
+            <span>Kept secure on this device until final submission</span>
+          </div>
           {touched.passportNumber && !isValidPassport(passportNumber) && (
             <FieldError>
               Passport must start with 2 letters and 7 digits (e.g. AA1234567).

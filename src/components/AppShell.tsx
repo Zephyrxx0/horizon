@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { InstallPromptBanner, OfflineBanner } from '../features/pwa';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, Trash2 } from 'lucide-react';
 
 export { OfflineBanner };
 
@@ -22,9 +22,15 @@ export interface AppHeaderProps {
   onOpenTracking?: () => void;
   onOpenBackup?: () => void;
   onOpenHelp?: () => void;
+  onOpenClearData?: () => void;
 }
 
-export function AppHeader({ onOpenTracking, onOpenBackup, onOpenHelp }: AppHeaderProps) {
+export function AppHeader({
+  onOpenTracking,
+  onOpenBackup,
+  onOpenHelp,
+  onOpenClearData,
+}: AppHeaderProps) {
   const { t } = useTranslation();
 
   return (
@@ -77,6 +83,20 @@ export function AppHeader({ onOpenTracking, onOpenBackup, onOpenHelp }: AppHeade
           >
             <span className="hidden sm:inline">Backup Draft</span>
             <span className="sm:hidden">Backup</span>
+          </button>
+        )}
+
+        {onOpenClearData && (
+          <button
+            type="button"
+            onClick={onOpenClearData}
+            aria-label="Clear Local Draft and Reset Storage"
+            className="min-h-[44px] px-2.5 sm:px-3 py-1.5 rounded-[var(--radius-input)] text-xs font-semibold text-rose-700 hover:bg-rose-50 flex items-center gap-1.5 transition-colors"
+            data-testid="header-clear-btn"
+          >
+            <Trash2 className="w-3.5 h-3.5 text-rose-600 shrink-0" aria-hidden="true" />
+            <span className="hidden sm:inline">Reset / Clear</span>
+            <span className="sm:hidden">Reset</span>
           </button>
         )}
 

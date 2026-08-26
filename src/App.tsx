@@ -15,6 +15,7 @@ import { DocumentsScreen } from './features/documents';
 import { ReviewScreen, EditingBanner } from './features/review';
 import { ConfirmationScreen, TrackingModal, DraftBackupModal } from './features/confirmation';
 import { FaqSheet } from './features/support';
+import { ClearDataModal } from './features/trust';
 import { Clock } from 'lucide-react';
 
 function NetworkSyncHandler() {
@@ -42,6 +43,7 @@ export default function App() {
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isClearDataOpen, setIsClearDataOpen] = useState(false);
   const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
 
   // Derive progress & time remaining
@@ -97,6 +99,7 @@ export default function App() {
             setBackupMode('generate');
             setIsBackupOpen(true);
           }}
+          onOpenClearData={() => setIsClearDataOpen(true)}
         />
         <OfflineBanner />
         <EditingBanner />
@@ -152,8 +155,18 @@ export default function App() {
           {currentStepId === 'confirmation' && <ConfirmationScreen />}
         </main>
 
-        <footer className="py-6 px-4 text-center text-sm text-[var(--color-ink-muted)] border-t border-[var(--color-border)] bg-white mt-auto">
+        <footer className="py-6 px-4 text-center text-sm text-[var(--color-ink-muted)] border-t border-[var(--color-border)] bg-white mt-auto space-y-2">
           <p>{t('app.footer')}</p>
+          <div className="flex items-center justify-center gap-4 text-xs">
+            <button
+              type="button"
+              onClick={() => setIsClearDataOpen(true)}
+              className="text-rose-600 hover:text-rose-700 hover:underline font-medium cursor-pointer"
+              data-testid="footer-clear-data-btn"
+            >
+              Shared / Cyber-Café Computer? Reset & Clear Local Data
+            </button>
+          </div>
         </footer>
 
         {/* Floating Help Escape Hatch Button (SUPRT-01) */}
@@ -168,6 +181,18 @@ export default function App() {
           isOpen={isBackupOpen}
           onClose={() => setIsBackupOpen(false)}
           initialMode={backupMode}
+        />
+
+        <ClearDataModal
+          isOpen={isClearDataOpen}
+          onClose={() => setIsClearDataOpen(false)}
+          onOpenBackup={() => {
+            setBackupMode('generate');
+            setIsBackupOpen(true);
+          }}
+          onCleared={() => {
+            actor.send({ type: 'RESET' });
+          }}
         />
       </div>
     </ToastProvider>
