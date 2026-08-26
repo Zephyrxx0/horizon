@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks (completed 2026-08-26)
 - [x] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery (completed 2026-08-26)
 - [x] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection (completed 2026-08-26)
-- [ ] **Phase 6: Support, Localization, PWA & Hardening** - Six languages, help surfaces, offline resilience, WCAG/perf gates across whole journey
+- [x] **Phase 6: Support, Localization, PWA & Hardening** - Six languages, help surfaces, offline resilience, WCAG/perf gates across whole journey (completed 2026-08-26)
 
 ## Phase Details
 
@@ -202,21 +202,21 @@ Plans:
 4. Core Web Vitals measure "Good" on throttled 3G / mid-tier Android profiles in Playwright tests
 5. The app installs as a PWA; previously visited pages and saved drafts remain usable offline; queued autosave flushes on reconnect; navigations never serve a stale shell after redeploy
 
-**Plans:** 5 plans
+**Plans:** 5/5 plans complete
 Plans:
 **Wave 1**
 
-- [ ] 06-01-PLAN.md — PWA & Service Worker Foundation, Offline Resilience & Network Transition Engine
-- [ ] 06-02-PLAN.md — Six-Language Localization Dictionaries, Dynamic Indic Font Loader & Logical CSS
+- [x] 06-01-PLAN.md — PWA & Service Worker Foundation, Offline Resilience & Network Transition Engine
+- [x] 06-02-PLAN.md — Six-Language Localization Dictionaries, Dynamic Indic Font Loader & Logical CSS
 
 **Wave 2** _(blocked on Wave 1 completion)_
 
-- [ ] 06-03-PLAN.md — Persistent Help & Support Escape Hatch, Searchable FAQ Sheet & Contextual Jargon Tooltips
-- [ ] 06-04-PLAN.md — Privacy Trust Architecture, Sensitive Field Micro-Cues & Public Device Storage Purge
+- [x] 06-03-PLAN.md — Persistent Help & Support Escape Hatch, Searchable FAQ Sheet & Contextual Jargon Tooltips
+- [x] 06-04-PLAN.md — Privacy Trust Architecture, Sensitive Field Micro-Cues & Public Device Storage Purge
 
 **Wave 3** _(blocked on Wave 2 completion)_
 
-- [ ] 06-05-PLAN.md — Assistive Technology Focus Management, A11yAnnouncer Live Regions, Whole-Journey axe-core & 3G CWV Hardening Gates
+- [x] 06-05-PLAN.md — Assistive Technology Focus Management, A11yAnnouncer Live Regions, Whole-Journey axe-core & 3G CWV Hardening Gates
 
 **UI hint**: yes
 
@@ -225,11 +225,11 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
-| Phase                                                 | Plans Complete | Status      | Completed  |
-| ----------------------------------------------------- | -------------- | ----------- | ---------- |
-| 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed   | Phase 1    |
-| 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed   | Phase 2    |
-| 3. Document Upload Pipeline                           | 4/4            | Completed   | 2026-08-26 |
-| 4. Review, Payment & Submission                       | 4/4            | Completed   | 2026-08-26 |
-| 5. Confirmation, Tracking & Recovery                  | 4/4            | Completed   | 2026-08-26 |
-| 6. Support, Localization, PWA & Hardening             | 0/5            | In progress | -          |
+| Phase                                                 | Plans Complete | Status    | Completed  |
+| ----------------------------------------------------- | -------------- | --------- | ---------- |
+| 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed | Phase 1    |
+| 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed | Phase 2    |
+| 3. Document Upload Pipeline                           | 4/4            | Completed | 2026-08-26 |
+| 4. Review, Payment & Submission                       | 4/4            | Completed | 2026-08-26 |
+| 5. Confirmation, Tracking & Recovery                  | 4/4            | Completed | 2026-08-26 |
+| 6. Support, Localization, PWA & Hardening             | 5/5            | Completed | 2026-08-26 |

@@ -35,9 +35,13 @@ describe('DemoWizard Integration', () => {
     };
 
     const controller = createAutosaveController({ flush, delayMs: 100 });
-    actor.subscribe(() => controller.scheduleEdit());
+    let isResetting = false;
+    actor.subscribe(() => {
+      if (!isResetting) controller.scheduleEdit();
+    });
 
     const resetDraft = () => {
+      isResetting = true;
       clearAnswersEnvelope();
       actor.send({ type: 'RESET' });
     };

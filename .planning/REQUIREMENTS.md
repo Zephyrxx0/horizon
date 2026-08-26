@@ -74,26 +74,26 @@ Single milestone — full PRD scope plus research-identified table-stakes gaps. 
 
 ### Support & Trust
 
-- [ ] **SUPRT-01**: Every screen offers a help escape hatch (FAQ/help section) reachable without losing progress
-- [ ] **SUPRT-02**: Contextual tooltips with examples explain jargon fields (e.g., "date of issue")
-- [ ] **TRUST-01**: Plain-language privacy/trust messaging explains what happens to user data before they enter it
+- [x] **SUPRT-01**: Every screen offers a help escape hatch (FAQ/help section) reachable without losing progress
+- [x] **SUPRT-02**: Contextual tooltips with examples explain jargon fields (e.g., "date of issue")
+- [x] **TRUST-01**: Plain-language privacy/trust messaging explains what happens to user data before they enter it
 
 ### Localization
 
-- [ ] **I18N-01**: Full UI available in English, Hindi, Tamil, Telugu, Kannada, and Marathi with language switcher
-- [ ] **I18N-02**: Translations cover all stages, errors, help content, statuses, and emails/SMS templates
-- [ ] **I18N-03**: Layout uses logical CSS properties (RTL-ready structure) and renders Indic scripts correctly
+- [x] **I18N-01**: Full UI available in English, Hindi, Tamil, Telugu, Kannada, and Marathi with language switcher
+- [x] **I18N-02**: Translations cover all stages, errors, help content, statuses, and emails/SMS templates
+- [x] **I18N-03**: Layout uses logical CSS properties (RTL-ready structure) and renders Indic scripts correctly
 
 ### Accessibility & Performance
 
-- [ ] **A11Y-01**: Entire journey passes WCAG 2.1 AA (axe CI gate: zero violations) including keyboard navigation and screen reader support
-- [ ] **A11Y-02**: Step changes manage focus and announce progress to assistive technology
-- [ ] **PERF-01**: Core Web Vitals "Good" on throttled 3G/mid-tier Android profiles in Playwright tests
+- [x] **A11Y-01**: Entire journey passes WCAG 2.1 AA (axe CI gate: zero violations) including keyboard navigation and screen reader support
+- [x] **A11Y-02**: Step changes manage focus and announce progress to assistive technology
+- [x] **PERF-01**: Core Web Vitals "Good" on throttled 3G/mid-tier Android profiles in Playwright tests
 
 ### PWA & Offline
 
-- [ ] **PWA-01**: App installs as a PWA with service-worker caching configured network-first for navigations (no stale-shell bug)
-- [ ] **PWA-02**: Previously visited pages and saved drafts remain usable offline; queue-safe autosave resumes on reconnect
+- [x] **PWA-01**: App installs as a PWA with service-worker caching configured network-first for navigations (no stale-shell bug)
+- [x] **PWA-02**: Previously visited pages and saved drafts remain usable offline; queue-safe autosave resumes on reconnect
 
 ## v2 Requirements
 
@@ -162,27 +162,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TRCK-03     | Phase 5 | Complete |
 | STATE-05    | Phase 5 | Complete |
 | STATE-06    | Phase 5 | Complete |
-| SUPRT-01    | Phase 6 | Pending  |
-| SUPRT-02    | Phase 6 | Pending  |
-| TRUST-01    | Phase 6 | Pending  |
-| I18N-01     | Phase 6 | Pending  |
-| I18N-02     | Phase 6 | Pending  |
-| I18N-03     | Phase 6 | Pending  |
-| A11Y-01     | Phase 6 | Pending  |
-| A11Y-02     | Phase 6 | Pending  |
-| PERF-01     | Phase 6 | Pending  |
-| PWA-01      | Phase 6 | Pending  |
-| PWA-02      | Phase 6 | Pending  |
+| SUPRT-01    | Phase 6 | Complete |
+| SUPRT-02    | Phase 6 | Complete |
+| TRUST-01    | Phase 6 | Complete |
+| I18N-01     | Phase 6 | Complete |
+| I18N-02     | Phase 6 | Complete |
+| I18N-03     | Phase 6 | Complete |
+| A11Y-01     | Phase 6 | Complete |
+| A11Y-02     | Phase 6 | Complete |
+| PERF-01     | Phase 6 | Complete |
+| PWA-01      | Phase 6 | Complete |
+| PWA-02      | Phase 6 | Complete |
 
 **Coverage:**
 
 - v1 requirements: 52
 - Mapped to phases: 52
 - Unmapped: none ✓
-- **Completed (phases 1–5):** 41/52 ✓
-- **Pending (phase 6):** 11/52 (assigned, not yet started)
+- **Completed (phases 1–6):** 52/52 ✓
+- **Pending:** 0/52 (all complete)
 
 ---
 
 _Requirements defined: 2026-08-25_
-_Last updated: 2026-08-26 — traceability updated after milestone audit (41/52 complete, 11 pending Phase 6)_
+_Last updated: 2026-08-26 — all 52 requirements verified and complete after Phase 6 verification_
