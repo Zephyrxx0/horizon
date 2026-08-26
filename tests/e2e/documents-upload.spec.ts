@@ -132,6 +132,8 @@ test.describe('Phase 3: Document Upload Pipeline (E2E)', () => {
     await page.getByRole('button', { name: /Continue to Review & Payment/i }).click();
 
     // Verify reached Stage 4
-    await expect(page.getByText('Stage 4: Review & Payment')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /Review Application & Complete Payment/i }),
+    ).toBeVisible();
   });
 });

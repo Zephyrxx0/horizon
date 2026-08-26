@@ -10,6 +10,12 @@ import { ResumeBanner } from './components/ResumeBanner';
 import { VisaSelectionScreen } from './features/visa';
 import { PersonalDetailsScreen } from './features/personal';
 import { DocumentsScreen } from './features/documents';
+import {
+  ReviewScreen,
+  EditingBanner,
+  ReceiptCard,
+  type PaymentReceiptData,
+} from './features/review';
 import { Clock } from 'lucide-react';
 
 export default function App() {
@@ -61,11 +67,14 @@ export default function App() {
     },
   ];
 
+  const receipt = answers.receipt as PaymentReceiptData | undefined;
+
   return (
     <ToastProvider>
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
         <SkipLink />
         <AppHeader />
+        <EditingBanner />
 
         <main
           id="main-content"
@@ -102,25 +111,22 @@ export default function App() {
 
           {currentStepId === 'documents' && <DocumentsScreen />}
 
-          {currentStepId === 'review-payment' && (
-            <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">
-              <h2 className="text-xl font-bold text-[var(--color-ink)]">
-                Stage 4: Review & Payment
-              </h2>
-              <p className="text-sm text-[var(--color-ink-muted)]">
-                Payment flow will be fully wired in Phase 4.
-              </p>
-            </div>
-          )}
+          {currentStepId === 'review-payment' && <ReviewScreen />}
 
           {currentStepId === 'confirmation' && (
-            <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">
-              <h2 className="text-xl font-bold text-[var(--color-ink)]">
-                Stage 5: Confirmation & Tracking
-              </h2>
-              <p className="text-sm text-[var(--color-ink-muted)]">
-                Tracking flow will be fully wired in Phase 5.
-              </p>
+            <div className="space-y-6">
+              {receipt ? (
+                <ReceiptCard receipt={receipt} />
+              ) : (
+                <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">
+                  <h2 className="text-xl font-bold text-[var(--color-ink)]">
+                    Stage 5: Confirmation & Tracking
+                  </h2>
+                  <p className="text-sm text-[var(--color-ink-muted)]">
+                    Tracking flow will be fully wired in Phase 5.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </main>
