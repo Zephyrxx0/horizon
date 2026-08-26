@@ -202,7 +202,22 @@ Plans:
 4. Core Web Vitals measure "Good" on throttled 3G / mid-tier Android profiles in Playwright tests
 5. The app installs as a PWA; previously visited pages and saved drafts remain usable offline; queued autosave flushes on reconnect; navigations never serve a stale shell after redeploy
 
-**Plans**: TBD
+**Plans:** 5 plans
+Plans:
+**Wave 1**
+
+- [ ] 06-01-PLAN.md — PWA & Service Worker Foundation, Offline Resilience & Network Transition Engine
+- [ ] 06-02-PLAN.md — Six-Language Localization Dictionaries, Dynamic Indic Font Loader & Logical CSS
+
+**Wave 2** _(blocked on Wave 1 completion)_
+
+- [ ] 06-03-PLAN.md — Persistent Help & Support Escape Hatch, Searchable FAQ Sheet & Contextual Jargon Tooltips
+- [ ] 06-04-PLAN.md — Privacy Trust Architecture, Sensitive Field Micro-Cues & Public Device Storage Purge
+
+**Wave 3** _(blocked on Wave 2 completion)_
+
+- [ ] 06-05-PLAN.md — Assistive Technology Focus Management, A11yAnnouncer Live Regions, Whole-Journey axe-core & 3G CWV Hardening Gates
+
 **UI hint**: yes
 
 ## Progress
@@ -217,4 +232,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Document Upload Pipeline                           | 4/4            | Completed   | 2026-08-26 |
 | 4. Review, Payment & Submission                       | 4/4            | Completed   | 2026-08-26 |
 | 5. Confirmation, Tracking & Recovery                  | 4/4            | Completed   | 2026-08-26 |
-| 6. Support, Localization, PWA & Hardening             | 0/?            | Not started | -          |
+| 6. Support, Localization, PWA & Hardening             | 0/5            | In progress | -          |
