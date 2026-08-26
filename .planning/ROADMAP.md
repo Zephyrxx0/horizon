@@ -110,7 +110,7 @@ Plans:
 4. Sample/template downloads are available where applicable
 5. Attached documents persist across reloads and app restarts inside the real journey (IndexedDB-backed), surviving flaky sessions
 
-**Plans:** 4 plans
+**Plans:** 4/4 plans complete
 Plans:
 **Wave 1**
 
