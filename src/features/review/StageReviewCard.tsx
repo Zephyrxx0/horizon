@@ -45,9 +45,9 @@ export function StageReviewCard({
               <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-bold bg-[#EEF0FB] text-[var(--color-indigo-primary)]">
                 Stage {stageNumber}
               </span>
-              <h3 className="text-base sm:text-lg font-bold text-[var(--color-ink)]">
+              <h2 className="text-base sm:text-lg font-bold text-[var(--color-ink)]">
                 {stageTitle}
-              </h3>
+              </h2>
             </div>
             {stageSubtitle && (
               <p className="text-xs text-[var(--color-ink-muted)]">{stageSubtitle}</p>
@@ -84,9 +84,9 @@ export function StageReviewCard({
         {/* Document Attachments List (Stage 3) */}
         {docEntries.length > 0 && (
           <div className="space-y-2.5 pt-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-muted)]">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-muted)]">
               Attached Documents ({docEntries.length})
-            </h4>
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {docEntries.map(([key, doc]) => (
                 <div
