@@ -132,3 +132,22 @@ export function checkForDuplicateApplication(passportNumber: string): {
 
   return { isDuplicate: false };
 }
+
+/**
+ * Retrieves a single submitted application record by reference number.
+ */
+export function getSubmittedApplication(
+  referenceNumber: string,
+): ApplicationSubmissionRecord | undefined {
+  const normalized = referenceNumber.trim().toUpperCase();
+
+  // Check seeded data
+  const seeded = Object.values(SEEDED_DUPLICATE_PASSPORTS).find(
+    (r) => r.referenceNumber.toUpperCase() === normalized,
+  );
+  if (seeded) return seeded;
+
+  // Check local storage
+  const stored = getStoredSubmissions();
+  return stored.find((r) => r.referenceNumber.trim().toUpperCase() === normalized);
+}

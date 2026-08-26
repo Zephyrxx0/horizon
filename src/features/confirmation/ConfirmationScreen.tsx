@@ -9,7 +9,8 @@ import { ReceiptCard } from '../review/ReceiptCard';
 import { generateReferenceNumber } from './reference';
 import { saveSubmittedApplication } from '../../services/mock/duplicate';
 import { Button } from '../../components/ui/Button';
-import { RotateCcw, Sparkles } from 'lucide-react';
+import { QRCodeGenerator } from '../../components/ui/QRCodeGenerator';
+import { RotateCcw, QrCode as QrIcon } from 'lucide-react';
 
 import type { PaymentReceiptData } from '../review/types';
 
@@ -86,12 +87,27 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
         submittedAt={receipt?.paidAt}
       />
 
-      {/* 2. Official Fee Payment Receipt Card */}
+      {/* 2. Downloadable Official QR Code Travel Pass */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-1.5 px-1">
+          <QrIcon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" aria-hidden="true" />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Electronic Travel Pass & Airport QR Code
+          </h3>
+        </div>
+        <QRCodeGenerator
+          value={`https://indianvisaonline.gov.in/verify?ref=${referenceNumber}&pass=${passportNumber}`}
+          title="Digital e-Visa Verification Pass"
+          subtitle="Scan at designated airport immigration counters"
+          size={160}
+        />
+      </div>
+
+      {/* 3. Official Fee Payment Receipt Card */}
       {receipt && (
         <div className="space-y-2">
-          <div className="flex items-center gap-2 px-1">
-            <Sparkles className="w-4 h-4 text-[var(--color-indigo-primary)]" aria-hidden="true" />
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--color-ink-muted)]">
+          <div className="px-1">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
               Payment & Fee Receipt
             </h3>
           </div>
@@ -99,10 +115,10 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
         </div>
       )}
 
-      {/* 3. Live Status Timeline & Demo Controller */}
+      {/* 4. Live Status Timeline & Demo Controller */}
       <StatusTimelineCard referenceNumber={referenceNumber} />
 
-      {/* 4. Visa-Specific Preparation & Document Checklist */}
+      {/* 5. Visa-Specific Preparation & Document Checklist */}
       <InterviewChecklistCard
         referenceNumber={referenceNumber}
         applicantName={applicantName}
@@ -110,7 +126,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
         destinationCountry={destinationCountry}
       />
 
-      {/* 5. Simulated Notifications Preview */}
+      {/* 6. Simulated Notifications Preview */}
       <SentNotificationsCard
         referenceNumber={referenceNumber}
         email={email}
@@ -119,19 +135,19 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
         visaType={visaType}
       />
 
-      {/* 6. Footer Navigation & Reset Action */}
-      <div className="pt-4 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-[var(--color-ink-muted)] text-center sm:text-left">
+      {/* 7. Footer Navigation & Reset Action */}
+      <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center sm:text-left">
           Need to apply for a family member or another destination?
         </p>
 
         <Button
           variant="outline"
           onClick={handleStartNewApplication}
-          className="w-full sm:w-auto min-h-[48px] px-6 text-sm font-semibold flex items-center justify-center gap-2 border-slate-300 hover:bg-slate-50"
+          className="w-full sm:w-auto min-h-[40px] px-4 text-xs font-medium flex items-center justify-center gap-2"
           data-testid="start-new-application-btn"
         >
-          <RotateCcw className="w-4 h-4" aria-hidden="true" />
+          <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Start a New Visa Application</span>
         </Button>
       </div>
