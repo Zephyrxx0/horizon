@@ -114,16 +114,16 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — Document Requirements Catalog, Quality Heuristics & Storage Layer
+- [x] 03-01-PLAN.md — Document Requirements Catalog, Quality Heuristics & Storage Layer
 
 **Wave 2** _(blocked on Wave 1 completion)_
 
-- [ ] 03-02-PLAN.md — Document Slot Card, Sub-Slots, Dual Camera/File Input & Quality Warning
-- [ ] 03-03-PLAN.md — Sample Guidance Sheet, Document Preview Sheet & Template Generator
+- [x] 03-02-PLAN.md — Document Slot Card, Sub-Slots, Dual Camera/File Input & Quality Warning
+- [x] 03-03-PLAN.md — Sample Guidance Sheet, Document Preview Sheet & Template Generator
 
 **Wave 3** _(blocked on Wave 2 completion)_
 
-- [ ] 03-04-PLAN.md — Documents Screen, Wizard Topology Integration & E2E Verification
+- [x] 03-04-PLAN.md — Documents Screen, Wizard Topology Integration & E2E Verification
 
 **UI hint**: yes
 
