@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useSaveState } from './features/wizard/context';
 import { deriveStepStatus, deriveProgress } from './features/wizard/selectors';
 import { SkipLink, AppHeader, OfflineBanner, FloatingHelpButton } from './components/AppShell';
+import { A11yAnnouncer, announcePolite } from './components/A11yAnnouncer';
+import { focusHeadingOrFirstElement } from './components/ui/focus';
 import { ProgressStepper, type StepStatus } from './components/ui/ProgressStepper';
 import { SaveIndicator } from './components/SaveIndicator';
 import { ToastProvider, useToast } from './components/ui/Toast';
@@ -17,6 +19,16 @@ import { ConfirmationScreen, TrackingModal, DraftBackupModal } from './features/
 import { FaqSheet } from './features/support';
 import { ClearDataModal } from './features/trust';
 import { Clock } from 'lucide-react';
+
+const STEP_ANNOUNCEMENTS: Record<string, string> = {
+  'visa-selection': 'Navigated to Step 1: Visa Selection',
+  'personal-identity': 'Navigated to Step 2: Personal Details — Identity',
+  'personal-contact': 'Navigated to Step 2: Personal Details — Contact',
+  'personal-details': 'Navigated to Step 2: Personal Details — Trip Specifics',
+  documents: 'Navigated to Step 3: Documents Upload',
+  'review-payment': 'Navigated to Step 4: Review and Payment',
+  confirmation: 'Navigated to Step 5: Application Confirmation',
+};
 
 function NetworkSyncHandler() {
   const { show } = useToast();
@@ -45,6 +57,16 @@ export default function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isClearDataOpen, setIsClearDataOpen] = useState(false);
   const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
+
+  // Announce step change to assistive technology and shift focus to top heading (D-15 / A11Y-02)
+  useEffect(() => {
+    const msg = STEP_ANNOUNCEMENTS[currentStepId] || `Navigated to ${currentStepId}`;
+    announcePolite(msg);
+    const timer = setTimeout(() => {
+      focusHeadingOrFirstElement();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [currentStepId]);
 
   // Derive progress & time remaining
   const { percent, minutesRemaining } = deriveProgress(answers);
@@ -92,6 +114,7 @@ export default function App() {
       <NetworkSyncHandler />
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
         <SkipLink />
+        <A11yAnnouncer />
         <AppHeader
           onOpenHelp={() => setIsHelpOpen(true)}
           onOpenTracking={() => setIsTrackingOpen(true)}

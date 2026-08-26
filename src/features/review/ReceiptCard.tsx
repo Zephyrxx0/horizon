@@ -77,7 +77,7 @@ export function ReceiptCard({ receipt, onPrint, className = '' }: ReceiptCardPro
 
         <div>
           <span className="font-semibold text-[var(--color-ink-muted)]">Status</span>
-          <p className="inline-flex items-center gap-1 font-bold text-emerald-600 text-xs mt-0.5">
+          <p className="inline-flex items-center gap-1 font-bold text-emerald-700 text-xs mt-0.5">
             <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
             SUCCESSFUL
           </p>

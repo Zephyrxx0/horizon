@@ -67,7 +67,7 @@ export function PaymentScenarioBar({ onScenarioChange, className = '' }: Payment
           onClick={() => handleScenarioChange('success')}
           className={`px-2.5 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors min-h-[32px] ${
             activeScenario === 'success'
-              ? 'bg-emerald-600 text-white shadow-xs'
+              ? 'bg-emerald-700 text-white shadow-xs'
               : 'bg-white border border-amber-200 text-amber-900 hover:bg-amber-100'
           }`}
           aria-pressed={activeScenario === 'success'}
@@ -81,7 +81,7 @@ export function PaymentScenarioBar({ onScenarioChange, className = '' }: Payment
           onClick={() => handleScenarioChange('declined')}
           className={`px-2.5 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors min-h-[32px] ${
             activeScenario === 'declined'
-              ? 'bg-rose-600 text-white shadow-xs'
+              ? 'bg-rose-700 text-white shadow-xs'
               : 'bg-white border border-amber-200 text-amber-900 hover:bg-amber-100'
           }`}
           aria-pressed={activeScenario === 'declined'}
@@ -95,7 +95,7 @@ export function PaymentScenarioBar({ onScenarioChange, className = '' }: Payment
           onClick={() => handleScenarioChange('timeout')}
           className={`px-2.5 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors min-h-[32px] ${
             activeScenario === 'timeout'
-              ? 'bg-amber-600 text-white shadow-xs'
+              ? 'bg-amber-800 text-white shadow-xs'
               : 'bg-white border border-amber-200 text-amber-900 hover:bg-amber-100'
           }`}
           aria-pressed={activeScenario === 'timeout'}
@@ -109,7 +109,7 @@ export function PaymentScenarioBar({ onScenarioChange, className = '' }: Payment
           onClick={() => handleScenarioChange('network_error')}
           className={`px-2.5 py-1.5 rounded-md font-semibold flex items-center gap-1 transition-colors min-h-[32px] ${
             activeScenario === 'network_error'
-              ? 'bg-red-700 text-white shadow-xs'
+              ? 'bg-red-800 text-white shadow-xs'
               : 'bg-white border border-amber-200 text-amber-900 hover:bg-amber-100'
           }`}
           aria-pressed={activeScenario === 'network_error'}

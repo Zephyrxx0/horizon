@@ -72,8 +72,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
   };
 
   return (
-    <div
-      role="main"
+    <section
       aria-label="Application Confirmation Stage"
       className={`max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn ${className}`}
       data-testid="stage5-confirmation-screen"
@@ -136,6 +135,6 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
           <span>Start a New Visa Application</span>
         </Button>
       </div>
-    </div>
+    </section>
   );
 };

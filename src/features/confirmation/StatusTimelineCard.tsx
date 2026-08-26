@@ -232,7 +232,7 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
                           ? 'bg-blue-100 text-blue-800'
                           : isActionRequired
                             ? 'bg-amber-100 text-amber-800'
-                            : 'bg-slate-100 text-slate-500'
+                            : 'bg-slate-100 text-slate-700'
                     }`}
                   >
                     {stage.date}

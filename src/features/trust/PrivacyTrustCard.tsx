@@ -56,9 +56,9 @@ export const PrivacyTrustCard: React.FC<PrivacyTrustCardProps> = ({
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-[var(--color-ink)]">
+              <h2 className="text-sm sm:text-base font-bold text-[var(--color-ink)]">
                 Your Data & Privacy are Protected
-              </h3>
+              </h2>
               <p className="text-xs text-[var(--color-ink-muted)]">
                 Built with local-first security principles for peace of mind
               </p>
@@ -86,9 +86,9 @@ export const PrivacyTrustCard: React.FC<PrivacyTrustCardProps> = ({
                 )}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-[var(--color-ink)] leading-tight">
+                <h3 className="text-xs font-bold text-[var(--color-ink)] leading-tight">
                   {pillar.title}
-                </h4>
+                </h3>
                 <p className="text-[11px] text-[var(--color-ink-muted)] mt-0.5 leading-snug">
                   {pillar.description}
                 </p>
