@@ -131,17 +131,25 @@ export function deriveStepStatus(
     return 'incomplete';
   }
 
-  // Stage 4: Review & Payment (Phase 4 placeholder)
+  // Stage 4: Review & Payment
   if (stepId === 'review-payment') {
+    const docsComplete = deriveStepStatus('documents', answers) === 'complete';
     const isPaid = Boolean(answers.paymentCompleted);
+
+    if (Boolean(answers.declarationConfirmed || answers.paymentCompleted) && !docsComplete) {
+      return 'needs-attention';
+    }
+
     if (isCurrent) return 'current';
-    return isPaid ? 'complete' : 'incomplete';
+    if (docsComplete && isPaid) return 'complete';
+    return 'incomplete';
   }
 
-  // Stage 5: Confirmation (Phase 5 placeholder)
+  // Stage 5: Confirmation
   if (stepId === 'confirmation') {
+    const isSubmitted = Boolean(answers.submitted);
     if (isCurrent) return 'current';
-    return answers.submitted ? 'complete' : 'incomplete';
+    return isSubmitted ? 'complete' : 'incomplete';
   }
 
   return 'incomplete';
@@ -204,4 +212,8 @@ export function deriveProgress(answers: Record<string, unknown>) {
     percent,
     minutesRemaining: minutesRemaining === 0 && completed < total ? 1 : minutesRemaining,
   };
+}
+
+export function isReviewPaymentStepValid(answers: Record<string, unknown>): boolean {
+  return Boolean(answers.declarationConfirmed) && Boolean(answers.paymentCompleted);
 }

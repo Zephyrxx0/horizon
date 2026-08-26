@@ -9,6 +9,7 @@ import {
   validateIdentityStep,
   validateContactStep,
   validateVisaSpecificStep,
+  validateReviewPaymentStep,
   getConstructiveError,
 } from './validators';
 
@@ -134,6 +135,17 @@ describe('Wizard Validators', () => {
         stayAddress: 'Grand Hotel, NYC',
       };
       expect(Object.keys(validateVisaSpecificStep(validTourist))).toHaveLength(0);
+    });
+
+    it('validates Stage 4 (Review & Payment)', () => {
+      expect(Object.keys(validateReviewPaymentStep({}))).toContain('declarationConfirmed');
+      expect(
+        Object.keys(
+          validateReviewPaymentStep({
+            declarationConfirmed: true,
+          }),
+        ),
+      ).toHaveLength(0);
     });
   });
 });

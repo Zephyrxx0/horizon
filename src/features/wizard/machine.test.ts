@@ -68,4 +68,40 @@ describe('wizardMachine', () => {
     expect(actor2.getSnapshot().context.answers.passportNumber).toBe('AA1234567');
     expect(actor2.getSnapshot().context.currentStepId).toBe('personal-identity');
   });
+
+  it('handles RETURN_TO_REVIEW event and resets returnToReview flag', () => {
+    const actor = createActor(wizardMachine).start();
+    actor.send({ type: 'GOTO', stepId: 'personal-identity', returnToReview: true });
+    expect(actor.getSnapshot().context.returnToReview).toBe(true);
+
+    actor.send({ type: 'RETURN_TO_REVIEW' });
+    expect(actor.getSnapshot().context.currentStepId).toBe('review-payment');
+    expect(actor.getSnapshot().context.returnToReview).toBe(false);
+  });
+
+  it('handles SUBMIT_PAYMENT_SUCCESS and transitions to confirmation', () => {
+    const actor = createActor(wizardMachine).start();
+    const mockReceipt = {
+      transactionId: 'PAY-123456',
+      totalAmount: 8500,
+    };
+
+    actor.send({ type: 'SUBMIT_PAYMENT_SUCCESS', receipt: mockReceipt });
+    const snapshot = actor.getSnapshot();
+    expect(snapshot.context.currentStepId).toBe('confirmation');
+    expect(snapshot.context.answers.paymentCompleted).toBe(true);
+    expect(snapshot.context.answers.submitted).toBe(true);
+    expect(snapshot.context.answers.receipt).toEqual(mockReceipt);
+  });
+
+  it('locks answers against changes after submission (read-only draft)', () => {
+    const actor = createActor(wizardMachine).start();
+    actor.send({ type: 'SUBMIT_PAYMENT_SUCCESS', receipt: { transactionId: 'PAY-1' } });
+
+    actor.send({ type: 'ANSWER_CHANGED', fieldId: 'firstName', value: 'ModifiedName' });
+    expect(actor.getSnapshot().context.answers.firstName).toBeUndefined();
+
+    actor.send({ type: 'ANSWERS_BATCHED', answers: { lastName: 'ModifiedLast' } });
+    expect(actor.getSnapshot().context.answers.lastName).toBeUndefined();
+  });
 });

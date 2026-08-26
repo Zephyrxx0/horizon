@@ -50,12 +50,15 @@ export const JOURNEY_STEPS: readonly JourneyStepItem[] = [
 export interface WizardMachineContext {
   answers: Record<string, unknown>;
   currentStepId: StepId;
+  returnToReview?: boolean;
 }
 
 export type WizardEvent =
   | { type: 'ANSWER_CHANGED'; fieldId: string; value: unknown }
   | { type: 'ANSWERS_BATCHED'; answers: Record<string, unknown> }
-  | { type: 'GOTO'; stepId: StepId }
+  | { type: 'GOTO'; stepId: StepId; returnToReview?: boolean }
+  | { type: 'RETURN_TO_REVIEW' }
+  | { type: 'SUBMIT_PAYMENT_SUCCESS'; receipt: Record<string, unknown> }
   | { type: 'NEXT' }
   | { type: 'BACK' }
   | { type: 'RESET' };

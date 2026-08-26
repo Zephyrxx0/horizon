@@ -155,6 +155,10 @@ export function getConstructiveError(field: string, value?: unknown): string {
       return 'Employer or sponsoring company name is required.';
     case 'jobTitle':
       return 'Job designation or role title is required.';
+    case 'declarationConfirmed':
+      return 'Please confirm the declaration before proceeding to payment.';
+    case 'paymentMethod':
+      return 'Please choose a payment method (UPI, Card, or Netbanking).';
     default:
       return 'This field is required. Please provide a valid value to continue.';
   }
@@ -343,6 +347,21 @@ export function validateDocumentsStep(answers: Record<string, unknown>): Record<
         errors[slot.id] = `${slot.title}: Image warning must be acknowledged or photo retaken.`;
       }
     }
+  }
+
+  return errors;
+}
+
+/**
+ * Validates Stage 4 (Review & Payment)
+ */
+export function validateReviewPaymentStep(
+  answers: Record<string, unknown>,
+): Record<string, string> {
+  const errors: Record<string, string> = {};
+
+  if (!answers.declarationConfirmed) {
+    errors.declarationConfirmed = getConstructiveError('declarationConfirmed');
   }
 
   return errors;

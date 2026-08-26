@@ -40,6 +40,8 @@ export const wizardMachine = setup({
     setAnswer: assign({
       answers: ({ context, event }) => {
         if (event.type !== 'ANSWER_CHANGED') return context.answers;
+        // Lock submitted draft
+        if (context.answers.submitted === true) return context.answers;
         return {
           ...context.answers,
           [event.fieldId]: event.value,
@@ -49,6 +51,7 @@ export const wizardMachine = setup({
     setAnswersBatched: assign({
       answers: ({ context, event }) => {
         if (event.type !== 'ANSWERS_BATCHED') return context.answers;
+        if (context.answers.submitted === true) return context.answers;
         return {
           ...context.answers,
           ...event.answers,
@@ -60,6 +63,27 @@ export const wizardMachine = setup({
         if (event.type !== 'GOTO') return 'visa-selection';
         return event.stepId;
       },
+      returnToReview: ({ context, event }) => {
+        if (event.type !== 'GOTO') return context.returnToReview;
+        return event.returnToReview !== undefined ? event.returnToReview : context.returnToReview;
+      },
+    }),
+    returnToReview: assign({
+      currentStepId: () => 'review-payment' as StepId,
+      returnToReview: () => false,
+    }),
+    submitPaymentSuccess: assign({
+      answers: ({ context, event }) => {
+        if (event.type !== 'SUBMIT_PAYMENT_SUCCESS') return context.answers;
+        return {
+          ...context.answers,
+          paymentCompleted: true,
+          submitted: true,
+          receipt: event.receipt,
+        };
+      },
+      currentStepId: () => 'confirmation' as StepId,
+      returnToReview: () => false,
     }),
     nextStep: assign({
       currentStepId: ({ context }) => getNextStepId(context.currentStepId),
@@ -70,6 +94,7 @@ export const wizardMachine = setup({
     resetAll: assign({
       answers: () => ({}),
       currentStepId: () => 'visa-selection' as StepId,
+      returnToReview: () => false,
     }),
   },
 }).createMachine({
@@ -78,6 +103,7 @@ export const wizardMachine = setup({
   context: {
     answers: {},
     currentStepId: 'visa-selection',
+    returnToReview: false,
   },
   states: {
     idle: {
@@ -90,6 +116,12 @@ export const wizardMachine = setup({
         },
         GOTO: {
           actions: 'setStep',
+        },
+        RETURN_TO_REVIEW: {
+          actions: 'returnToReview',
+        },
+        SUBMIT_PAYMENT_SUCCESS: {
+          actions: 'submitPaymentSuccess',
         },
         NEXT: {
           actions: 'nextStep',

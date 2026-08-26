@@ -4,6 +4,7 @@ import {
   deriveStepStatuses,
   getFirstIncompleteStep,
   deriveProgress,
+  isReviewPaymentStepValid,
 } from './selectors';
 
 describe('Wizard Step Selectors & Resumption (STATE-04)', () => {
@@ -104,5 +105,17 @@ describe('Wizard Step Selectors & Resumption (STATE-04)', () => {
     expect(map['personal-contact']).toBe('current');
     expect(map['personal-details']).toBe('incomplete');
     expect(map['documents']).toBe('incomplete');
+    expect(map['review-payment']).toBe('incomplete');
+  });
+
+  it('correctly derives review-payment status and step validity', () => {
+    expect(isReviewPaymentStepValid({})).toBe(false);
+    expect(isReviewPaymentStepValid({ declarationConfirmed: true })).toBe(false);
+    expect(isReviewPaymentStepValid({ declarationConfirmed: true, paymentCompleted: true })).toBe(
+      true,
+    );
+
+    const statusNeedsAttention = deriveStepStatus('review-payment', { declarationConfirmed: true });
+    expect(statusNeedsAttention).toBe('needs-attention');
   });
 });
