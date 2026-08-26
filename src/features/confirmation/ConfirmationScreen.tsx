@@ -42,7 +42,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
 
   // Ensure deterministic reference number
   const referenceNumber = useMemo(() => {
-    if (receipt?.reference) return receipt.reference;
+    if (receipt?.referenceNumber) return receipt.referenceNumber;
     if (answers.referenceNumber && typeof answers.referenceNumber === 'string') {
       return answers.referenceNumber;
     }
@@ -59,7 +59,7 @@ export const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ classNam
     });
     return generated;
   }, [
-    receipt?.reference,
+    receipt?.referenceNumber,
     answers.referenceNumber,
     passportNumber,
     applicantName,
