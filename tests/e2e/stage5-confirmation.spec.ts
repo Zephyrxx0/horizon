@@ -212,6 +212,8 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     // Click "Track Existing Application" to test pre-filled lookup
     await page.getByTestId('track-existing-app-btn').click();
     await expect(page.getByText('Track Your Application Status')).toBeVisible();
-    await expect(page.getByLabel('Track Your Application Status').getByText('Vikram Seth')).toBeVisible();
+    await expect(
+      page.getByLabel('Track Your Application Status').getByText('Vikram Seth'),
+    ).toBeVisible();
   });
 });

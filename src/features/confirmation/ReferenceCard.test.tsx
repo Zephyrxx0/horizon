@@ -67,4 +67,3 @@ describe('ReferenceCard Component', () => {
     expect(results).toHaveNoViolations();
   });
 });
-

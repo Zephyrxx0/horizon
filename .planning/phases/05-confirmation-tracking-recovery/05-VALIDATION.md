@@ -37,8 +37,8 @@ validated: 2026-08-26
 
 ## Per-Task Verification Map
 
-| Task ID      | Plan | Wave | Requirement                   | Threat Ref | Secure Behavior                                                                         | Test Type       | Automated Command                                                                                                                     | File Exists | Status  |
-| ------------ | ---- | ---- | ----------------------------- | ---------- | --------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------- |
+| Task ID      | Plan | Wave | Requirement                   | Threat Ref | Secure Behavior                                                                         | Test Type       | Automated Command                                                                                                                     | File Exists | Status   |
+| ------------ | ---- | ---- | ----------------------------- | ---------- | --------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------- |
 | **05-01-01** | 01   | 1    | `CNFRM-01`, `TRCK-03`         | —          | Reference number generation, validation, formatters & share utilities                   | unit            | `pnpm vitest run src/features/confirmation/reference.test.ts src/features/confirmation/share.test.ts`                                 | ✅          | ✅ green |
 | **05-01-02** | 01   | 1    | `STATE-05`, `STATE-06`        | —          | Draft backup code generation, snapshot registry & duplicate lookup logic                | unit            | `pnpm vitest run src/services/mock/backup.test.ts src/services/mock/duplicate.test.ts`                                                | ✅          | ✅ green |
 | **05-02-01** | 02   | 2    | `CNFRM-01`, `TRCK-03`         | —          | Reference number card with 1-tap copy and WhatsApp/Web Share                            | component       | `pnpm vitest run src/features/confirmation/ReferenceCard.test.tsx`                                                                    | ✅          | ✅ green |
@@ -81,11 +81,11 @@ All phase behaviors have automated verification (100% automated coverage).
 
 ## Validation Audit 2026-08-26
 
-| Metric        | Count |
-| ------------- | ----- |
-| Gaps found    | 10    |
-| Resolved      | 10    |
-| Escalated     | 0     |
+| Metric     | Count |
+| ---------- | ----- |
+| Gaps found | 10    |
+| Resolved   | 10    |
+| Escalated  | 0     |
 
 All 10 task verification commands confirmed green via automated agent pipeline:
 

@@ -108,7 +108,7 @@ Single milestone — full PRD scope plus research-identified table-stakes gaps. 
 | True OTP/SMS verification (Twilio)                             | Auto-verified with mock code per PRD §4                                                      |
 | Document OCR/ML data extraction                                | Upload validation is format/size/heuristic only per PRD §4                                   |
 | Interview scheduling with embassy/VFS systems                  | Mock calendar per PRD §4                                                                     |
-| Background checks (async 3–7 day)                             | Instant mocked result per PRD §4                                                             |
+| Background checks (async 3–7 day)                              | Instant mocked result per PRD §4                                                             |
 | Fraud ML models / Aadhaar e-KYC / biometrics                   | Production-scale items beyond app scope; duplicate detection covers the prototype-level need |
 | Multi-region infrastructure / 50k-concurrent scaling           | Deployment concern, not an app feature                                                       |
 | AI chatbot support                                             | Anti-feature per research — static help suffices                                             |

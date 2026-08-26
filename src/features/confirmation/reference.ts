@@ -58,4 +58,3 @@ export function formatReferenceNumber(val: string): string {
   }
   return prefix ? `${prefix}-` : '';
 }
-
