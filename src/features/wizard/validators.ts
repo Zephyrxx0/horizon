@@ -6,7 +6,6 @@ export function isValidPassport(passport: string): boolean {
   if (!passport || typeof passport !== 'string') return false;
   const clean = passport.trim().toUpperCase();
   return /^[A-Z]{2}\d{7}$/.test(clean);
-}
 
 export function isValidEmail(email: string): boolean {
   if (!email || typeof email !== 'string') return false;

@@ -25,6 +25,15 @@ export const SEEDED_DUPLICATE_PASSPORTS: Record<string, ApplicationSubmissionRec
     submittedAt: '2026-08-22T14:30:00.000Z',
     status: 'Documents Under Review',
   },
+  ZZ1234567: {
+    referenceNumber: 'VR-2026-102938',
+    passportNumber: 'ZZ1234567',
+    applicantName: 'Vikram Seth',
+    visaType: 'Tourist Visa',
+    country: 'United Kingdom',
+    submittedAt: '2026-08-22T14:30:00.000Z',
+    status: 'Documents Under Review',
+  },
   T9876543: {
     referenceNumber: 'VR-2026-554433',
     passportNumber: 'T9876543',
@@ -92,7 +101,7 @@ export function checkForDuplicateApplication(passportNumber: string): {
     .trim()
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, '');
-  if (normalized.length !== 8) {
+  if (normalized.length < 8 || normalized.length > 9) {
     return { isDuplicate: false };
   }
 
