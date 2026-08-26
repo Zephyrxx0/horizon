@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input } from '../../components/ui/Input';
 import { Field, FieldLabel, FieldHint, FieldError } from '../../components/ui/Field';
+import { JargonTooltip } from '../support';
 import { CreditCard, Lock } from 'lucide-react';
 import {
   formatCardNumber,
@@ -134,7 +135,19 @@ export function CardPaymentForm({
       {/* Expiry and CVV Row */}
       <div className="grid grid-cols-2 gap-3">
         <Field id="cardExpiry" invalid={Boolean(expError)}>
-          <FieldLabel>Expiry Date</FieldLabel>
+          <FieldLabel
+            tooltip={
+              <JargonTooltip
+                ariaLabel="Help: card expiration date"
+                title="Card Expiry Date (MM/YY)"
+                explanation="The 2-digit month and 2-digit year (MM/YY) after which your payment card is no longer valid."
+                example="e.g. 12/28 for December 2028."
+                showDiagram={false}
+              />
+            }
+          >
+            Expiry Date
+          </FieldLabel>
           <FieldHint>MM / YY</FieldHint>
           <Input
             id="cardExpiry"
@@ -153,7 +166,7 @@ export function CardPaymentForm({
         </Field>
 
         <Field id="cardCvv" invalid={Boolean(cvvError)}>
-          <FieldLabel>CVV / Security Code</FieldLabel>
+          <FieldLabel tooltip={<JargonTooltip jargonKey="cvv" />}>CVV / Security Code</FieldLabel>
           <FieldHint>3 or 4 digits on back</FieldHint>
           <Input
             id="cardCvv"

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input } from '../../components/ui/Input';
 import { Field, FieldLabel, FieldHint, FieldError } from '../../components/ui/Field';
+import { JargonTooltip } from '../support';
 import { QrCode, Smartphone, Sparkles } from 'lucide-react';
 import { isValidUpiVpa } from './formatters';
 
@@ -76,7 +77,9 @@ export function UpiPaymentForm({
       {mode === 'vpa' ? (
         <div className="space-y-3">
           <Field id="upiVpa" invalid={Boolean(vpaError)}>
-            <FieldLabel>Virtual Payment Address (UPI ID)</FieldLabel>
+            <FieldLabel tooltip={<JargonTooltip jargonKey="vpa" />}>
+              Virtual Payment Address (UPI ID)
+            </FieldLabel>
             <FieldHint>
               Enter your VPA linked to Google Pay, PhonePe, Paytm, or any BHIM app
             </FieldHint>

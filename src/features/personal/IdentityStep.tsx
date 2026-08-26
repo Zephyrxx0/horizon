@@ -23,6 +23,7 @@ import {
 import { checkForDuplicateApplication } from '../../services/mock/duplicate';
 import { DuplicateWarningCard } from '../confirmation/DuplicateWarningCard';
 import { TrackingModal } from '../confirmation/TrackingModal';
+import { JargonTooltip } from '../support';
 import { ArrowLeft, ChevronRight, UserCheck } from 'lucide-react';
 
 export interface IdentityStepProps {
@@ -183,7 +184,9 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
             invalid={touched.firstName && !firstName.trim()}
             isValid={isFirstNameValid}
           >
-            <FieldLabel>First / Given Name</FieldLabel>
+            <FieldLabel tooltip={<JargonTooltip jargonKey="givenNameVsSurname" />}>
+              First / Given Name
+            </FieldLabel>
             <Input
               value={firstName}
               onChange={(e) => handleInputChange('firstName', e.target.value)}
@@ -201,7 +204,9 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
             invalid={touched.lastName && !lastName.trim()}
             isValid={isLastNameValid}
           >
-            <FieldLabel>Last Name / Surname</FieldLabel>
+            <FieldLabel tooltip={<JargonTooltip jargonKey="givenNameVsSurname" />}>
+              Last Name / Surname
+            </FieldLabel>
             <Input
               value={lastName}
               onChange={(e) => handleInputChange('lastName', e.target.value)}
@@ -275,7 +280,19 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
           invalid={touched.passportNumber && !isValidPassport(passportNumber)}
           isValid={isPassportValid}
         >
-          <FieldLabel>Passport Number</FieldLabel>
+          <FieldLabel
+            tooltip={
+              <JargonTooltip
+                ariaLabel="Help: passport document format"
+                jargonKey="givenNameVsSurname"
+                diagramZone="passportNumber"
+                title="Passport Number Zone"
+                explanation="Your 8 or 9 digit passport number is printed in the upper right corner of your bio-data page and stamped along the edge."
+              />
+            }
+          >
+            Passport Number
+          </FieldLabel>
           <Input
             value={passportNumber}
             onChange={handlePassportChange}
@@ -311,7 +328,11 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
             invalid={touched.passportIssueDate && !isValidIsoDate(passportIssueDate)}
             isValid={isIssueValid}
           >
-            <FieldLabel>Date of Issue</FieldLabel>
+            <FieldLabel
+              tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
+            >
+              Date of Issue
+            </FieldLabel>
             <Input
               type="date"
               value={passportIssueDate}
@@ -331,7 +352,11 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
             }
             isValid={isExpiryValid}
           >
-            <FieldLabel>Date of Expiry</FieldLabel>
+            <FieldLabel
+              tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
+            >
+              Date of Expiry
+            </FieldLabel>
             <Input
               type="date"
               value={passportExpiryDate}

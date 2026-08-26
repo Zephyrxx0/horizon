@@ -55,4 +55,20 @@ describe('Field component', () => {
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
+
+  it('renders tooltip next to label text when provided', async () => {
+    const { container } = render(
+      <Field id="tooltip-field">
+        <FieldLabel tooltip={<button aria-label="Explain Passport">info</button>}>
+          Passport Number
+        </FieldLabel>
+        <Input />
+      </Field>,
+    );
+
+    expect(screen.getByRole('button', { name: /explain passport/i })).toBeInTheDocument();
+
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
 });

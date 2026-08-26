@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useSaveState } from './features/wizard/context';
 import { deriveStepStatus, deriveProgress } from './features/wizard/selectors';
-import { SkipLink, AppHeader, OfflineBanner } from './components/AppShell';
+import { SkipLink, AppHeader, OfflineBanner, FloatingHelpButton } from './components/AppShell';
 import { ProgressStepper, type StepStatus } from './components/ui/ProgressStepper';
 import { SaveIndicator } from './components/SaveIndicator';
 import { ToastProvider, useToast } from './components/ui/Toast';
@@ -14,6 +14,7 @@ import { PersonalDetailsScreen } from './features/personal';
 import { DocumentsScreen } from './features/documents';
 import { ReviewScreen, EditingBanner } from './features/review';
 import { ConfirmationScreen, TrackingModal, DraftBackupModal } from './features/confirmation';
+import { FaqSheet } from './features/support';
 import { Clock } from 'lucide-react';
 
 function NetworkSyncHandler() {
@@ -40,6 +41,7 @@ export default function App() {
   // Modal Dialog States
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
 
   // Derive progress & time remaining
@@ -89,6 +91,7 @@ export default function App() {
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
         <SkipLink />
         <AppHeader
+          onOpenHelp={() => setIsHelpOpen(true)}
           onOpenTracking={() => setIsTrackingOpen(true)}
           onOpenBackup={() => {
             setBackupMode('generate');
@@ -153,7 +156,12 @@ export default function App() {
           <p>{t('app.footer')}</p>
         </footer>
 
+        {/* Floating Help Escape Hatch Button (SUPRT-01) */}
+        <FloatingHelpButton onClick={() => setIsHelpOpen(true)} />
+
         {/* Global Standalone Modals */}
+        <FaqSheet open={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+
         <TrackingModal isOpen={isTrackingOpen} onClose={() => setIsTrackingOpen(false)} />
 
         <DraftBackupModal

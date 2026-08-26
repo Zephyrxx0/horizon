@@ -69,31 +69,35 @@ export function Field({
 
 export interface FieldLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   children: React.ReactNode;
+  tooltip?: React.ReactNode;
 }
 
-export function FieldLabel({ className = '', children, ...props }: FieldLabelProps) {
+export function FieldLabel({ className = '', children, tooltip, ...props }: FieldLabelProps) {
   const ctx = useFieldContext();
   const htmlFor = props.htmlFor || ctx?.id;
 
   return (
-    <label
-      htmlFor={htmlFor}
-      className={`text-base font-semibold text-[var(--color-ink)] flex items-center justify-between ${className}`}
-      {...props}
-    >
-      <span className="flex items-center gap-1.5">
-        <span>{children}</span>
-        {ctx?.isValid && (
-          <CheckCircle2
-            className="w-4 h-4 text-[var(--color-success)] shrink-0"
-            aria-label="Valid entry"
-          />
-        )}
-      </span>
+    <div className={`flex items-center justify-between ${className}`}>
+      <div className="flex items-center gap-1.5">
+        <label
+          htmlFor={htmlFor}
+          className="text-base font-semibold text-[var(--color-ink)] flex items-center gap-1.5"
+          {...props}
+        >
+          <span>{children}</span>
+          {ctx?.isValid && (
+            <CheckCircle2
+              className="w-4 h-4 text-[var(--color-success)] shrink-0"
+              aria-label="Valid entry"
+            />
+          )}
+        </label>
+        {tooltip}
+      </div>
       {ctx && !ctx.required && (
         <span className="text-sm font-normal text-[var(--color-ink-muted)]">(optional)</span>
       )}
-    </label>
+    </div>
   );
 }
 

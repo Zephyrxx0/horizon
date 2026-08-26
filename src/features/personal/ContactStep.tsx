@@ -18,6 +18,7 @@ import {
   isValidPhone,
   isValidPincode,
 } from '../wizard/validators';
+import { JargonTooltip } from '../support';
 import { ArrowLeft, ChevronRight, MapPin } from 'lucide-react';
 
 export interface ContactStepProps {
@@ -161,7 +162,18 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
           </Field>
 
           <Field id="phone" invalid={touched.phone && !isValidPhone(phone)} isValid={isPhoneValid}>
-            <FieldLabel>Mobile Phone Number</FieldLabel>
+            <FieldLabel
+              tooltip={
+                <JargonTooltip
+                  ariaLabel="Help: mobile phone format"
+                  title="Mobile Number (India Prefix)"
+                  explanation="Enter your active 10-digit Indian mobile number. Real-time application SMS updates and emergency consular notices will be sent to this number."
+                  example="e.g. +91 98765 43210"
+                />
+              }
+            >
+              Mobile Phone Number
+            </FieldLabel>
             <Input
               type="tel"
               value={phone}
@@ -237,7 +249,18 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
             invalid={touched.pincode && !isValidPincode(pincode)}
             isValid={isPincodeValid}
           >
-            <FieldLabel>6-Digit PIN Code</FieldLabel>
+            <FieldLabel
+              tooltip={
+                <JargonTooltip
+                  ariaLabel="Help: postal code format"
+                  title="6-Digit Postal PIN Code"
+                  explanation="Postal Index Number (PIN) used by India Post to identify your delivery post office and administrative zone."
+                  example="e.g. 560001 (Bengaluru), 110001 (New Delhi), 400001 (Mumbai)"
+                />
+              }
+            >
+              6-Digit PIN Code
+            </FieldLabel>
             <Input
               value={pincode}
               onChange={(e) =>
