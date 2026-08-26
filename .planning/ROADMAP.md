@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
 - [x] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks (completed 2026-08-26)
 - [x] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery (completed 2026-08-26)
-- [ ] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection
+- [x] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection (completed 2026-08-26)
 - [ ] **Phase 6: Support, Localization, PWA & Hardening** - Six languages, help surfaces, offline resilience, WCAG/perf gates across whole journey
 
 ## Phase Details
