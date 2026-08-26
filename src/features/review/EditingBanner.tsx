@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from '@xstate/react';
 import { useWizardActor } from '../wizard/context';
 import { JOURNEY_STEPS, type StepId } from '../wizard/types';

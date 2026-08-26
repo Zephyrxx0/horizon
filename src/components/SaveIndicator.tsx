@@ -10,10 +10,16 @@ import { FOCUS_RING_CLASS } from './ui/focus';
 export interface SaveIndicatorProps {
   state: SaveState;
   onRetry?: () => void;
+  onClickSaved?: () => void;
   className?: string;
 }
 
-export function SaveIndicator({ state, onRetry, className = '' }: SaveIndicatorProps) {
+export function SaveIndicator({
+  state,
+  onRetry,
+  onClickSaved,
+  className = '',
+}: SaveIndicatorProps) {
   const { t } = useTranslation();
 
   return (
@@ -38,12 +44,28 @@ export function SaveIndicator({ state, onRetry, className = '' }: SaveIndicatorP
         </span>
       )}
 
-      {state === 'saved' && (
-        <span className="text-[var(--color-success)] flex items-center gap-1.5">
-          <Check className="w-4 h-4 stroke-[3]" aria-hidden="true" />
-          <span>{t('save.saved')}</span>
-        </span>
-      )}
+      {state === 'saved' &&
+        (onClickSaved ? (
+          <button
+            type="button"
+            onClick={onClickSaved}
+            title="Click to backup your draft to cloud or email"
+            aria-label="Application progress saved. Click to backup draft."
+            className="text-[var(--color-success)] hover:underline flex items-center gap-1.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[var(--color-success)] rounded"
+            data-testid="save-indicator-badge"
+          >
+            <Check className="w-4 h-4 stroke-[3]" aria-hidden="true" />
+            <span>{t('save.saved')}</span>
+          </button>
+        ) : (
+          <span
+            className="text-[var(--color-success)] flex items-center gap-1.5"
+            data-testid="save-indicator-badge"
+          >
+            <Check className="w-4 h-4 stroke-[3]" aria-hidden="true" />
+            <span>{t('save.saved')}</span>
+          </span>
+        ))}
 
       {state === 'error' && (
         <button

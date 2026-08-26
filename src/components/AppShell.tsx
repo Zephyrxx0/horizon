@@ -14,7 +14,12 @@ export function SkipLink() {
   );
 }
 
-export function AppHeader() {
+export interface AppHeaderProps {
+  onOpenTracking?: () => void;
+  onOpenBackup?: () => void;
+}
+
+export function AppHeader({ onOpenTracking, onOpenBackup }: AppHeaderProps) {
   const { t } = useTranslation();
 
   return (
@@ -24,7 +29,33 @@ export function AppHeader() {
           {t('app.appName')}
         </span>
       </div>
-      <div id="header-actions" className="flex items-center gap-2">
+      <div id="header-actions" className="flex items-center gap-1.5 sm:gap-2">
+        {onOpenTracking && (
+          <button
+            type="button"
+            onClick={onOpenTracking}
+            aria-label="Track Application Status"
+            className="min-h-[44px] px-2.5 sm:px-3 py-1.5 rounded-[var(--radius-input)] text-xs font-semibold text-[var(--color-ink)] hover:bg-slate-100 flex items-center gap-1.5 transition-colors"
+            data-testid="header-track-btn"
+          >
+            <span className="hidden sm:inline">Track Application</span>
+            <span className="sm:hidden">Track</span>
+          </button>
+        )}
+
+        {onOpenBackup && (
+          <button
+            type="button"
+            onClick={onOpenBackup}
+            aria-label="Backup Application Draft"
+            className="min-h-[44px] px-2.5 sm:px-3 py-1.5 rounded-[var(--radius-input)] text-xs font-semibold text-[var(--color-indigo-primary)] hover:bg-indigo-50 flex items-center gap-1.5 transition-colors"
+            data-testid="header-backup-btn"
+          >
+            <span className="hidden sm:inline">Backup Draft</span>
+            <span className="sm:hidden">Backup</span>
+          </button>
+        )}
+
         <LanguageSwitcher />
       </div>
     </header>

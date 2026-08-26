@@ -1,4 +1,3 @@
-import React from 'react';
 import { RadioCardGroup, RadioCard } from '../../components/ui/RadioCard';
 import type { PaymentMethodType } from './types';
 import { Smartphone, CreditCard, Building2 } from 'lucide-react';

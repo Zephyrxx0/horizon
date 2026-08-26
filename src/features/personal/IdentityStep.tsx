@@ -20,6 +20,9 @@ import {
   isValidPassport,
   isValidIsoDate,
 } from '../wizard/validators';
+import { checkForDuplicateApplication } from '../../services/mock/duplicate';
+import { DuplicateWarningCard } from '../confirmation/DuplicateWarningCard';
+import { TrackingModal } from '../confirmation/TrackingModal';
 import { ArrowLeft, ChevronRight, UserCheck } from 'lucide-react';
 
 export interface IdentityStepProps {
@@ -42,10 +45,19 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
 
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<ErrorSummaryItem[]>([]);
+  const [duplicateDismissed, setDuplicateDismissed] = useState(false);
+  const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [selectedTrackingRef, setSelectedTrackingRef] = useState<string>('');
 
   // Expiry check
   const expiryStatus = passportExpiryDate ? getPassportExpiryStatus(passportExpiryDate) : null;
   const showExpiryWarning = Boolean(expiryStatus?.isNearExpiry);
+
+  // Duplicate passport check
+  const duplicateCheck = checkForDuplicateApplication(passportNumber);
+  const showDuplicateWarning = Boolean(
+    duplicateCheck.isDuplicate && duplicateCheck.record && !duplicateDismissed,
+  );
 
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
@@ -57,6 +69,7 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
 
   const handlePassportChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPassportNumber(e.target.value);
+    setDuplicateDismissed(false);
     actor.send({ type: 'ANSWER_CHANGED', fieldId: 'passportNumber', value: formatted });
   };
 
@@ -279,6 +292,18 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
           )}
         </Field>
 
+        {/* Duplicate Application Warning Card */}
+        {showDuplicateWarning && duplicateCheck.record && (
+          <DuplicateWarningCard
+            record={duplicateCheck.record}
+            onTrackExisting={(ref) => {
+              setSelectedTrackingRef(ref);
+              setIsTrackingOpen(true);
+            }}
+            onDismiss={() => setDuplicateDismissed(true)}
+          />
+        )}
+
         {/* Issue Date & Expiry Date */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field
@@ -353,6 +378,13 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
           <ChevronRight className="w-5 h-5" aria-hidden="true" />
         </Button>
       </div>
+
+      {/* Standalone Tracking Modal (pre-filled if opened from duplicate warning) */}
+      <TrackingModal
+        isOpen={isTrackingOpen}
+        onClose={() => setIsTrackingOpen(false)}
+        initialReference={selectedTrackingRef}
+      />
     </div>
   );
 };

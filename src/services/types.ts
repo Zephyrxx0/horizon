@@ -63,6 +63,29 @@ export interface ITrackingService {
   getTimeline(reference: string): Promise<ServiceOutcome<TimelineEntry[]>>;
 }
 
+export interface DraftBackupSnapshot {
+  code: string;
+  createdAt: string;
+  email: string;
+  answers: Record<string, unknown>;
+  documentMeta?: Array<{
+    slotId: string;
+    fileName: string;
+    fileSize: number;
+    fileType: string;
+    previewUrl?: string;
+  }>;
+}
+
+export interface IBackupService {
+  createBackup(
+    email: string,
+    answers: Record<string, unknown>,
+    documentMeta?: DraftBackupSnapshot['documentMeta'],
+  ): Promise<ServiceOutcome<{ code: string; createdAt: string }>>;
+  restoreBackup(code: string): Promise<ServiceOutcome<DraftBackupSnapshot>>;
+}
+
 /** Fee Constants */
 export const GOVERNMENT_FEE = 5000;
 export const PLATFORM_FEE = 1500;

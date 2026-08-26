@@ -171,7 +171,21 @@ Plans:
 4. User can generate an email backup code that restores their full draft on any other device
 5. Starting a new application with the same passport warns about the active in-progress application instead of silently duplicating
 
-**Plans**: TBD
+**Plans:** 4/4 plans complete
+Plans:
+**Wave 1**
+
+- [x] 05-01-PLAN.md — Reference Generation, Sharing Utilities, Mock Backup Service & Duplicate Registry
+
+**Wave 2** _(blocked on Wave 1 completion)_
+
+- [x] 05-02-PLAN.md — Confirmation Stage Cards (Reference, Timeline, Checklist & Notifications)
+- [x] 05-03-PLAN.md — Recovery, Standalone Tracking & Duplicate Detection Modals
+
+**Wave 3** _(blocked on Wave 2 completion)_
+
+- [x] 05-04-PLAN.md — Confirmation Screen Orchestration, AppShell Integration & E2E Verification
+
 **UI hint**: yes
 
 ### Phase 6: Support, Localization, PWA & Hardening
@@ -200,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | ----------------------------------------------------- | -------------- | ----------- | ---------- |
 | 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed   | Phase 1    |
 | 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed   | Phase 2    |
-| 3. Document Upload Pipeline                           | 0/?            | Not started | -          |
-| 4. Review, Payment & Submission                       | 4/4            | Complete    | 2026-08-26 |
-| 5. Confirmation, Tracking & Recovery                  | 0/?            | Not started | -          |
+| 3. Document Upload Pipeline                           | 4/4            | Completed   | 2026-08-26 |
+| 4. Review, Payment & Submission                       | 4/4            | Completed   | 2026-08-26 |
+| 5. Confirmation, Tracking & Recovery                  | 4/4            | Completed   | 2026-08-26 |
 | 6. Support, Localization, PWA & Hardening             | 0/?            | Not started | -          |

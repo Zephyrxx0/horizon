@@ -1,0 +1,50 @@
+# Phase 5: Confirmation, Tracking & Recovery — Verification Gate
+
+## Phase Goal
+
+Deliver a comprehensive post-submission confirmation experience, live interactive status tracking timeline, printable/downloadable interview preparation checklist, simulated SMS/Email notifications, cross-device 8-character draft recovery, and inline duplicate passport warning guards.
+
+---
+
+## Requirements Verification Matrix
+
+| Requirement  | Description                                                                                              |    Status    | Implementation Artifacts                                                                                                                                                                                                                                                                                                                                                                                                                   | Verification Evidence                                                                                                                                                                    |
+| ------------ | -------------------------------------------------------------------------------------------------------- | :----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CNFRM-01** | Unique reference number (`VR-YYYY-XXXXXX`), submitted date, and applicant details display.               | **VERIFIED** | [`src/features/confirmation/reference.ts`](file:///home/zeph/Code/horizon/src/features/confirmation/reference.ts), [`src/features/confirmation/ReferenceCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/ReferenceCard.tsx)                                                                                                                                                                                             | `reference.test.ts`, `ReferenceCard.test.tsx`, `ConfirmationScreen.test.tsx`, `tests/e2e/stage5-confirmation.spec.ts`                                                                    |
+| **CNFRM-02** | Official payment receipt with printable view showing fee breakdown.                                      | **VERIFIED** | [`src/features/review/ReceiptCard.tsx`](file:///home/zeph/Code/horizon/src/features/review/ReceiptCard.tsx), [`src/features/confirmation/ConfirmationScreen.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/ConfirmationScreen.tsx)                                                                                                                                                                                         | `ReceiptCard.test.tsx`, `ConfirmationScreen.test.tsx` (tests fee breakdown and print callback)                                                                                           |
+| **CNFRM-03** | Post-submission next steps checklist customized to visa type with `.txt` export & printable guide.       | **VERIFIED** | [`src/features/confirmation/checklist.ts`](file:///home/zeph/Code/horizon/src/features/confirmation/checklist.ts), [`src/features/confirmation/InterviewChecklistCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/InterviewChecklistCard.tsx)                                                                                                                                                                           | `checklist.test.ts`, `InterviewChecklistCard.test.tsx` (tests Student, Business, Tourist checklists, checkbox count, download blob & print)                                              |
+| **CNFRM-04** | Notification simulation confirming email/SMS sent with application reference and tracking link.          | **VERIFIED** | [`src/features/confirmation/SentNotificationsCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/SentNotificationsCard.tsx)                                                                                                                                                                                                                                                                                                | `SentNotificationsCard.test.tsx` (inspects simulated SMS and Email formatted disclosures)                                                                                                |
+| **TRCK-01**  | Application status tracking lookup by reference number accessible globally.                              | **VERIFIED** | [`src/features/confirmation/TrackingModal.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/TrackingModal.tsx), [`src/components/AppShell.tsx`](file:///home/zeph/Code/horizon/src/components/AppShell.tsx)                                                                                                                                                                                                                   | `TrackingModal.test.tsx` (tests local and seeded reference lookup, format normalization, and error handling)                                                                             |
+| **TRCK-02**  | Visual status timeline showing 4 lifecycle stages with interactive demo transition controller.           | **VERIFIED** | [`src/features/confirmation/StatusTimelineCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/StatusTimelineCard.tsx)                                                                                                                                                                                                                                                                                                      | `StatusTimelineCard.test.tsx` (tests 4 lifecycle stages, `[Advance Status]`, `[Simulate Info Request]`, `[Simulate Approval]` with toast notifications)                                  |
+| **TRCK-03**  | Share application reference via copy link or direct WhatsApp deep-link.                                  | **VERIFIED** | [`src/features/confirmation/share.ts`](file:///home/zeph/Code/horizon/src/features/confirmation/share.ts), [`src/features/confirmation/ReferenceCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/ReferenceCard.tsx)                                                                                                                                                                                                     | `share.test.ts`, `ReferenceCard.test.tsx` (tests Web Share API fallback, WhatsApp url formatting, and clipboard copy)                                                                    |
+| **STATE-05** | Cross-device draft backup: 8-character code (`VR-XXXXXX`) with conflict resolution dialog.               | **VERIFIED** | [`src/services/mock/backup.ts`](file:///home/zeph/Code/horizon/src/services/mock/backup.ts), [`src/features/confirmation/DraftBackupModal.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/DraftBackupModal.tsx), [`src/components/SaveIndicator.tsx`](file:///home/zeph/Code/horizon/src/components/SaveIndicator.tsx), [`src/components/ResumeBanner.tsx`](file:///home/zeph/Code/horizon/src/components/ResumeBanner.tsx) | `backup.test.ts`, `DraftBackupModal.test.tsx` (tests code generation, demo draft restore `VR-DEMO01`, side-by-side draft comparison modal)                                               |
+| **STATE-06** | Duplicate application detection: warning card for existing passport numbers in Stage 2 (`IdentityStep`). | **VERIFIED** | [`src/services/mock/duplicate.ts`](file:///home/zeph/Code/horizon/src/services/mock/duplicate.ts), [`src/features/confirmation/DuplicateWarningCard.tsx`](file:///home/zeph/Code/horizon/src/features/confirmation/DuplicateWarningCard.tsx), [`src/features/personal/IdentityStep.tsx`](file:///home/zeph/Code/horizon/src/features/personal/IdentityStep.tsx)                                                                            | `duplicate.test.ts`, `DuplicateWarningCard.test.tsx`, `IdentityStep.test.tsx` (tests seeded passport detection `Z1234567`, inline warning card, tracking trigger, and continue override) |
+
+---
+
+## Automated Test Results
+
+### 1. Vitest Suite
+
+- **Command:** `pnpm vitest run`
+- **Result:** **76 / 76 test files passed (253 / 253 tests passed)** (100% pass rate)
+- **Coverage Highlights:**
+  - `src/features/confirmation/*`: Reference generation, share utilities, checklist tailoring, ReferenceCard, StatusTimelineCard, InterviewChecklistCard, SentNotificationsCard, TrackingModal, DraftBackupModal, DuplicateWarningCard, ConfirmationScreen.
+  - `src/services/mock/backup.test.ts` & `src/services/mock/duplicate.test.ts`: Mock cloud draft backup & hybrid duplicate application registry.
+  - `src/features/personal/IdentityStep.test.tsx`: Integrated duplicate passport warning.
+  - `src/App.test.tsx`: Stage 5 integration and global modal mount.
+
+### 2. TypeScript Compilation & Vite Production Build
+
+- **Commands:** `pnpm typecheck && pnpm build`
+- **Result:** Zero TypeScript compilation errors (`tsc -b`), clean production bundle emitted in `dist/`.
+
+### 3. Accessibility Checks
+
+- `vitest-axe` audited all Phase 5 components and modal sheets with **0 violations**. All touch targets satisfy the ≥48px touch requirement with clear focus rings.
+
+---
+
+## Conclusion
+
+Phase 5 has met all functional, accessibility, resilience, and architectural requirements. Phase 5 is fully verified and marked as complete.

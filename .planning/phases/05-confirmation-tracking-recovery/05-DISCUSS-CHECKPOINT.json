@@ -1,0 +1,139 @@
+{
+  "phase": "5",
+  "phase_name": "Confirmation, Tracking & Recovery",
+  "timestamp": "2026-08-26T07:56:45.000Z",
+  "areas_completed": [
+    "Tracking Experience & Demo Controls",
+    "Interview Checklist & Next Steps Format",
+    "Cross-Device Draft Backup & Restore Code"
+  ],
+  "areas_remaining": ["Duplicate Application Detection Flow"],
+  "decisions": {
+    "Tracking Experience & Demo Controls": [
+      {
+        "question": "How should applicants and returning users access the application tracking feature?",
+        "answer": "Dual Access — Embed live timeline directly on the Stage 5 Confirmation screen, and add a \"Track Application\" action in the AppHeader that opens a reference lookup modal anytime",
+        "options_presented": [
+          "Dual Access — Embed live timeline directly on the Stage 5 Confirmation screen, and add a \"Track Application\" action in the AppHeader that opens a reference lookup modal anytime",
+          "Standalone Tracker View — Add a top-level toggle in the app shell between \"Application Form\" and \"Track Application\" screen",
+          "Confirmation Screen Only — Tracking timeline only lives on Stage 5; returning users must use a deep link with their reference number"
+        ]
+      },
+      {
+        "question": "How should the mocked demo timeline transitions and status change alerts (TRCK-02) work?",
+        "answer": "Interactive Demo Controller + Toast Alerts — Include a test/demo scenario bar (similar to Phase 4 payment bar) with \"[Advance Status]\", \"[Simulate Info Request]\", and \"[Simulate Approval]\" buttons that trigger live status change toast alerts",
+        "options_presented": [
+          "Interactive Demo Controller + Toast Alerts — Include a test/demo scenario bar (similar to Phase 4 payment bar) with \"[Advance Status]\", \"[Simulate Info Request]\", and \"[Simulate Approval]\" buttons that trigger live status change toast alerts",
+          "Auto-Timer Simulation — Automatically advance the mock timeline every 15-30 seconds with status change notifications popping up",
+          "Static Mock Stages — Render deterministic timeline dates based on the reference number with no runtime state transitions"
+        ]
+      },
+      {
+        "question": "How should WhatsApp sharing and application reference sharing (TRCK-03, CNFRM-01) be implemented?",
+        "answer": "Web Share API + WhatsApp Deep-Link + Copy Button — Use navigator.share on supported mobile devices, with fallback to direct WhatsApp URL (wa.me/?text=...) and a 1-tap \"Copy Reference & Link\" button with toast feedback",
+        "options_presented": [
+          "Web Share API + WhatsApp Deep-Link + Copy Button — Use navigator.share on supported mobile devices, with fallback to direct WhatsApp URL (wa.me/?text=...) and a 1-tap \"Copy Reference & Link\" button with toast feedback",
+          "Dedicated WhatsApp & SMS Buttons — Render separate green \"Share via WhatsApp\" and \"Share via SMS\" buttons alongside reference copy",
+          "Simple Copy to Clipboard Only — Provide a copy button for the reference number with a template text popup"
+        ]
+      },
+      {
+        "question": "How should simulated SMS/email confirmation notifications (CNFRM-04) be presented to the user?",
+        "answer": "In-App Toasts + Expandable Message Preview Card — Trigger toasts for dispatched SMS/email and render a \"Sent Notifications\" preview card showing the simulated message templates directly on Stage 5",
+        "options_presented": [
+          "In-App Toasts + Expandable Message Preview Card — Trigger toasts for dispatched SMS/email and render a \"Sent Notifications\" preview card showing the simulated message templates directly on Stage 5",
+          "Toasts + Console Logging Only — Show brief toast alerts and log full notification payloads to browser console via INotificationService",
+          "Pop-up Modal Notification Preview — Display a modal dialog previewing the simulated SMS and Email immediately after submission"
+        ]
+      }
+    ],
+    "Interview Checklist & Next Steps Format": [
+      {
+        "question": "How should the Interview Prep & Next Steps checklist content (CNFRM-03) be structured?",
+        "answer": "Visa-Specific Tailored Checklist — Dynamically customize checklist items based on applicant's destination and visa type (e.g., Student visas include university admission/funds, Business includes employer sponsorship, Tourist includes travel itinerary)",
+        "options_presented": [
+          "Visa-Specific Tailored Checklist — Dynamically customize checklist items based on applicant's destination and visa type (e.g., Student visas include university admission/funds, Business includes employer sponsorship, Tourist includes travel itinerary)",
+          "Universal Embassy Checklist — Standardized single checklist applicable to all visa applicants covering passport, appointment letters, biometrics, and fee receipts",
+          "Document Echo Checklist — Simply re-list the specific documents uploaded during Stage 3 as the interview checklist"
+        ]
+      },
+      {
+        "question": "What format should be provided for downloading the interview-prep checklist?",
+        "answer": "Plain Text Download (.txt) + Print-Ready Format — Provide a 1-tap \".txt\" file download (consistent with Phase 3 document templates) plus a clean printable view (consistent with Phase 4 receipts)",
+        "options_presented": [
+          "Plain Text Download (.txt) + Print-Ready Format — Provide a 1-tap \".txt\" file download (consistent with Phase 3 document templates) plus a clean printable view (consistent with Phase 4 receipts)",
+          "PDF Document Generator — Generate a downloadable client-side PDF file with embassy branding",
+          "Plain Text (.txt) Download Only — Provide a simple text file download without print stylesheets"
+        ]
+      },
+      {
+        "question": "Should the on-screen checklist on Stage 5 include interactive completion tracking?",
+        "answer": "Interactive Checkboxes + Completion Counter — Render an interactive checklist on Stage 5 where applicants can check off items as they prepare, showing \"X of Y items ready\" with immediate visual progress",
+        "options_presented": [
+          "Interactive Checkboxes + Completion Counter — Render an interactive checklist on Stage 5 where applicants can check off items as they prepare, showing \"X of Y items ready\" with immediate visual progress",
+          "Static Read-Only Card — Display checklist items as structured read-only bullet points alongside the download action",
+          "Modal Guide Sheet — Open the checklist inside an accessible Sheet component (similar to SampleGuidanceSheet) when clicked"
+        ]
+      },
+      {
+        "question": "Should the checklist include consulate arrival rules and interview day tips?",
+        "answer": "Integrated \"Interview Day Essentials\" Section — Include key embassy dos & don'ts (arrival timing, original document rules, electronic device restrictions) alongside the document list",
+        "options_presented": [
+          "Integrated \"Interview Day Essentials\" Section — Include key embassy dos & don'ts (arrival timing, original document rules, electronic device restrictions) alongside the document list",
+          "Document Preparation Items Only — Focus strictly on physical paperwork and certificate checklist without general consulate rules",
+          "Collapsible Embassy FAQ — Put interview day tips in a collapsible FAQ disclosure at the bottom of the card"
+        ]
+      }
+    ],
+    "Cross-Device Draft Backup & Restore Code": [
+      {
+        "question": "What format should the cross-device draft backup code (STATE-05) use?",
+        "answer": "8-Character Alphanumeric Code (e.g., VR-784291) — Human-readable short code saved in a mock cloud registry that restores draft state on any device with simple typing",
+        "options_presented": [
+          "8-Character Alphanumeric Code (e.g., VR-784291) — Human-readable short code saved in a mock cloud registry that restores draft state on any device with simple typing",
+          "Direct Magic Link / QR Code — Generate a shareable URL containing the encoded draft parameters that opens and restores the draft automatically",
+          "Base64 JSON Draft Token — Self-contained encrypted/encoded string containing full answers that can be exported and pasted anywhere"
+        ]
+      },
+      {
+        "question": "Where should applicants be able to generate their draft backup code?",
+        "answer": "Save Indicator + AppHeader / ResumeBanner — Make the \"Saved\" indicator and AppHeader clickable to open a \"Backup Draft\" modal to enter email, receive simulated code, and copy it anytime",
+        "options_presented": [
+          "Save Indicator + AppHeader / ResumeBanner — Make the \"Saved\" indicator and AppHeader clickable to open a \"Backup Draft\" modal to enter email, receive simulated code, and copy it anytime",
+          "Floating \"Save & Backup\" Button — Persistent floating action button on mobile bottom bar allowing instant code generation",
+          "Stage-Completion Prompts — Automatically prompt the user to generate an email backup code after completing each major stage"
+        ]
+      },
+      {
+        "question": "How should the draft restore flow handle conflicts with existing local draft data?",
+        "answer": "Conflict Warning with Draft Comparison — If local draft data exists, show a modal comparing the current local draft vs the remote backup before overwriting, with clear \"[Replace Local Draft]\" or \"[Keep Current]\" buttons",
+        "options_presented": [
+          "Conflict Warning with Draft Comparison — If local draft data exists, show a modal comparing the current local draft vs the remote backup before overwriting, with clear \"[Replace Local Draft]\" or \"[Keep Current]\" buttons",
+          "Silent Instant Overwrite + Undo Toast — Overwrite immediately on valid code and show a toast with an \"[Undo]\" action",
+          "Strict Block — Require the user to click \"Start Over\" first if an existing draft is detected before allowing a code to be entered"
+        ]
+      },
+      {
+        "question": "How should document attachments be handled during cross-device draft backup and restore?",
+        "answer": "Full Mock Cloud Registry (Preserves Attachments) — Store the draft snapshot including mock document metadata and lightweight preview blobs in the mock registry so restore provides 100% complete state",
+        "options_presented": [
+          "Full Mock Cloud Registry (Preserves Attachments) — Store the draft snapshot including mock document metadata and lightweight preview blobs in the mock registry so restore provides 100% complete state",
+          "Metadata-Only Restore with Re-Attach Notice — Restore answers and file names/sizes, but mark slots as needing re-verification on the new device",
+          "Answers Only — Restore only form fields and clear document upload slots on device transfer"
+        ]
+      }
+    ]
+  },
+  "deferred_ideas": [],
+  "canonical_refs": [
+    "visarethink/indian_visa_prd.md",
+    "visarethink/visa_prototype.jsx",
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    "src/services/types.ts",
+    "src/services/mock/tracking.ts",
+    "src/services/mock/notifications.ts",
+    "src/features/wizard/types.ts",
+    "src/features/wizard/machine.ts"
+  ]
+}

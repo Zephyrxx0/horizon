@@ -1,4 +1,3 @@
-import React from 'react';
 import { Select } from '../../components/ui/Select';
 import { Field, FieldLabel, FieldHint, FieldError } from '../../components/ui/Field';
 import { Building2, CheckCircle2 } from 'lucide-react';

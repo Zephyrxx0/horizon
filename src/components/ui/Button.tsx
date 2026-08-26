@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { FOCUS_RING_CLASS } from './focus';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'destructive';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   loading?: boolean;
 }
 
@@ -27,6 +27,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       'bg-[var(--color-indigo-primary)] text-white hover:bg-[var(--color-indigo-hover)] active:bg-[var(--color-indigo-hover)]',
     secondary:
       'bg-white text-[var(--color-indigo-primary)] border-2 border-[var(--color-indigo-primary)] hover:bg-[var(--color-selected-bg)]',
+    outline:
+      'bg-white text-[var(--color-ink)] border border-[var(--color-border)] hover:bg-slate-50',
     destructive: 'bg-[var(--color-error)] text-white hover:opacity-90 active:opacity-90',
   }[variant];
 

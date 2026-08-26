@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Checkbox } from '../../components/ui/Checkbox';
 import { AlertCircle } from 'lucide-react';
 

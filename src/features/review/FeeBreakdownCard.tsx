@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card } from '../../components/ui/Card';
 import type { FeeBreakdown } from './types';
 import { ShieldCheck, Check } from 'lucide-react';

@@ -6,17 +6,10 @@ import { EditingBanner } from './EditingBanner';
 import { WizardContext, type WizardContextValue } from '../wizard/context';
 import { createActor, type ActorRefFrom } from 'xstate';
 import { wizardMachine } from '../wizard/machine';
-import type { AutosaveController } from '../../persistence/autosave';
+import { createAutosaveController } from '../../persistence/autosave';
 
 function renderWithActor(actor: ActorRefFrom<typeof wizardMachine>) {
-  const mockController: AutosaveController = {
-    subscribe: () => () => {},
-    state: () => 'idle',
-    flush: async () => {},
-    recordDraftActivity: () => {},
-    loadDraft: async () => null,
-    clearDraft: async () => {},
-  };
+  const mockController = createAutosaveController({ flush: () => true, delayMs: 100 });
 
   const mockContext: WizardContextValue = {
     actor,

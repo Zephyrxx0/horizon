@@ -7,7 +7,7 @@ import { WizardContext, type WizardContextValue } from '../wizard/context';
 import { ToastProvider } from '../../components/ui/Toast';
 import { createActor } from 'xstate';
 import { wizardMachine } from '../wizard/machine';
-import type { AutosaveController } from '../../persistence/autosave';
+import { createAutosaveController } from '../../persistence/autosave';
 
 function renderReviewScreen(initialAnswers = {}) {
   const actor = createActor(wizardMachine).start();
@@ -15,14 +15,7 @@ function renderReviewScreen(initialAnswers = {}) {
     actor.send({ type: 'ANSWERS_BATCHED', answers: initialAnswers });
   }
 
-  const mockController: AutosaveController = {
-    subscribe: () => () => {},
-    state: () => 'idle',
-    flush: async () => {},
-    recordDraftActivity: () => {},
-    loadDraft: async () => null,
-    clearDraft: async () => {},
-  };
+  const mockController = createAutosaveController({ flush: () => true, delayMs: 100 });
 
   const mockContext: WizardContextValue = {
     actor,

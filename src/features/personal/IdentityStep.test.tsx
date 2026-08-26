@@ -81,6 +81,25 @@ describe('IdentityStep Component (Stage 2a)', () => {
     expect(actor.getSnapshot().context.currentStepId).toBe('personal-identity');
   });
 
+  it('shows duplicate passport warning for seeded passport Z1234567 and allows dismiss', async () => {
+    const user = userEvent.setup();
+    renderIdentity({
+      firstName: 'Vikram',
+      lastName: 'Seth',
+      nationality: 'India',
+      passportNumber: 'Z1234567',
+    });
+
+    expect(screen.getByTestId('duplicate-passport-warning-card')).toBeInTheDocument();
+    expect(screen.getByText(/Active Application Found for this Passport/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/VR-2026-102938/)[0]).toBeInTheDocument();
+
+    const dismissBtn = screen.getByTestId('dismiss-duplicate-warning-btn');
+    await user.click(dismissBtn);
+
+    expect(screen.queryByTestId('duplicate-passport-warning-card')).not.toBeInTheDocument();
+  });
+
   it('passes axe accessibility checks', async () => {
     const { container } = renderIdentity();
     const results = await axe(container);

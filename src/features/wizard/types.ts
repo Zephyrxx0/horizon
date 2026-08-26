@@ -58,7 +58,7 @@ export type WizardEvent =
   | { type: 'ANSWERS_BATCHED'; answers: Record<string, unknown> }
   | { type: 'GOTO'; stepId: StepId; returnToReview?: boolean }
   | { type: 'RETURN_TO_REVIEW' }
-  | { type: 'SUBMIT_PAYMENT_SUCCESS'; receipt: Record<string, unknown> }
+  | { type: 'SUBMIT_PAYMENT_SUCCESS'; receipt?: unknown }
   | { type: 'NEXT' }
   | { type: 'BACK' }
   | { type: 'RESET' };

@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { DocumentPreviewSheet } from '../documents/DocumentPreviewSheet';
 import type { DocumentAttachment } from '../documents/types';
+import type { StageSummaryField } from './types';
 import { Edit2, FileText, CheckCircle2, Eye } from 'lucide-react';
-
-export interface StageSummaryField {
-  label: string;
-  value: string | React.ReactNode;
-}
 
 export interface StageReviewCardProps {
   stageNumber: number;
@@ -134,10 +130,7 @@ export function StageReviewCard({
         <DocumentPreviewSheet
           isOpen={true}
           onClose={() => setActivePreviewDoc(null)}
-          docId={activePreviewDoc.docId}
-          fileName={activePreviewDoc.fileName}
-          mimeType={activePreviewDoc.mimeType}
-          fileSize={activePreviewDoc.compressedSize}
+          attachment={activePreviewDoc}
         />
       )}
     </>

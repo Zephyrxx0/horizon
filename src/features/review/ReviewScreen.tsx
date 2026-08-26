@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from '@xstate/react';
 import { useWizardActor } from '../wizard/context';
 import { useToast } from '../../components/ui/Toast';
@@ -419,7 +419,7 @@ export function ReviewScreen() {
             data={cardData}
             onChange={(d) => {
               setCardData(d);
-              actor.send({ type: 'ANSWERS_BATCHED', answers: d });
+              actor.send({ type: 'ANSWERS_BATCHED', answers: { ...d } });
             }}
             errors={{
               cardNumber: errors.find((e) => e.fieldId === 'cardNumber')?.message,

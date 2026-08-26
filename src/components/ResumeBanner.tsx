@@ -6,10 +6,14 @@ import { Button } from './ui/Button';
 import { Bookmark, Play, RotateCcw } from 'lucide-react';
 
 export interface ResumeBannerProps {
+  onOpenBackupRestore?: () => void;
   className?: string;
 }
 
-export const ResumeBanner: React.FC<ResumeBannerProps> = ({ className = '' }) => {
+export const ResumeBanner: React.FC<ResumeBannerProps> = ({
+  onOpenBackupRestore,
+  className = '',
+}) => {
   const actor = useWizardActor();
   const resetDraft = useWizardReset();
 
@@ -62,6 +66,18 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({ className = '' }) =>
           <Play className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Continue Application ({targetStep?.label || 'Next Step'})</span>
         </Button>
+
+        {onOpenBackupRestore && (
+          <Button
+            variant="outline"
+            onClick={onOpenBackupRestore}
+            className="min-h-[44px] py-2 px-3 text-xs font-semibold border-indigo-200 text-[var(--color-indigo-primary)] hover:bg-indigo-50"
+            data-testid="resume-restore-code-btn"
+          >
+            Restore from Code
+          </Button>
+        )}
+
         <Button
           variant="secondary"
           onClick={resetDraft}

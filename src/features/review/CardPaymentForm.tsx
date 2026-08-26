@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Input } from '../../components/ui/Input';
 import { Field, FieldLabel, FieldHint, FieldError } from '../../components/ui/Field';
 import { CreditCard, Lock } from 'lucide-react';

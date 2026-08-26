@@ -7,6 +7,8 @@ export interface ErrorSummaryItem {
   message: string;
 }
 
+export type ErrorItem = ErrorSummaryItem;
+
 export interface ErrorSummaryProps {
   errors: ErrorSummaryItem[];
   title?: string;

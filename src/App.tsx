@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useSaveState } from './features/wizard/context';
@@ -10,12 +11,8 @@ import { ResumeBanner } from './components/ResumeBanner';
 import { VisaSelectionScreen } from './features/visa';
 import { PersonalDetailsScreen } from './features/personal';
 import { DocumentsScreen } from './features/documents';
-import {
-  ReviewScreen,
-  EditingBanner,
-  ReceiptCard,
-  type PaymentReceiptData,
-} from './features/review';
+import { ReviewScreen, EditingBanner } from './features/review';
+import { ConfirmationScreen, TrackingModal, DraftBackupModal } from './features/confirmation';
 import { Clock } from 'lucide-react';
 
 export default function App() {
@@ -25,6 +22,11 @@ export default function App() {
 
   const answers = useSelector(actor, (s) => s.context.answers);
   const currentStepId = useSelector(actor, (s) => s.context.currentStepId);
+
+  // Modal Dialog States
+  const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [isBackupOpen, setIsBackupOpen] = useState(false);
+  const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
 
   // Derive progress & time remaining
   const { percent, minutesRemaining } = deriveProgress(answers);
@@ -67,18 +69,22 @@ export default function App() {
     },
   ];
 
-  const receipt = answers.receipt as PaymentReceiptData | undefined;
-
   return (
     <ToastProvider>
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
         <SkipLink />
-        <AppHeader />
+        <AppHeader
+          onOpenTracking={() => setIsTrackingOpen(true)}
+          onOpenBackup={() => {
+            setBackupMode('generate');
+            setIsBackupOpen(true);
+          }}
+        />
         <EditingBanner />
 
         <main
           id="main-content"
-          className="flex-1 w-full max-w-xl mx-auto px-4 pt-4 sm:pt-6 pb-16 space-y-6"
+          className="flex-1 w-full max-w-2xl mx-auto px-4 pt-4 sm:pt-6 pb-16 space-y-6"
         >
           <h1 className="sr-only">Visa Application Journey</h1>
 
@@ -94,13 +100,24 @@ export default function App() {
                   ~{minutesRemaining} min remaining • {percent}% completed
                 </span>
               </div>
-              <SaveIndicator state={saveState} />
+              <SaveIndicator
+                state={saveState}
+                onClickSaved={() => {
+                  setBackupMode('generate');
+                  setIsBackupOpen(true);
+                }}
+              />
             </div>
             <ProgressStepper steps={stages} className="w-full" />
           </div>
 
           {/* Draft Resumption Banner (STATE-04) */}
-          <ResumeBanner />
+          <ResumeBanner
+            onOpenBackupRestore={() => {
+              setBackupMode('restore');
+              setIsBackupOpen(true);
+            }}
+          />
 
           {/* Active Stage Screen */}
           {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
@@ -113,27 +130,21 @@ export default function App() {
 
           {currentStepId === 'review-payment' && <ReviewScreen />}
 
-          {currentStepId === 'confirmation' && (
-            <div className="space-y-6">
-              {receipt ? (
-                <ReceiptCard receipt={receipt} />
-              ) : (
-                <div className="p-8 rounded-[var(--radius-card)] bg-white border border-[var(--color-border)] text-center space-y-3">
-                  <h2 className="text-xl font-bold text-[var(--color-ink)]">
-                    Stage 5: Confirmation & Tracking
-                  </h2>
-                  <p className="text-sm text-[var(--color-ink-muted)]">
-                    Tracking flow will be fully wired in Phase 5.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+          {currentStepId === 'confirmation' && <ConfirmationScreen />}
         </main>
 
         <footer className="py-6 px-4 text-center text-sm text-[var(--color-ink-muted)] border-t border-[var(--color-border)] bg-white mt-auto">
           <p>{t('app.footer')}</p>
         </footer>
+
+        {/* Global Standalone Modals */}
+        <TrackingModal isOpen={isTrackingOpen} onClose={() => setIsTrackingOpen(false)} />
+
+        <DraftBackupModal
+          isOpen={isBackupOpen}
+          onClose={() => setIsBackupOpen(false)}
+          initialMode={backupMode}
+        />
       </div>
     </ToastProvider>
   );

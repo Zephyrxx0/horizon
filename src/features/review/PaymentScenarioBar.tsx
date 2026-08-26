@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { setScenarios } from '../../services/mock/scenarios';
 import type { PaymentScenario } from './types';
 import { Beaker, Check, AlertTriangle, Clock, XCircle } from 'lucide-react';

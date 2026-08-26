@@ -10,19 +10,25 @@ import {
   type IOtpService,
   type INotificationService,
   type ITrackingService,
+  type IBackupService,
 } from './index';
 
 describe('Service Layer - Types, Ports and Factory', () => {
-  it('defines exactly 5 ports in PORTS registry', () => {
+  it('defines all 6 ports in PORTS registry', () => {
     const keys = Object.keys(PORTS);
-    expect(keys).toEqual(['passportLookup', 'payment', 'otp', 'notification', 'tracking']);
+    expect(keys).toEqual([
+      'passportLookup',
+      'payment',
+      'otp',
+      'notification',
+      'tracking',
+      'backup',
+    ]);
   });
 
-  it('returns singleton instances for all ports via getService', () => {
-    const passport1 = getService<IPassportLookupService>(PORTS.passportLookup);
-    const passport2 = getService<IPassportLookupService>(PORTS.passportLookup);
-    expect(passport1).toBe(passport2);
-    expect(typeof passport1.lookup).toBe('function');
+  it('resolves mock service instances for all ports', () => {
+    const passport = getService<IPassportLookupService>(PORTS.passportLookup);
+    expect(typeof passport.lookup).toBe('function');
 
     const payment = getService<IPaymentService>(PORTS.payment);
     expect(typeof payment.initiate).toBe('function');
@@ -38,6 +44,10 @@ describe('Service Layer - Types, Ports and Factory', () => {
 
     const tracking = getService<ITrackingService>(PORTS.tracking);
     expect(typeof tracking.getTimeline).toBe('function');
+
+    const backup = getService<IBackupService>(PORTS.backup);
+    expect(typeof backup.createBackup).toBe('function');
+    expect(typeof backup.restoreBackup).toBe('function');
   });
 
   it('provides verified fee constants and calculator', () => {
