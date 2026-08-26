@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation, Design System & Persistence Engine** - Accessible mobile-first skeleton with mock services and never-lose-data draft persistence
 - [x] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
-- [ ] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks
+- [x] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks (completed 2026-08-26)
 - [x] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery (completed 2026-08-26)
 - [ ] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection
 - [ ] **Phase 6: Support, Localization, PWA & Hardening** - Six languages, help surfaces, offline resilience, WCAG/perf gates across whole journey
