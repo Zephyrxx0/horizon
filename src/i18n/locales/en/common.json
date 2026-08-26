@@ -1,0 +1,68 @@
+{
+  "app": {
+    "appName": "VisaReThink",
+    "tagline": "Reimagined Indian Visa Application Portal",
+    "skipToContent": "Skip to main content",
+    "footer": "VisaReThink prototype · Secure client-side processing",
+    "officialPortalNotice": "Official Visa Reimagination Concept for the Ministry of External Affairs",
+    "installApp": "Install App",
+    "offlineNotice": "You are currently offline. Your drafts are safely stored on this device."
+  },
+  "save": {
+    "idle": "Not saved",
+    "dirty": "Unsaved changes",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "offline": "Saved Offline",
+    "error": "Couldn't save — Retry"
+  },
+  "empty": {
+    "heading": "Your application starts here",
+    "body": "Answer at your own pace. Everything you enter is saved automatically on this device — leave any time and pick up where you stopped."
+  },
+  "storage": {
+    "heading": "We couldn't save your changes",
+    "body": "Your browser storage may be full or unavailable, so your latest edits aren't saved yet. Free up space, then tap Retry.",
+    "retry": "Retry"
+  },
+  "quotaWarning": "Storage is running low. Documents are compressed before saving, but if storage fills up, new uploads won't be saved. Remove old files or free up device space.",
+  "clearDraft": {
+    "trigger": "Clear saved draft",
+    "title": "Clear everything you've entered?",
+    "body": "This permanently deletes your saved answers and documents from this device. You'll start from the beginning.",
+    "confirm": "Yes, delete my draft",
+    "cancel": "No, keep my draft",
+    "publicDeviceWarning": "Using a cyber café or shared computer? Clear all data before leaving to protect your privacy."
+  },
+  "notice": {
+    "translationPending": "{{language}} translation is coming soon. The app is showing English for now."
+  },
+  "actions": {
+    "continue": "Continue application",
+    "back": "Back",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "retry": "Retry",
+    "submit": "Submit Application",
+    "edit": "Edit",
+    "delete": "Delete",
+    "download": "Download",
+    "print": "Print",
+    "view": "View",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "help": "Need Help?",
+    "learnMore": "Learn more"
+  },
+  "languages": {
+    "en": "English",
+    "hi": "हिन्दी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "te": "తెలుగు (Telugu)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "mr": "मराठी (Marathi)"
+  }
+}

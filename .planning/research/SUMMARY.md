@@ -14,15 +14,15 @@ STACK.md and ARCHITECTURE.md disagree on the meta-framework, and this summary re
 
 **Resolution adopted in this document:** **Vite 8 + React 19 SPA** is the recommended framework. All ARCHITECTURE.md guidance survives intact because its substance is framework-neutral (state machine over answers, ports & adapters mocks, split persistence, derive-don't-persist). Only the platform-specific mechanisms translate:
 
-| ARCHITECTURE.md (Next.js assumption) | Translated recommendation (Vite + React SPA) |
-|---|---|
-| App Router persistent layout (`app/apply/layout.tsx`) | react-router v8 **nested routes**: the `apply` parent route renders the persistent wizard shell (progress header, language switcher) + `<Outlet/>`; stage children render inside it and never unmount the shell |
-| `[step]/page.tsx` + `redirect()` guard | One route per stage under `/apply/:step`; **StepGuard** as a route loader/guard that recomputes reachability from the store and redirects deep links/stale bookmarks to the first incomplete step |
-| Module-scope Zustand + `skipHydration` (SSR safety) | Zustand stays, but **no SSR exists** — Pitfall 2 (hydration mismatch) largely evaporates. Remaining sliver: rehydrate persisted state **after mount** behind a skeleton to avoid first-paint flicker; centralize storage reads in one hook/module |
-| next-intl, cookie-based locale, `getRequestConfig` | **i18next + react-i18next + browser-languagedetector**: locale persisted to localStorage (no server to read cookies), `i18n.changeLanguage()` switches, `<html lang>` updated imperatively on change, per-locale JSON message catalogs (lazy-load non-active locales) |
-| Serwist (`@serwist/next`) | **vite-plugin-pwa** (Workbox `generateSW`): precache app shell, offline navigation fallback. Pitfall 10 (stale SW after deploys) applies identically — decide the network-first-navigations caching matrix in the PWA phase plan |
-| Free route-level code splitting | Deliberate: react-router **lazy routes / dynamic `import()`** per stage — same effect, must be configured |
-| Static export build | Native static output — Vite builds static bundles by default |
+| ARCHITECTURE.md (Next.js assumption)                  | Translated recommendation (Vite + React SPA)                                                                                                                                                                                                                          |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App Router persistent layout (`app/apply/layout.tsx`) | react-router v8 **nested routes**: the `apply` parent route renders the persistent wizard shell (progress header, language switcher) + `<Outlet/>`; stage children render inside it and never unmount the shell                                                       |
+| `[step]/page.tsx` + `redirect()` guard                | One route per stage under `/apply/:step`; **StepGuard** as a route loader/guard that recomputes reachability from the store and redirects deep links/stale bookmarks to the first incomplete step                                                                     |
+| Module-scope Zustand + `skipHydration` (SSR safety)   | Zustand stays, but **no SSR exists** — Pitfall 2 (hydration mismatch) largely evaporates. Remaining sliver: rehydrate persisted state **after mount** behind a skeleton to avoid first-paint flicker; centralize storage reads in one hook/module                     |
+| next-intl, cookie-based locale, `getRequestConfig`    | **i18next + react-i18next + browser-languagedetector**: locale persisted to localStorage (no server to read cookies), `i18n.changeLanguage()` switches, `<html lang>` updated imperatively on change, per-locale JSON message catalogs (lazy-load non-active locales) |
+| Serwist (`@serwist/next`)                             | **vite-plugin-pwa** (Workbox `generateSW`): precache app shell, offline navigation fallback. Pitfall 10 (stale SW after deploys) applies identically — decide the network-first-navigations caching matrix in the PWA phase plan                                      |
+| Free route-level code splitting                       | Deliberate: react-router **lazy routes / dynamic `import()`** per stage — same effect, must be configured                                                                                                                                                             |
+| Static export build                                   | Native static output — Vite builds static bundles by default                                                                                                                                                                                                          |
 
 **Action for orchestrator/user:** this overrides the PRD's parenthetical Next.js mention. STACK.md already flags it for explicit sign-off (MEDIUM-HIGH, not HIGH). Ratify at requirements/roadmap time — it changes Phase 1's scaffold, not the product's shape. If the team strongly prefers Next.js anyway, STACK.md's fallback path (Next 16 static export + Serwist + next-intl) transfers everything else unchanged at the cost of larger baseline JS and more PWA friction.
 
@@ -43,6 +43,7 @@ Key risks, in order of severity: **(1)** autosave theater — a save indicator t
 Full details in [STACK.md](./STACK.md). Versions verified against the live npm registry (2026-08-25). Headline: **Vite + React SPA, not Next.js** (Framework Decision above).
 
 **Core technologies:**
+
 - **Vite 8.2 + React 19.2 + TypeScript 7.0** — fastest dev loop, least baseline JS for a client-only app on 3G; TS 7's Go compiler is fast but ESLint needs the `@typescript/typescript6` sidecar until TS 7.1 ships the programmatic API
 - **react-router 8.3 (library mode, unified `react-router` package — NOT `react-router-dom`)** — one route per wizard stage; shareable/resumable URLs; `<Outlet>` hosts the persistent shell; lazy routes for code splitting
 - **Tailwind CSS 4.3 + shadcn/ui (Radix foundations)** — zero-runtime styling; CSS-first `@theme` tokens enforcing 48px touch targets and AA contrast globally; source-owned components customizable down to copy
@@ -69,6 +70,7 @@ Full details in [FEATURES.md](./FEATURES.md). Confidence MEDIUM — verified acr
 Full details in [ARCHITECTURE.md](./ARCHITECTURE.md) (written for Next.js; see the translation table above). The consensus: a multi-step guided application is a **state machine whose UI renders fields**. Answers are the only persisted truth; step completion, reachable path, and progress % are recomputed on load — never stored.
 
 **Major components:**
+
 1. **Wizard machine** (`features/wizard/machine.ts`) — pure TypeScript reducer over answers; derives path and per-step statuses (`locked/available/complete/stale`); editing an earlier answer revokes downstream completeness; unit-testable without React
 2. **Persistent wizard shell + StepGuard** — react-router nested route whose `<Outlet>` chrome never unmounts; URL step ids treated as untrusted input, redirected when unreachable
 3. **applicationStore (Zustand + persist)** — sole owner of answers; persists `{version, savedAt, values, currentStep-hint}` only; RHF instances seed from and patch into it (write-through, never competing copies); debounced writes + flush on step change/pagehide/visibilitychange
@@ -93,47 +95,55 @@ Also load-bearing: **stale SW after deploys** (network-first navigations, versio
 Based on combined research, suggested phase structure (dependency-driven; ARCHITECTURE's build order + PITFALLS' ordering implication converge on this shape):
 
 ### Phase 1: Foundation & Design System
+
 **Rationale:** Everything composes these primitives; retrofitting any of them touches every component (PITFALLS recovery table rates those retrofits HIGH).
 **Delivers:** Vite+React+TS scaffold (per ratified Framework Decision) · design tokens (48px targets, AA palette) · Noto-first typography strategy · i18n machinery (6 locales, logical-CSS rule, pseudolocale check) · storage abstraction (one answers module + idb documents DB) · typed service interfaces + mock adapters · perf budget wired into CI · Vitest/Playwright/axe pipeline.
 **Addresses:** T18/T19 groundwork, T17 scaffolding, D1 machinery.
 **Avoids:** Pitfalls 1, 4, 5, 6, 7, 9 at the root.
 
 ### Phase 2: Application State Spine
+
 **Rationale:** "Never lose data" and "always know where am I" live entirely here; building it before screens makes later stages mostly declarative. Pure logic — no screens needed.
 **Delivers:** Zod schemas per step + composed full schema · applicationStore (versioned, answers-only, debounced+flush persistence, expiry) · pure wizard-machine reducer with unit tests · draft envelope incl. `maxStepReached`.
 **Avoids:** Anti-patterns 1–3 (persisted derived state, step-local state, three sources of truth).
 
 ### Phase 3: Wizard Shell + Stages 1–2 (Visa Type → Personal Details)
+
 **Rationale:** First vertical slice proves the PATCH→derive→persist loop end-to-end; validation policy gets defined where it's cheapest to enforce.
 **Delivers:** Nested-route shell + `<Outlet>` chrome + StepGuard + progress header/time estimates · Stage 1 (catalog, recommendation rules D3, upfront checklist/cost/time T7, expiry advisory D4) · Stage 2 (formatters, inputmode keyboards) · the validation policy (blur-timing, enabled submit, error-summary component T5, advisory-vs-blocking distinction).
 **Addresses:** T1, T4, T5, T7, T8, D2 start, D3, D4.
 **Avoids:** Pitfalls 3 (flush wiring born here), 11, 12.
 
 ### Phase 4: Documents Stage (Upload Pipeline)
+
 **Rationale:** Highest-complexity table stake (HIGH cost) with hardware/network realities needing their own attention.
 **Delivers:** Camera capture + file picker · magic-byte/format/size checks · canvas compression ≤2 MB (T10) · thumbnail preview + confirm-before-attach · IndexedDB blob writes at selection + metadata store · honest quality-check scope (resolution heuristic, labeled as such) · quota/estimate surfacing.
 **Addresses:** T9, T10, D5 overlays.
 **Avoids:** Pitfall 1 concretely; HEIC/large-JPEG gotchas.
 
 ### Phase 5: Review → Payment → Confirmation
+
 **Rationale:** Review (T6) requires the unified store (reads what T2 persisted) and gates payment enablement; the payment state machine gates confirmation/tracking downstream.
 **Delivers:** Review-your-answers page grouped by stage with tap-to-edit (T6 — biggest PRD gap fix) · mock gateway modal (UPI/Card/Netbanking) with INITIATED→PENDING→SUCCESS/FAILED, retry linked to parent txn, double-submit guard (T11) · itemized breakdown + receipt (T12) · CSPRNG reference numbers + confirmation package (T13) · clear-on-submit.
 **Addresses:** T6, T11, T12, T13, T22 near sensitive fields.
 **Avoids:** Pitfall 8 (mock stays scripted, time-boxed), guessable-reference security mistake.
 
 ### Phase 6: Tracking, Resume & Support Flows
+
 **Rationale:** Post-submission and recovery flows consume artifacts from Phases 2–5 (reference numbers, snapshots, timeline seeds).
 **Delivers:** `/track?ref=` guest lookup + dated timeline with next actions (T14/T15) · backup-code snapshot/restore incl. in-app mock "inbox" so the flow is demonstrable (T3) · duplicate-detection resume prompt (T23) · searchable translated FAQ + contact affordance (T16) · trust/privacy explainer completed (T22).
 **Addresses:** T3, T14–T16, T22, T23, D8.
 **Avoids:** Autosave-theater blind spots; scope creep into a status-transition engine.
 
 ### Phase 7: Localization Completion
+
 **Rationale:** Machinery exists from Phase 1 and was enforced continuously; this phase is content + verification, not plumbing — and it protects flagship differentiator D1.
 **Delivers:** Full-catalog translations across ALL surfaces (errors, statuses, tooltips, examples, FAQ) · per-script rendering audit (line-height/clipping, conjunct smoke tests) · dynamic `<html lang>` verified · mid-flow language switch without form reset · pseudolocale build showing zero unwrapped strings.
 **Addresses:** T17, T18, D1, D2 depth.
 **Avoids:** Pitfalls 5, 6, 12 verification halves.
 
 ### Phase 8: PWA/Offline + Hardening
+
 **Rationale:** SW caches whatever shell exists — doing it early churns; hardening verifies the whole journey rather than per-part.
 **Delivers:** vite-plugin-pwa with deliberate caching-strategy matrix (network-first navigations, hashed-asset cache-first, versioned caches + activate cleanup) · offline fallback + honest offline banner · `navigator.storage.persist()` · deploy-twice stale-SW test · end-to-end keyboard-only + screen-reader walkthrough · Lighthouse ≥90 + CWV on throttled CPU/3G per stage screen · private-mode/quota edge cases · PITFALLS "Looks Done But Isn't" checklist as exit criteria.
 **Addresses:** T21, T19 final gate.
@@ -149,11 +159,13 @@ Based on combined research, suggested phase structure (dependency-driven; ARCHIT
 ### Research Flags
 
 Phases likely needing deeper research during planning (`--research-phase`):
+
 - **Phase 4 (Documents):** HEIC acceptance/conversion on Android capture, canvas-compression quality tuning, camera-capture quirks in Chrome Android — niche, sparsely documented interactions.
 - **Phase 5 (Review/Payment):** realistic mock payload shapes for a UPI-style collect flow (pending semantics, retry linkage) — worth a short targeted pass even though mocked.
 - **Phase 8 (PWA):** vite-plugin-pwa 1.x ↔ Vite 8 peer compatibility and Workbox navigateFallback configuration — verify at scaffold time; strategy matrix deserves explicit planning.
 
 Phases with standard patterns (skip research-phase):
+
 - **Phase 1:** Vite/Tailwind/shadcn/i18next setup is exhaustively documented (verify TS7-eslint sidecar caveat on install).
 - **Phase 2:** Pure TypeScript reducers + Zod — standard.
 - **Phase 3:** react-router nested layouts/guards — well-documented library mode.
@@ -162,12 +174,12 @@ Phases with standard patterns (skip research-phase):
 
 ## Confidence Assessment
 
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | MEDIUM-HIGH | Versions verified against live npm registry (HIGH); framework choice cross-checked against 2026 consensus but **overrides the PRD's Next.js mention — needs explicit user sign-off**; TS 7 + ESLint sidecar workaround is young |
-| Features | MEDIUM | Competitor features cross-checked across multiple independent sources; GOV.UK patterns from primary sources (HIGH); UPI payment-behavior claims MEDIUM |
-| Architecture | HIGH | Core patterns (derive-don't-persist, ports & adapters, split persistence) corroborated by multiple 2026 sources + official platform docs; Vite translation is mechanical but untested as a whole until Phase 1 |
-| Pitfalls | HIGH | Storage/quota, WCAG, and perf claims verified against official docs (web.dev, MDN, WebAIM Million 2026, W3C WAI) |
+| Area         | Confidence  | Notes                                                                                                                                                                                                                           |
+| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | MEDIUM-HIGH | Versions verified against live npm registry (HIGH); framework choice cross-checked against 2026 consensus but **overrides the PRD's Next.js mention — needs explicit user sign-off**; TS 7 + ESLint sidecar workaround is young |
+| Features     | MEDIUM      | Competitor features cross-checked across multiple independent sources; GOV.UK patterns from primary sources (HIGH); UPI payment-behavior claims MEDIUM                                                                          |
+| Architecture | HIGH        | Core patterns (derive-don't-persist, ports & adapters, split persistence) corroborated by multiple 2026 sources + official platform docs; Vite translation is mechanical but untested as a whole until Phase 1                  |
+| Pitfalls     | HIGH        | Storage/quota, WCAG, and perf claims verified against official docs (web.dev, MDN, WebAIM Million 2026, W3C WAI)                                                                                                                |
 
 **Overall confidence:** HIGH — proceed to roadmap, contingent on ratifying the framework decision.
 
@@ -185,16 +197,18 @@ Phases with standard patterns (skip research-phase):
 Aggregated from the four research files; per-file citations with confidence ratings live in STACK.md, FEATURES.md, ARCHITECTURE.md, and PITFALLS.md.
 
 ### Primary (HIGH confidence)
+
 - Live npm registry (2026-08-25) — all recommended versions verified current
-- web.dev *Storage for the web*; MDN *Storage quotas and eviction criteria* (2026) — persistence limits, QuotaExceededError, Safari ITP eviction
+- web.dev _Storage for the web_; MDN _Storage quotas and eviction criteria_ (2026) — persistence limits, QuotaExceededError, Safari ITP eviction
 - WebAIM Million 2026 — six WCAG failure types = 96% of detected errors; contrast 83.9%, missing labels 51%
-- W3C WAI *Understanding SC 2.2.5* + Failure F12 — session-timeout data loss as formal WCAG failure
+- W3C WAI _Understanding SC 2.2.5_ + Failure F12 — session-timeout data loss as formal WCAG failure
 - Nielsen Norman Group wizard/error-design guidelines; Smashing live-validation guide; Baymard inline-validation research
 - Chrome/Workbox service-worker deployment expectations — stale-cache mechanics
 - Microsoft TypeScript blog — TS 7.0 announcement, programmatic-API timeline
 - Context7 official library docs: zustand persist, react-hook-form, next-intl, Serwist, Next.js App Router/static export (used for the reconciliation)
 
 ### Secondary (MEDIUM confidence)
+
 - Context7 docs for vite-plugin-pwa, i18next, idb, shadcn/ui, vitest, playwright, axe-core, zod, resolvers
 - 2026 Next.js-vs-Vite decision literature (multiple independent, mutually consistent sources)
 - iVisa / Atlys feature sets (app-store listings, vendor sites, independent reviews)
@@ -203,9 +217,11 @@ Aggregated from the four research files; per-file citations with confidence rati
 - Multi-step-form architecture articles (client-side-form.com, devprep.co, base44devs.com — cross-corroborated)
 
 ### Tertiary (LOW confidence — validate during execution)
+
 - Exact byte budgets per device class (webvitals.tools calculator tables) — directionally sound, tune to measured CWV
 - Post-mortem single-source stale-SW incident reports — consistent with Workbox docs but anecdotal
 
 ---
-*Research completed: 2026-08-25*
-*Ready for roadmap: yes (pending framework ratification)*
+
+_Research completed: 2026-08-25_
+_Ready for roadmap: yes (pending framework ratification)_

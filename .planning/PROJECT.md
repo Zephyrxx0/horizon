@@ -63,10 +63,10 @@ A first-time applicant can complete an entire visa application end-to-end on a b
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| Single milestone covering full PRD scope | User directive: everything in 1 milestone, no milestone 2 | — Pending |
-| Backend integrations stay mocked per PRD §4 | No access to MEA/Razorpay/Twilio APIs; prototype demonstrates UX end-to-end | — Pending |
+| Decision                                           | Rationale                                                                      | Outcome   |
+| -------------------------------------------------- | ------------------------------------------------------------------------------ | --------- |
+| Single milestone covering full PRD scope           | User directive: everything in 1 milestone, no milestone 2                      | — Pending |
+| Backend integrations stay mocked per PRD §4        | No access to MEA/Razorpay/Twilio APIs; prototype demonstrates UX end-to-end    | — Pending |
 | Build fresh app informed by existing prototype JSX | Prototype validates flows but is a single-file demo, not a codebase foundation | — Pending |
 
 ## Evolution
@@ -74,6 +74,7 @@ A first-time applicant can complete an entire visa application end-to-end on a b
 This document evolves at phase transitions and milestone boundaries.
 
 **After each phase transition** (via `/gsd-transition`):
+
 1. Requirements invalidated? → Move to Out of Scope with reason
 2. Requirements validated? → Move to Validated with phase reference
 3. New requirements emerged? → Add to Active
@@ -81,10 +82,12 @@ This document evolves at phase transitions and milestone boundaries.
 5. "What This Is" still accurate? → Update if drifted
 
 **After each milestone** (via `/gsd-complete-milestone`):
+
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-25 after initialization*
+
+_Last updated: 2026-08-25 after initialization_

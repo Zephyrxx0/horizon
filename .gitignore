@@ -1,1 +1,9 @@
-visarethink/
+node_modules/
+dist/
+dist-ssr/
+*.local
+coverage/
+playwright-report/
+test-results/
+.DS_Store
+*.log

@@ -1,0 +1,29 @@
+import { defineConfig, devices } from '@playwright/test';
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+export default defineConfig({
+  testDir: './tests/e2e',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: 0,
+  workers: 1,
+  reporter: 'list',
+  use: {
+    baseURL: 'http://localhost:5173',
+    trace: 'off',
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+  webServer: {
+    command: 'pnpm dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: true,
+    timeout: 120000,
+  },
+});

@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-surface-bg: #faf8f5; /* Warm Ivory background */
+  --color-surface-card: #ffffff; /* White card surface */
+  --color-surface-subtle: #f3ede2; /* Warm neutral cream */
+  --color-indigo-primary: #1a2a44; /* Regal Deep Navy */
+  --color-indigo-hover: #233756; /* Hover Navy */
+  --color-ink: #1c1917; /* Warm Charcoal text */
+  --color-ink-muted: #5c5550; /* Muted warm gray text */
+  --color-border: #e5ddd0; /* Warm border */
+  --color-border-subtle: #f2ece2; /* Subtle warm border */
+
+  /* Sovereign Accent (Restrained single highlight) */
+  --color-saffron-50: #fffbeb;
+  --color-saffron-100: #fef3c7;
+  --color-saffron-bright: #d96b27; /* Tasteful Indian Saffron */
+  --color-saffron-deep: #a04810; /* Deep Terracotta/Saffron */
+
+  --color-navy-900: #0a111c;
+  --color-navy-800: #101926;
+  --color-navy-700: #1a2a44;
+
+  --color-green-50: #f0fdf4;
+  --color-green-700: #15803d;
+  --color-success: #1d683e; /* Rich Muted Green */
+
+  --color-error: #a82222; /* Toned-down warning red */
+  --color-disabled-text: #a1a1aa;
+  --color-disabled-bg: #f4f4f5;
+  --color-selected-bg: #f3ede2;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Footer surface — distinct from card/bg */
+  --color-surface-footer: #0a111c; /* Deep Navy footer */
+  --color-footer-text: #e2e8f0;
+  --color-footer-text-muted: #8b95a5;
+  --color-footer-border: #1a2a44;
+
+  --text-meta: 0.8125rem;
+  --text-body: 0.9375rem;
+  --text-heading: 1.125rem;
+  --text-display: 1.875rem;
+
+  --spacing-touch: 2.75rem;
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --radius-pill: 9999px;
+  --font-sans:
+    'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada',
+    'Nirmala UI', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-surface-bg);
+  line-height: 1.5;
+  scroll-padding-top: 5rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
+}
+
+/* Dark mode */
+:root[data-theme='dark'],
+.dark {
+  --color-surface-bg: #0f1319; /* Deep Dark Navy */
+  --color-surface-card: #151a22; /* Slate Card */
+  --color-surface-subtle: #1d232e; /* Muted surface dark */
+  --color-indigo-primary: #f0f4f8; /* Muted White action */
+  --color-indigo-hover: #e2e8f0;
+  --color-ink: #f0f4f8; /* Crisp light gray text */
+  --color-ink-muted: #8b95a5; /* Blue-gray muted text */
+  --color-border: #2e3846; /* Navy border */
+  --color-border-subtle: #1d2430;
+  --color-selected-bg: #1d232e;
+  --color-disabled-bg: #151a22;
+  --color-disabled-text: #525c6c;
+  --color-saffron-bright: #f59e0b; /* Golden saffron */
+  --color-saffron-deep: #ea580c; /* Bright saffron deep */
+  --color-success: #2eae68; /* Emerald Green */
+  --color-error: #e55959; /* Bright error red */
+  /* Footer stays dark even in light mode — override for dark to keep continuity */
+  --color-surface-footer: #0a0d11;
+  --color-footer-text: #8b95a5;
+  --color-footer-text-muted: #525c6c;
+  --color-footer-border: #151a22;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  line-height: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-indigo-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth theme transition on root */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *:before,
+html.theme-transition *:after {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease !important;
+}
+
+/* Crisp subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-muted);
+}
