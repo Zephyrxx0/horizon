@@ -24,13 +24,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   const variantStyles = {
     primary:
-      'bg-slate-900 text-white dark:bg-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 shadow-xs active:scale-[0.98]',
+      'bg-[var(--color-ink)] text-[var(--color-surface-bg)] hover:opacity-90 shadow-xs active:scale-[0.98]',
     secondary:
-      'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98]',
+      'bg-[var(--color-surface-subtle)] text-[var(--color-ink)] hover:bg-[var(--color-border)] active:scale-[0.98]',
     outline:
-      'bg-transparent text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/60 active:scale-[0.98]',
+      'bg-transparent text-[var(--color-ink)] border border-[var(--color-border)] hover:bg-[var(--color-surface-subtle)] active:scale-[0.98]',
     ghost:
-      'bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-100',
+      'bg-transparent text-[var(--color-ink-muted)] hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-ink)]',
     destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-xs active:scale-[0.98]',
   }[variant];
 

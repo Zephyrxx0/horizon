@@ -31,6 +31,12 @@
   --color-selected-bg: #f4f4f5;
   --color-overlay: rgba(0, 0, 0, 0.5);
 
+  /* Footer surface — distinct from card/bg */
+  --color-surface-footer: #09090b;
+  --color-footer-text: #d4d4d8;
+  --color-footer-text-muted: #71717a;
+  --color-footer-border: #27272a;
+
   --text-meta: 0.8125rem;
   --text-body: 0.9375rem;
   --text-heading: 1.125rem;
@@ -74,6 +80,13 @@
   --color-disabled-text: #52525b;
   --color-saffron-bright: #f97316;
   --color-saffron-deep: #ea580c;
+  --color-success: #22c55e;
+  --color-error: #f87171;
+  /* Footer stays dark even in light mode — override for dark to keep continuity */
+  --color-surface-footer: #060609;
+  --color-footer-text: #a1a1aa;
+  --color-footer-text-muted: #52525b;
+  --color-footer-border: #18181b;
   color-scheme: dark;
 }
 
@@ -91,6 +104,12 @@
   --color-saffron-bright: #f59e0b;
   --color-saffron-deep: #d97706;
   --color-selected-bg: #27272a;
+  --color-success: #4ade80;
+  --color-error: #fca5a5;
+  --color-surface-footer: #000000;
+  --color-footer-text: #d4d4d8;
+  --color-footer-text-muted: #a1a1aa;
+  --color-footer-border: #52525b;
   color-scheme: dark;
 }
 

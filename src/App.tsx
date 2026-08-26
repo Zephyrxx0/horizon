@@ -160,74 +160,81 @@ function MainContent() {
 
         {/* ROUTE 5: Application Wizard Portal */}
         {showWizard && (
-          <div className="max-w-3xl mx-auto px-4 pt-4 sm:pt-8 pb-16 space-y-6 animate-in fade-in duration-150">
+          <div className="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 pb-16 animate-in fade-in duration-150">
             <h1 className="sr-only">Visa Application Journey</h1>
 
-            {/* Top Progress Bar & Save Indicator */}
-            <div className="flex flex-col gap-2 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 sm:p-5 rounded-xl shadow-2xs">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                  <Clock className="w-3.5 h-3.5 text-zinc-500" aria-hidden="true" />
-                  <span className="tabular-nums">
-                    ~{minutesRemaining} min remaining • {percent}% completed
-                  </span>
+            {/* Desktop: sidebar layout. Mobile: stacked */}
+            <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 lg:gap-8 items-start">
+              {/* Left sidebar: progress + save indicator */}
+              <div className="lg:sticky lg:top-[80px] space-y-3">
+                <div className="border border-[var(--color-border)] bg-[var(--color-surface-card)] p-4 rounded-xl shadow-xs space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-muted)]">
+                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span className="tabular-nums">
+                        ~{minutesRemaining} min · {percent}% done
+                      </span>
+                    </div>
+                    <SaveIndicator
+                      state={saveState}
+                      onClickSaved={() => {
+                        setBackupMode('generate');
+                        setIsBackupOpen(true);
+                      }}
+                    />
+                  </div>
+
+                  {/* Vertical stepper on desktop */}
+                  <ProgressStepper steps={stages} orientation="vertical" className="w-full" />
                 </div>
-                <SaveIndicator
-                  state={saveState}
-                  onClickSaved={() => {
-                    setBackupMode('generate');
+
+                {/* Draft Resumption Banner (STATE-04) */}
+                <ResumeBanner
+                  onOpenBackupRestore={() => {
+                    setBackupMode('restore');
                     setIsBackupOpen(true);
                   }}
                 />
               </div>
-              <ProgressStepper steps={stages} className="w-full" />
-            </div>
 
-            {/* Draft Resumption Banner (STATE-04) */}
-            <ResumeBanner
-              onOpenBackupRestore={() => {
-                setBackupMode('restore');
-                setIsBackupOpen(true);
-              }}
-            />
+              {/* Right: Active Stage Screen */}
+              <div className="bg-[var(--color-surface-card)] p-5 sm:p-8 rounded-xl border border-[var(--color-border)] shadow-xs min-h-[400px]">
+                {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
 
-            {/* Active Stage Screen */}
-            <div className="bg-white dark:bg-zinc-900 p-4 sm:p-8 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xs">
-              {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
+                {(currentStepId === 'personal-identity' ||
+                  currentStepId === 'personal-contact' ||
+                  currentStepId === 'personal-details') && <PersonalDetailsScreen />}
 
-              {(currentStepId === 'personal-identity' ||
-                currentStepId === 'personal-contact' ||
-                currentStepId === 'personal-details') && <PersonalDetailsScreen />}
+                {currentStepId === 'documents' && <DocumentsScreen />}
 
-              {currentStepId === 'documents' && <DocumentsScreen />}
+                {currentStepId === 'review-payment' && <ReviewScreen />}
 
-              {currentStepId === 'review-payment' && <ReviewScreen />}
-
-              {currentStepId === 'confirmation' && <ConfirmationScreen />}
+                {currentStepId === 'confirmation' && <ConfirmationScreen />}
+              </div>
             </div>
           </div>
         )}
       </main>
 
-      {/* Authoritative Minimalist Footer */}
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-950 text-zinc-300 mt-auto">
+      {/* Footer */}
+      <footer className="border-t border-[var(--color-footer-border)] bg-[var(--color-surface-footer)] text-[var(--color-footer-text)] mt-auto">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs">
             {/* Col 1 */}
             <div className="space-y-2 md:col-span-2">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded bg-zinc-800 flex items-center justify-center text-xs">
+                <div className="w-6 h-6 rounded bg-[var(--color-footer-border)] flex items-center justify-center text-xs">
                   🇮🇳
                 </div>
                 <span className="font-semibold text-white text-sm">
                   e-Visa India • Government of India
                 </span>
               </div>
-              <p className="text-zinc-400 leading-relaxed max-w-md text-xs">
+              <p className="text-[var(--color-footer-text-muted)] leading-relaxed max-w-md text-xs">
                 Official electronic visa portal managed by the Bureau of Immigration, Ministry of
                 Home Affairs and Ministry of External Affairs.
               </p>
-              <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+              <div className="flex items-center gap-2 text-[11px] text-[var(--color-footer-text-muted)]">
                 <span>TLS 1.3 256-Bit Encrypted</span>
                 <span>•</span>
                 <span>Digital India</span>
@@ -239,52 +246,23 @@ function MainContent() {
               <span className="font-semibold text-white uppercase tracking-wider text-[11px] block">
                 Quick Navigation
               </span>
-              <ul className="space-y-1 text-zinc-400">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/')}
-                    className="hover:text-white cursor-pointer"
-                  >
-                    Portal Home
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/apply')}
-                    className="hover:text-white cursor-pointer"
-                  >
-                    Apply for e-Visa
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/track')}
-                    className="hover:text-white cursor-pointer"
-                  >
-                    Track Status & Verification
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/support')}
-                    className="hover:text-white cursor-pointer"
-                  >
-                    Guidelines & Photo Specs
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => navigate('/design-system')}
-                    className="hover:text-white cursor-pointer"
-                  >
-                    Design System
-                  </button>
-                </li>
+              <ul className="space-y-1 text-[var(--color-footer-text-muted)]">
+                {[
+                  { label: 'Portal Home', path: '/' as const },
+                  { label: 'Apply for e-Visa', path: '/apply' as const },
+                  { label: 'Track Status', path: '/track' as const },
+                  { label: 'Guidelines & Photo Specs', path: '/support' as const },
+                ].map((link) => (
+                  <li key={link.path}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(link.path)}
+                      className="hover:text-white cursor-pointer transition-colors"
+                    >
+                      {link.label}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -293,23 +271,28 @@ function MainContent() {
               <span className="font-semibold text-white uppercase tracking-wider text-[11px] block">
                 Official Support
               </span>
-              <p className="text-zinc-400">
+              <p className="text-[var(--color-footer-text-muted)]">
                 24x7 Tourist Helpline: <br />
-                <strong className="text-zinc-100 font-mono">1800-11-1363</strong> (Toll Free)
+                <strong className="text-[var(--color-footer-text)] font-mono">
+                  1800-11-1363
+                </strong>{' '}
+                (Toll Free)
               </p>
-              <p className="text-zinc-400">
+              <p className="text-[var(--color-footer-text-muted)]">
                 Helpdesk: <br />
-                <span className="text-zinc-300 font-mono">indian-evisa@gov.in</span>
+                <span className="text-[var(--color-footer-text)] font-mono">
+                  indian-evisa@gov.in
+                </span>
               </p>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+          <div className="pt-4 border-t border-[var(--color-footer-border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[var(--color-footer-text-muted)]">
             <p>{t('app.footer')}</p>
             <button
               type="button"
               onClick={() => setIsClearDataOpen(true)}
-              className="text-zinc-400 hover:text-zinc-200 hover:underline font-normal cursor-pointer text-[11px]"
+              className="text-[var(--color-footer-text-muted)] hover:text-white hover:underline font-normal cursor-pointer text-[11px] transition-colors"
               data-testid="footer-clear-data-btn"
             >
               Reset & Clear Local Data

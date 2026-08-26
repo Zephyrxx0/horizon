@@ -32,28 +32,28 @@ export function VisaCalculator({
 
   return (
     <div
-      className={`rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-xs p-5 sm:p-6 space-y-5 ${className}`}
+      className={`rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-xs p-5 sm:p-6 space-y-5 ${className}`}
     >
-      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3.5">
+      <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3.5">
         <div className="flex items-center gap-2">
-          <Calculator className="w-4 h-4 text-zinc-700 dark:text-zinc-300" aria-hidden="true" />
+          <Calculator className="w-4 h-4 text-[var(--color-ink-muted)]" aria-hidden="true" />
           {headingLevel === 'h2' && (
-            <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-              Visa & Tariff Checker
+            <h2 className="text-base font-semibold text-[var(--color-ink)]">
+              Visa &amp; Tariff Checker
             </h2>
           )}
           {headingLevel === 'h3' && (
-            <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-              Visa & Tariff Checker
+            <h3 className="text-base font-semibold text-[var(--color-ink)]">
+              Visa &amp; Tariff Checker
             </h3>
           )}
           {headingLevel === 'div' && (
-            <div className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-              Visa & Tariff Checker
+            <div className="text-base font-semibold text-[var(--color-ink)]">
+              Visa &amp; Tariff Checker
             </div>
           )}
         </div>
-        <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+        <span className="text-[11px] font-medium text-[var(--color-ink-muted)]">
           Official MEA Tariff
         </span>
       </div>
@@ -62,7 +62,7 @@ export function VisaCalculator({
         <div className="space-y-1.5">
           <label
             htmlFor="calc-destination"
-            className="text-xs font-medium text-zinc-700 dark:text-zinc-300"
+            className="text-xs font-medium text-[var(--color-ink-muted)]"
           >
             Passport / Nationality
           </label>
@@ -83,7 +83,7 @@ export function VisaCalculator({
         <div className="space-y-1.5">
           <label
             htmlFor="calc-purpose"
-            className="text-xs font-medium text-zinc-700 dark:text-zinc-300"
+            className="text-xs font-medium text-[var(--color-ink-muted)]"
           >
             Purpose of Visit
           </label>
@@ -104,43 +104,43 @@ export function VisaCalculator({
 
       {/* Recommended Visa Result Card */}
       {recommendedVisa && (
-        <div className="p-4 rounded-lg bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/80 space-y-3">
+        <div className="p-4 rounded-lg bg-[var(--color-surface-subtle)] border border-[var(--color-border)] space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
             <div>
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-ink-muted)]">
                 Recommended
               </span>
-              <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              <div className="text-sm font-semibold text-[var(--color-ink)]">
                 {recommendedVisa.name}
               </div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              <p className="text-xs text-[var(--color-ink-muted)] mt-0.5">
                 {recommendedVisa.description}
               </p>
             </div>
             <div className="text-left sm:text-right shrink-0">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-400 block">Total Fee</span>
-              <div className="text-lg font-bold text-zinc-900 dark:text-zinc-100 tabular-nums">
+              <span className="text-[11px] text-[var(--color-ink-muted)] block">Total Fee</span>
+              <div className="text-lg font-bold text-[var(--color-ink)] tabular-nums">
                 ${recommendedVisa.totalCost} USD
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-700 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-[var(--color-border)] text-xs">
             <div>
-              <span className="text-zinc-500 dark:text-zinc-400 block text-[11px]">Processing</span>
-              <span className="font-medium text-zinc-800 dark:text-zinc-200">
+              <span className="text-[var(--color-ink-muted)] block text-[11px]">Processing</span>
+              <span className="font-medium text-[var(--color-ink)]">
                 {recommendedVisa.processingTimeDisplay}
               </span>
             </div>
             <div>
-              <span className="text-zinc-500 dark:text-zinc-400 block text-[11px]">Govt Fee</span>
-              <span className="font-medium text-zinc-800 dark:text-zinc-200 tabular-nums">
+              <span className="text-[var(--color-ink-muted)] block text-[11px]">Govt Fee</span>
+              <span className="font-medium text-[var(--color-ink)] tabular-nums">
                 ${recommendedVisa.govtFee} USD
               </span>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <span className="text-zinc-500 dark:text-zinc-400 block text-[11px]">Validity</span>
-              <span className="font-medium text-zinc-800 dark:text-zinc-200">
+              <span className="text-[var(--color-ink-muted)] block text-[11px]">Validity</span>
+              <span className="font-medium text-[var(--color-ink)]">
                 {recommendedVisa.processingDaysMax} Days
               </span>
             </div>
