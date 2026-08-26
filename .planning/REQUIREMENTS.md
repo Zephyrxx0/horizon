@@ -50,17 +50,17 @@ Single milestone — full PRD scope plus research-identified table-stakes gaps. 
 
 ### Review & Error Recovery
 
-- [ ] **REVW-01**: User can review all entered answers on a single check-answers page grouped by stage before payment
-- [ ] **REVW-02**: User can jump from the review page to any stage to edit, then return to review
+- [x] **REVW-01**: User can review all entered answers on a single check-answers page grouped by stage before payment
+- [x] **REVW-02**: User can jump from the review page to any stage to edit, then return to review
 - [ ] **ERR-01**: Validation errors show accessible error summaries at top of page with links to each invalid field
 - [ ] **ERR-02**: All error messages are constructive and specific (say what's wrong and how to fix), never generic "Invalid input"
 
 ### Payment (Mocked)
 
-- [ ] **PAY-01**: User sees itemized cost breakdown (processing fee, government fee, platform fee, total) before paying
-- [ ] **PAY-02**: User can choose payment method among UPI, Card, Netbanking
-- [ ] **PAY-03**: Mock payment flow simulates success AND pending/failed states with retry that preserves entered data
-- [ ] **PAY-04**: On success user gets instant confirmation with a receipt saved in-app
+- [x] **PAY-01**: User sees itemized cost breakdown (processing fee, government fee, platform fee, total) before paying
+- [x] **PAY-02**: User can choose payment method among UPI, Card, Netbanking
+- [x] **PAY-03**: Mock payment flow simulates success AND pending/failed states with retry that preserves entered data
+- [x] **PAY-04**: On success user gets instant confirmation with a receipt saved in-app
 
 ### Confirmation & Tracking
 
@@ -119,60 +119,60 @@ Single milestone — full PRD scope plus research-identified table-stakes gaps. 
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| FOUND-01    | Phase 1 | Pending |
-| FOUND-02    | Phase 1 | Pending |
-| FOUND-03    | Phase 1 | Pending |
-| FOUND-04    | Phase 1 | Pending |
-| FOUND-05    | Phase 1 | Pending |
-| STATE-01    | Phase 1 | Pending |
-| STATE-02    | Phase 1 | Pending |
-| STATE-03    | Phase 1 | Pending |
-| SELCT-01    | Phase 2 | Pending |
-| SELCT-02    | Phase 2 | Pending |
-| SELCT-03    | Phase 2 | Pending |
-| SELCT-04    | Phase 2 | Pending |
-| PERS-01     | Phase 2 | Pending |
-| PERS-02     | Phase 2 | Pending |
-| PERS-03     | Phase 2 | Pending |
-| PERS-04     | Phase 2 | Pending |
-| PERS-05     | Phase 2 | Pending |
-| PERS-06     | Phase 2 | Pending |
-| STATE-04    | Phase 2 | Pending |
-| ERR-01      | Phase 2 | Pending |
-| ERR-02      | Phase 2 | Pending |
-| DOCS-01     | Phase 3 | Pending |
-| DOCS-02     | Phase 3 | Pending |
-| DOCS-03     | Phase 3 | Pending |
-| DOCS-04     | Phase 3 | Pending |
-| DOCS-05     | Phase 3 | Pending |
-| REVW-01     | Phase 4 | Pending |
-| REVW-02     | Phase 4 | Pending |
-| PAY-01      | Phase 4 | Pending |
-| PAY-02      | Phase 4 | Pending |
-| PAY-03      | Phase 4 | Pending |
-| PAY-04      | Phase 4 | Pending |
-| CNFRM-01    | Phase 5 | Pending |
-| CNFRM-02    | Phase 5 | Pending |
-| CNFRM-03    | Phase 5 | Pending |
-| CNFRM-04    | Phase 5 | Pending |
-| TRCK-01     | Phase 5 | Pending |
-| TRCK-02     | Phase 5 | Pending |
-| TRCK-03     | Phase 5 | Pending |
-| STATE-05    | Phase 5 | Pending |
-| STATE-06    | Phase 5 | Pending |
-| SUPRT-01    | Phase 6 | Pending |
-| SUPRT-02    | Phase 6 | Pending |
-| TRUST-01    | Phase 6 | Pending |
-| I18N-01     | Phase 6 | Pending |
-| I18N-02     | Phase 6 | Pending |
-| I18N-03     | Phase 6 | Pending |
-| A11Y-01     | Phase 6 | Pending |
-| A11Y-02     | Phase 6 | Pending |
-| PERF-01     | Phase 6 | Pending |
-| PWA-01      | Phase 6 | Pending |
-| PWA-02      | Phase 6 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| FOUND-01    | Phase 1 | Pending  |
+| FOUND-02    | Phase 1 | Pending  |
+| FOUND-03    | Phase 1 | Pending  |
+| FOUND-04    | Phase 1 | Pending  |
+| FOUND-05    | Phase 1 | Pending  |
+| STATE-01    | Phase 1 | Pending  |
+| STATE-02    | Phase 1 | Pending  |
+| STATE-03    | Phase 1 | Pending  |
+| SELCT-01    | Phase 2 | Pending  |
+| SELCT-02    | Phase 2 | Pending  |
+| SELCT-03    | Phase 2 | Pending  |
+| SELCT-04    | Phase 2 | Pending  |
+| PERS-01     | Phase 2 | Pending  |
+| PERS-02     | Phase 2 | Pending  |
+| PERS-03     | Phase 2 | Pending  |
+| PERS-04     | Phase 2 | Pending  |
+| PERS-05     | Phase 2 | Pending  |
+| PERS-06     | Phase 2 | Pending  |
+| STATE-04    | Phase 2 | Pending  |
+| ERR-01      | Phase 2 | Pending  |
+| ERR-02      | Phase 2 | Pending  |
+| DOCS-01     | Phase 3 | Pending  |
+| DOCS-02     | Phase 3 | Pending  |
+| DOCS-03     | Phase 3 | Pending  |
+| DOCS-04     | Phase 3 | Pending  |
+| DOCS-05     | Phase 3 | Pending  |
+| REVW-01     | Phase 4 | Complete |
+| REVW-02     | Phase 4 | Complete |
+| PAY-01      | Phase 4 | Complete |
+| PAY-02      | Phase 4 | Complete |
+| PAY-03      | Phase 4 | Complete |
+| PAY-04      | Phase 4 | Complete |
+| CNFRM-01    | Phase 5 | Pending  |
+| CNFRM-02    | Phase 5 | Pending  |
+| CNFRM-03    | Phase 5 | Pending  |
+| CNFRM-04    | Phase 5 | Pending  |
+| TRCK-01     | Phase 5 | Pending  |
+| TRCK-02     | Phase 5 | Pending  |
+| TRCK-03     | Phase 5 | Pending  |
+| STATE-05    | Phase 5 | Pending  |
+| STATE-06    | Phase 5 | Pending  |
+| SUPRT-01    | Phase 6 | Pending  |
+| SUPRT-02    | Phase 6 | Pending  |
+| TRUST-01    | Phase 6 | Pending  |
+| I18N-01     | Phase 6 | Pending  |
+| I18N-02     | Phase 6 | Pending  |
+| I18N-03     | Phase 6 | Pending  |
+| A11Y-01     | Phase 6 | Pending  |
+| A11Y-02     | Phase 6 | Pending  |
+| PERF-01     | Phase 6 | Pending  |
+| PWA-01      | Phase 6 | Pending  |
+| PWA-02      | Phase 6 | Pending  |
 
 **Coverage:**
 

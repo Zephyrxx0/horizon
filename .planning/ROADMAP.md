@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation, Design System & Persistence Engine** - Accessible mobile-first skeleton with mock services and never-lose-data draft persistence
 - [x] **Phase 2: Guided Journey — Visa Selection & Personal Details** - First vertical slice: choose visa with eyes open, enter details confidently, resume anywhere
 - [ ] **Phase 3: Document Upload Pipeline** - Camera/drag-drop uploads with exact guidance, instant validation, honest quality checks
-- [ ] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery
+- [x] **Phase 4: Review, Payment & Submission** - Check-your-answers gate, transparent mocked payment with failure recovery (completed 2026-08-26)
 - [ ] **Phase 5: Confirmation, Tracking & Recovery** - Reference number, status timeline, backup-code restore, duplicate detection
 - [ ] **Phase 6: Support, Localization, PWA & Hardening** - Six languages, help surfaces, offline resilience, WCAG/perf gates across whole journey
 
@@ -140,20 +140,20 @@ Plans:
 3. The mock payment exercises success AND pending/failed states; a failed attempt offers retry preserving all entered data; double-submission is guarded
 4. Successful payment yields instant confirmation with an itemized receipt saved in-app
 
-**Plans:** 4 plans
+**Plans:** 4/4 plans complete
 Plans:
 **Wave 1**
 
-- [ ] 04-01-PLAN.md — Payment Domain Models, Fee Calculator, Input Formatters & Wizard State Machine Topology
+- [x] 04-01-PLAN.md — Payment Domain Models, Fee Calculator, Input Formatters & Wizard State Machine Topology
 
 **Wave 2** _(blocked on Wave 1 completion)_
 
-- [ ] 04-02-PLAN.md — Review Summary Cards, Deep-Link Round-Trip Editing & Sticky Banner
-- [ ] 04-03-PLAN.md — Payment Method Selectors, Checkout Forms, Fee Breakdown Card & Scenario Controller
+- [x] 04-02-PLAN.md — Review Summary Cards, Deep-Link Round-Trip Editing & Sticky Banner
+- [x] 04-03-PLAN.md — Payment Method Selectors, Checkout Forms, Fee Breakdown Card & Scenario Controller
 
 **Wave 3** _(blocked on Wave 2 completion)_
 
-- [ ] 04-04-PLAN.md — Payment Processing Modal, Failure/Pending Recovery Cards, Printable In-App Receipt, Wizard Lock & E2E Verification
+- [x] 04-04-PLAN.md — Payment Processing Modal, Failure/Pending Recovery Cards, Printable In-App Receipt, Wizard Lock & E2E Verification
 
 **UI hint**: yes
 
@@ -196,11 +196,11 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
-| Phase                                                 | Plans Complete | Status      | Completed |
-| ----------------------------------------------------- | -------------- | ----------- | --------- |
-| 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed   | Phase 1   |
-| 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed   | Phase 2   |
-| 3. Document Upload Pipeline                           | 0/?            | Not started | -         |
-| 4. Review, Payment & Submission                       | 0/?            | Not started | -         |
-| 5. Confirmation, Tracking & Recovery                  | 0/?            | Not started | -         |
-| 6. Support, Localization, PWA & Hardening             | 0/?            | Not started | -         |
+| Phase                                                 | Plans Complete | Status      | Completed  |
+| ----------------------------------------------------- | -------------- | ----------- | ---------- |
+| 1. Foundation, Design System & Persistence Engine     | 6/6            | Completed   | Phase 1    |
+| 2. Guided Journey — Visa Selection & Personal Details | 5/5            | Completed   | Phase 2    |
+| 3. Document Upload Pipeline                           | 0/?            | Not started | -          |
+| 4. Review, Payment & Submission                       | 4/4            | Complete    | 2026-08-26 |
+| 5. Confirmation, Tracking & Recovery                  | 0/?            | Not started | -          |
+| 6. Support, Localization, PWA & Hardening             | 0/?            | Not started | -          |
