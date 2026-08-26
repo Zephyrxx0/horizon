@@ -171,8 +171,8 @@ test.describe('Phase 2: Guided Journey (Visa Selection & Personal Details)', () 
     await expect(page.getByText('Stage 2b of 5 • Contact & Address')).toBeVisible();
 
     // Go back to Stage 1 to test ResumeBanner discovery
-    await page.getByRole('button', { name: /Back/i }).click(); // back to Stage 2a
-    await page.getByRole('button', { name: /Back/i }).click(); // back to Stage 1
+    await page.getByRole('button', { name: 'Back', exact: true }).click(); // back to Stage 2a
+    await page.getByRole('button', { name: 'Back', exact: true }).click(); // back to Stage 1
 
     // Now on Stage 1, ResumeBanner should be visible with target step (Contact & Address)
     const resumeBtn = page.getByRole('button', { name: /Continue Application/i });

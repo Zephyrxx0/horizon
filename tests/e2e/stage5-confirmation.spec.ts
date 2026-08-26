@@ -27,7 +27,7 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     await page.getByLabel(/Last Name \/ Surname/i).fill('Sharma');
     await page.getByLabel(/Date of Birth/i).fill('1995-08-15');
     await page.getByLabel(/Gender/i).selectOption('female');
-    await page.getByLabel(/Passport Number/i).fill('P8765432');
+    await page.getByLabel(/Passport Number/i).fill('AA1234567');
     await page.getByLabel(/Date of Issue/i).fill('2021-01-01');
     await page.getByLabel(/Date of Expiry/i).fill('2031-01-01');
     await page.getByRole('button', { name: /Continue to Contact & Address/i }).click();
@@ -47,11 +47,14 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     await page.getByRole('button', { name: /Continue to Document Upload/i }).click();
 
     // --- STAGE 3: Document Upload ---
+    await expect(page.getByText('Stage 3: Document Upload Pipeline')).toBeVisible();
+
     const mockImageBuffer = Buffer.from(
       'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
       'base64',
     );
 
+    // 1. Bio Page
     const bioInput = page.getByLabel(/Upload file or PDF for Passport Bio Page/i);
     await bioInput.setInputFiles({
       name: 'passport_bio.jpg',
@@ -59,33 +62,59 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
       buffer: mockImageBuffer,
     });
     await expect(page.getByText('passport_bio.jpg')).toBeVisible();
+    const ack1 = page.getByRole('button', { name: /✓ Use This Image Anyway/i }).first();
+    if (await ack1.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await ack1.click();
+    }
 
-    const photoInput = page.getByLabel(/Upload file or PDF for Passport Photo/i);
+    // 2. Address Page
+    const addressInput = page.getByLabel(/Upload file or PDF for Passport Address Page/i);
+    await addressInput.setInputFiles({
+      name: 'passport_address.jpg',
+      mimeType: 'image/jpeg',
+      buffer: mockImageBuffer,
+    });
+    await expect(page.getByText('passport_address.jpg')).toBeVisible();
+    const ack2 = page.getByRole('button', { name: /✓ Use This Image Anyway/i }).first();
+    if (await ack2.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await ack2.click();
+    }
+
+    // 3. Photo
+    const photoInput = page.getByLabel(/Upload file or PDF for Recent Passport Photograph/i);
     await photoInput.setInputFiles({
       name: 'passport_photo.jpg',
       mimeType: 'image/jpeg',
       buffer: mockImageBuffer,
     });
     await expect(page.getByText('passport_photo.jpg')).toBeVisible();
+    const ack3 = page.getByRole('button', { name: /✓ Use This Image Anyway/i }).first();
+    if (await ack3.isVisible({ timeout: 1500 }).catch(() => false)) {
+      await ack3.click();
+    }
 
-    await page.getByRole('button', { name: /Review & Proceed to Payment/i }).click();
+    await expect(page.getByText('Documents: 3 of 3 mandatory ready')).toBeVisible();
+    await page.getByRole('button', { name: /Continue to Review & Payment/i }).click();
 
-    // --- STAGE 4: Review & Payment Submission ---
-    await expect(page.getByText('Stage 4: Review Application & Pay Fees')).toBeVisible();
+    // --- STAGE 4: Review, Payment & Submission ---
+    await expect(
+      page.getByRole('heading', { name: /Review Application & Complete Payment/i }),
+    ).toBeVisible();
 
-    // Check declaration & lock
-    await page.getByRole('checkbox').check();
-    await page.getByTestId('pay-fees-btn').click();
+    // Check declaration & fill UPI ID
+    await page.getByLabel(/Virtual Payment Address \(UPI ID\)/i).fill('priya@okhdfcbank');
+    await page.getByLabel(/I declare that all information provided is true/i).check();
 
-    // In payment modal, simulate successful payment
-    await expect(page.getByText('Secure Consular Fee Payment')).toBeVisible();
-    await page.getByTestId('scenario-success-btn').click();
-    await page.getByTestId('simulate-payment-btn').click();
+    // Ensure payment scenario is Success
+    await page.getByRole('button', { name: 'Success' }).click();
+
+    // Submit payment
+    await page.getByRole('button', { name: /Pay ₹8,500 & Submit Application/i }).click();
 
     // ==========================================
     // 2. STAGE 5 CONFIRMATION VERIFICATION
     // ==========================================
-    await expect(page.getByTestId('stage5-confirmation-screen')).toBeVisible();
+    await expect(page.getByTestId('stage5-confirmation-screen')).toBeVisible({ timeout: 15000 });
     await expect(page.getByText('Application Submitted Successfully!')).toBeVisible();
 
     // Verify Reference Number Card (CNFRM-01)
@@ -108,7 +137,7 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
 
     // Simulate Info Request
     await page.getByTestId('demo-info-request-btn').click();
-    await expect(page.getByText(/Action Required Alert/)).toBeVisible();
+    await expect(page.getByText(/Consulate requested additional document/i)).toBeVisible();
 
     // Simulate Approval
     await page.getByTestId('demo-approval-btn').click();
@@ -145,7 +174,7 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     await expect(page.getByText('Vikram Seth')).toBeVisible();
 
     // Close modal
-    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
 
     // ==========================================
     // 4. CROSS-DEVICE DRAFT BACKUP & RECOVERY (STATE-05)
@@ -172,9 +201,9 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     await page.getByRole('radio', { name: /Tourism & Leisure/i }).check();
     await page.getByRole('button', { name: /Continue to Personal Details/i }).click();
 
-    // In Identity step, enter seeded active passport Z1234567
+    // In Identity step, enter seeded active passport ZZ1234567
     const passportInput = page.getByLabel(/Passport Number/i);
-    await passportInput.fill('Z1234567');
+    await passportInput.fill('ZZ1234567');
 
     // Duplicate warning appears
     await expect(page.getByTestId('duplicate-passport-warning-card')).toBeVisible();
@@ -183,6 +212,6 @@ test.describe('Phase 5: Confirmation, Tracking & Recovery (E2E)', () => {
     // Click "Track Existing Application" to test pre-filled lookup
     await page.getByTestId('track-existing-app-btn').click();
     await expect(page.getByText('Track Your Application Status')).toBeVisible();
-    await expect(page.getByText('Vikram Seth')).toBeVisible();
+    await expect(page.getByLabel('Track Your Application Status').getByText('Vikram Seth')).toBeVisible();
   });
 });

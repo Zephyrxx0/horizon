@@ -46,7 +46,7 @@ test.describe('Save and Restore Persistence Engine', () => {
     await page.getByRole('textbox', { name: /passport number/i }).fill('AB1234567');
 
     // Go back to Stage 1
-    await page.getByRole('button', { name: /back/i }).click();
+    await page.getByRole('button', { name: 'Back', exact: true }).click();
 
     // Change purpose in Stage 1 to business
     await page.getByRole('radio', { name: /Business & Conferences/i }).check();

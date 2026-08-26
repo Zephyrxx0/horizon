@@ -157,8 +157,8 @@ test.describe('Phase 4: Review, Payment & Submission (E2E)', () => {
       page.getByRole('heading', { name: /Payment Receipt & Confirmation/i }),
     ).toBeVisible({ timeout: 10000 });
     await expect(page.getByText(/Official E-Receipt/i)).toBeVisible();
-    await expect(page.getByText(/SUCCESSFUL/i)).toBeVisible();
-    await expect(page.getByText('RahulDev Sharma')).toBeVisible();
+    await expect(page.getByText('SUCCESSFUL', { exact: true })).toBeVisible();
+    await expect(page.getByText('RahulDev Sharma').first()).toBeVisible();
     await expect(page.getByText('₹8,500', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('button', { name: /Print \/ Download/i })).toBeVisible();
   });
