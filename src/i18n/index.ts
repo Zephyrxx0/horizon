@@ -2,9 +2,12 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import commonEn from './locales/en/common.json';
 import wizardEn from './locales/en/wizard.json';
+import helpEn from './locales/en/help.json';
+import errorsEn from './locales/en/errors.json';
 import { loadScriptFont } from '../fonts';
 
-export const NAMESPACES = ['common', 'wizard'] as const;
+export const NAMESPACES = ['common', 'wizard', 'help', 'errors'] as const;
+export type Namespace = (typeof NAMESPACES)[number];
 
 export interface LocaleDefinition {
   code: string;
@@ -27,12 +30,14 @@ const initialLocale =
 i18n.use(initReactI18next).init({
   lng: initialLocale,
   fallbackLng: 'en',
-  ns: ['common', 'wizard'],
+  ns: ['common', 'wizard', 'help', 'errors'],
   defaultNS: 'common',
   resources: {
     en: {
       common: commonEn,
       wizard: wizardEn,
+      help: helpEn,
+      errors: errorsEn,
     },
   },
   react: {
@@ -61,13 +66,23 @@ export async function changeLocale(lng: string): Promise<void> {
   }
 
   try {
-    if (lng !== 'en' && !i18n.hasResourceBundle(lng, 'common')) {
-      // Lazy load additional locale bundle if present
-      try {
-        const commonModule = await import(`./locales/${lng}/common.json`);
-        i18n.addResourceBundle(lng, 'common', commonModule.default || commonModule, true, true);
-      } catch {
-        // Untranslated: falls back to 'en'
+    if (lng !== 'en') {
+      const missingBundles = NAMESPACES.some((ns) => !i18n.hasResourceBundle(lng, ns));
+      if (missingBundles) {
+        try {
+          const [commonMod, wizardMod, helpMod, errorsMod] = await Promise.all([
+            import(`./locales/${lng}/common.json`),
+            import(`./locales/${lng}/wizard.json`),
+            import(`./locales/${lng}/help.json`),
+            import(`./locales/${lng}/errors.json`),
+          ]);
+          i18n.addResourceBundle(lng, 'common', commonMod.default || commonMod, true, true);
+          i18n.addResourceBundle(lng, 'wizard', wizardMod.default || wizardMod, true, true);
+          i18n.addResourceBundle(lng, 'help', helpMod.default || helpMod, true, true);
+          i18n.addResourceBundle(lng, 'errors', errorsMod.default || errorsMod, true, true);
+        } catch (err) {
+          console.warn(`[i18n] Failed to load some locale bundles for ${lng}:`, err);
+        }
       }
     }
 
@@ -82,6 +97,12 @@ export async function changeLocale(lng: string): Promise<void> {
   } catch (err) {
     console.error(`[i18n] Failed to switch locale to ${lng}:`, err);
   }
+}
+
+if (initialLocale && initialLocale !== 'en') {
+  changeLocale(initialLocale).catch((e) =>
+    console.warn(`[i18n] Failed to load initial locale ${initialLocale}:`, e),
+  );
 }
 
 export default i18n;

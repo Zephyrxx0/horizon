@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { InstallPromptBanner, OfflineBanner } from '../features/pwa';
+
+export { OfflineBanner };
 
 export function SkipLink() {
   const { t } = useTranslation();
@@ -30,6 +33,8 @@ export function AppHeader({ onOpenTracking, onOpenBackup }: AppHeaderProps) {
         </span>
       </div>
       <div id="header-actions" className="flex items-center gap-1.5 sm:gap-2">
+        <InstallPromptBanner variant="button" />
+
         {onOpenTracking && (
           <button
             type="button"

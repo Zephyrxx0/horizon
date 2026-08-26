@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useSaveState } from './features/wizard/context';
 import { deriveStepStatus, deriveProgress } from './features/wizard/selectors';
-import { SkipLink, AppHeader } from './components/AppShell';
+import { SkipLink, AppHeader, OfflineBanner } from './components/AppShell';
 import { ProgressStepper, type StepStatus } from './components/ui/ProgressStepper';
 import { SaveIndicator } from './components/SaveIndicator';
-import { ToastProvider } from './components/ui/Toast';
+import { ToastProvider, useToast } from './components/ui/Toast';
+import { useNetworkStatus } from './features/pwa';
 import { ResumeBanner } from './components/ResumeBanner';
 import { VisaSelectionScreen } from './features/visa';
 import { PersonalDetailsScreen } from './features/personal';
@@ -14,6 +15,19 @@ import { DocumentsScreen } from './features/documents';
 import { ReviewScreen, EditingBanner } from './features/review';
 import { ConfirmationScreen, TrackingModal, DraftBackupModal } from './features/confirmation';
 import { Clock } from 'lucide-react';
+
+function NetworkSyncHandler() {
+  const { show } = useToast();
+  useNetworkStatus({
+    onReconnect: () => {
+      show({
+        kind: 'success',
+        message: '🌐 Connection restored — cloud draft synced',
+      });
+    },
+  });
+  return null;
+}
 
 export default function App() {
   const { t } = useTranslation();
@@ -71,6 +85,7 @@ export default function App() {
 
   return (
     <ToastProvider>
+      <NetworkSyncHandler />
       <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)]">
         <SkipLink />
         <AppHeader
@@ -80,6 +95,7 @@ export default function App() {
             setIsBackupOpen(true);
           }}
         />
+        <OfflineBanner />
         <EditingBanner />
 
         <main

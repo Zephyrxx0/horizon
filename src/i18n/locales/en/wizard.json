@@ -1,11 +1,24 @@
 {
   "steps": {
-    "trip": "Trip Type",
-    "dependent": "Passport & Identity",
-    "review": "Review & Confirm"
+    "trip": "Visa Selection",
+    "dependent": "Personal Details",
+    "documents": "Supporting Documents",
+    "review": "Review & Payment",
+    "confirmation": "Application Confirmed"
+  },
+  "stageTitles": {
+    "stage1": "Stage 1: Visa Selection",
+    "stage2": "Stage 2: Personal & Passport Details",
+    "stage3": "Stage 3: Document Uploads",
+    "stage4": "Stage 4: Review & Payment",
+    "stage5": "Stage 5: Confirmation & Next Steps"
   },
   "trip": {
     "legend": "What kind of trip are you planning?",
+    "subheading": "Select your travel purpose to see recommended visa categories, entry privileges, and fees.",
+    "countryLabel": "Destination Country",
+    "countryPlaceholder": "Select destination country",
+    "purposeLabel": "Travel Purpose",
     "options": {
       "tourism": {
         "label": "Tourism & Sightseeing",
@@ -18,6 +31,18 @@
       "medical": {
         "label": "Medical Treatment",
         "desc": "For short-term treatment in recognized Indian medical centers."
+      },
+      "conference": {
+        "label": "Conference & Seminars",
+        "desc": "For attending international workshops, government seminars, and symposiums."
+      },
+      "student": {
+        "label": "Higher Education & Studies",
+        "desc": "For recognized full-time degree programs or student exchange programs."
+      },
+      "work": {
+        "label": "Employment & Work",
+        "desc": "For professional employment, specialized technical assignments, or intra-company transfers."
       }
     }
   },
@@ -28,20 +53,140 @@
     "passportError": "Please enter a valid passport number (2 letters followed by 7 digits).",
     "needsAttention": "Trip selection was updated. Please re-verify your passport details."
   },
-  "review": {
-    "title": "Application Summary",
-    "tripType": "Trip Type",
-    "passportNumber": "Passport Number",
-    "documentsAttached": "Documents Attached",
-    "notSpecified": "Not specified"
+  "personal": {
+    "identityTitle": "Identity & Passport Information",
+    "identityDesc": "Enter details exactly as they appear in the machine-readable bio-data page of your passport.",
+    "contactTitle": "Contact & Residential Address",
+    "contactDesc": "Provide active contact information where you can receive OTPs, receipt SMS, and status updates.",
+    "visaSpecificTitle": "Travel & Stay Details",
+    "visaSpecificDesc": "Tell us about your scheduled travel itinerary and local accommodations.",
+    "privacyBannerTitle": "Your Data & Privacy are Protected",
+    "privacyBannerDesc": "All personal information and documents stay encrypted on your device until final submission. Zero third-party sharing.",
+    "fields": {
+      "givenName": "Given Names (First and Middle)",
+      "givenNamePlaceholder": "e.g. AARAV KUMAR",
+      "givenNameHint": "Include middle names if listed under Given Names on passport.",
+      "surname": "Surname / Family Name",
+      "surnamePlaceholder": "e.g. SHARMA",
+      "surnameHint": "If you have only a single name, enter it under Given Name.",
+      "passportNumber": "Passport Number",
+      "passportNumberPlaceholder": "e.g. Z1234567",
+      "passportNumberHint": "Found at the top-right corner of your passport biographical page.",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "transgender": "Transgender / Other"
+      },
+      "nationality": "Nationality",
+      "placeOfIssue": "Place of Issue",
+      "placeOfIssuePlaceholder": "e.g. MUMBAI or NEW DELHI",
+      "dateOfIssue": "Passport Date of Issue",
+      "dateOfExpiry": "Passport Date of Expiry",
+      "email": "Email Address",
+      "emailPlaceholder": "e.g. name@example.com",
+      "phone": "Mobile Number",
+      "phonePlaceholder": "e.g. 9876543210",
+      "addressLine1": "Address Line 1",
+      "addressLine1Placeholder": "Flat, House no., Building, Street",
+      "city": "City / Town",
+      "cityPlaceholder": "e.g. Bengaluru",
+      "state": "State / Union Territory",
+      "statePlaceholder": "e.g. Karnataka",
+      "pincode": "PIN Code / Postal Code",
+      "pincodePlaceholder": "6-digit PIN code (e.g. 560001)",
+      "travelStartDate": "Expected Date of Arrival",
+      "travelEndDate": "Expected Date of Departure",
+      "stayAddress": "Hotel Name / Address in Destination",
+      "stayAddressPlaceholder": "e.g. Hotel Grand, MG Road",
+      "companyName": "Host / Sponsoring Company Name",
+      "companyNamePlaceholder": "e.g. Tata Consultancy Services Ltd.",
+      "institutionName": "University / College Name",
+      "institutionNamePlaceholder": "e.g. Indian Institute of Science"
+    }
   },
   "documents": {
     "title": "Supporting Documents",
+    "subtitle": "Upload clear, un-cropped photos or digital PDFs. Automatic compression optimizes file sizes for 3G networks.",
     "attachPrompt": "Attach photo or passport copy",
     "savingPrompt": "Compressing & saving…",
     "formatHint": "JPG, PNG, or PDF up to 5MB (compressed to ≤2MB)",
     "ready": "Ready",
     "checking": "Checking…",
-    "remove": "Remove {{name}}"
+    "remove": "Remove {{name}}",
+    "slots": {
+      "photo": {
+        "title": "Passport-Sized Photograph",
+        "description": "Recent color photograph with white background, clear face, neutral expression, and no glare."
+      },
+      "passportFront": {
+        "title": "Passport Bio-Data Page (Front)",
+        "description": "Clear scan or photo of the page containing your photo, name, passport number, and MRZ lines."
+      },
+      "passportBack": {
+        "title": "Passport Address Page (Back)",
+        "description": "Scan or photo showing address, father/mother name, and place of issue."
+      },
+      "flightItinerary": {
+        "title": "Flight Booking / Travel Itinerary",
+        "description": "Confirmed round-trip flight booking or provisional itinerary with flight numbers."
+      },
+      "hotelBooking": {
+        "title": "Hotel / Accommodation Confirmation",
+        "description": "Proof of accommodation, hotel reservation voucher, or host invitation letter."
+      },
+      "bankStatement": {
+        "title": "Bank Statement / Proof of Funds",
+        "description": "Recent 3-6 months bank statement showing adequate financial balance for travel."
+      },
+      "invitationLetter": {
+        "title": "Official Business / Academic Invitation Letter",
+        "description": "Letter on official letterhead from host organization stating purpose of visit."
+      }
+    }
+  },
+  "review": {
+    "title": "Application Summary",
+    "subtitle": "Review all entered information carefully before submitting and paying the processing fee.",
+    "tripType": "Trip Type",
+    "passportNumber": "Passport Number",
+    "documentsAttached": "Documents Attached",
+    "notSpecified": "Not specified",
+    "applicantSummary": "Applicant Identity",
+    "travelSummary": "Travel & Stay Details",
+    "documentsSummary": "Uploaded Documents",
+    "feeBreakdown": "Fee Breakdown",
+    "governmentFee": "Government Visa Fee",
+    "processingFee": "ICAI / MEA Processing Fee",
+    "gstTax": "Applicable GST (18%)",
+    "totalAmount": "Total Payable Amount",
+    "declaration": "Declaration & Consent",
+    "declarationText": "I declare that all particulars given in this application are true, correct, and complete to the best of my knowledge and belief. I understand that false statements will lead to visa refusal or cancellation.",
+    "securitySeal": "Bank-Grade 256-Bit SSL Encrypted Submission",
+    "paymentMethods": {
+      "upi": "UPI Instant Payment (GPay, PhonePe, Paytm, BHIM)",
+      "card": "Credit / Debit Card (Visa, MasterCard, RuPay)",
+      "netbanking": "Net Banking (All Major Indian Banks)"
+    },
+    "payButton": "Pay ₹{{amount}} & Submit Application"
+  },
+  "confirmation": {
+    "title": "Application Successfully Submitted!",
+    "subtitle": "Your visa application has been securely transmitted. Save your reference numbers below.",
+    "appRefNumber": "Application Reference Number (ARN)",
+    "backupCode": "Offline Draft Recovery Code",
+    "trackingNotice": "SMS and Email updates have been dispatched to your registered contact details.",
+    "timelineTitle": "Application Status & Timeline",
+    "timeline": {
+      "submitted": "Application Submitted & Fee Paid",
+      "underReview": "Under Consular Review",
+      "decision": "Visa Decision / Grant",
+      "dispatch": "e-Visa Delivery via Email"
+    },
+    "checklistTitle": "Interview & Travel Checklist",
+    "printReceipt": "Download & Print Official Receipt",
+    "trackStatus": "Track Live Application Status",
+    "startNew": "Submit Another Application"
   }
 }

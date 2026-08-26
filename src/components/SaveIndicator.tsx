@@ -1,16 +1,19 @@
-import { Loader2, Check } from 'lucide-react';
+import { Loader2, Check, WifiOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { SaveState } from '../persistence/autosave';
+import { useNetworkStatus } from '../features/pwa';
 import { FOCUS_RING_CLASS } from './ui/focus';
 
 /**
  * Honest save-state indicator.
  * Renders 'Saved' ONLY after a completed synchronous localStorage write.
+ * Renders 'Saved Offline' when working without an active network connection.
  */
 export interface SaveIndicatorProps {
   state: SaveState;
   onRetry?: () => void;
   onClickSaved?: () => void;
+  isOnline?: boolean;
   className?: string;
 }
 
@@ -18,9 +21,14 @@ export function SaveIndicator({
   state,
   onRetry,
   onClickSaved,
+  isOnline: controlledIsOnline,
   className = '',
 }: SaveIndicatorProps) {
   const { t } = useTranslation();
+  const network = useNetworkStatus();
+  const isOnline = controlledIsOnline !== undefined ? controlledIsOnline : network.isOnline;
+
+  const isOfflineSaved = state === 'offline' || (!isOnline && state === 'saved');
 
   return (
     <div
@@ -44,7 +52,31 @@ export function SaveIndicator({
         </span>
       )}
 
+      {isOfflineSaved &&
+        (onClickSaved ? (
+          <button
+            type="button"
+            onClick={onClickSaved}
+            title="Saved locally on device. Click to backup draft."
+            aria-label="Application progress saved locally offline. Click to backup draft."
+            className="text-amber-800 hover:underline flex items-center gap-1.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-500 rounded"
+            data-testid="save-indicator-badge"
+          >
+            <WifiOff className="w-4 h-4 text-amber-600" aria-hidden="true" />
+            <span>{t('save.offline', 'Saved Offline')}</span>
+          </button>
+        ) : (
+          <span
+            className="text-amber-800 flex items-center gap-1.5"
+            data-testid="save-indicator-badge"
+          >
+            <WifiOff className="w-4 h-4 text-amber-600" aria-hidden="true" />
+            <span>{t('save.offline', 'Saved Offline')}</span>
+          </span>
+        ))}
+
       {state === 'saved' &&
+        !isOfflineSaved &&
         (onClickSaved ? (
           <button
             type="button"

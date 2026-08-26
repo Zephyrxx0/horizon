@@ -1,4 +1,4 @@
-export type SaveState = 'idle' | 'dirty' | 'saving' | 'saved' | 'error';
+export type SaveState = 'idle' | 'dirty' | 'saving' | 'saved' | 'offline' | 'error';
 
 export interface AutosaveControllerOptions {
   flush: () => boolean;

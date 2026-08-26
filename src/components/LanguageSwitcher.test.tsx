@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { axe } from 'vitest-axe';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import i18n, { changeLocale } from '../i18n';
+import i18n, { changeLocale, LOCALES } from '../i18n';
 
 describe('LanguageSwitcher', () => {
   beforeEach(async () => {
@@ -24,22 +24,22 @@ describe('LanguageSwitcher', () => {
     expect(screen.getByRole('option', { name: 'मराठी' })).toBeInTheDocument();
   });
 
-  it('switches locale, updates documentElement.lang, and displays pending notice', async () => {
+  it('switches locale and updates documentElement.lang and localStorage', async () => {
     const user = userEvent.setup();
     render(<LanguageSwitcher />);
 
     const select = screen.getByRole('combobox', { name: /select language/i });
-    await user.selectOptions(select, 'hi');
 
-    expect(document.documentElement.lang).toBe('hi');
-    expect(
-      screen.getByText(/Hindi translation is coming soon. The app is showing English for now./i),
-    ).toBeInTheDocument();
-
-    // Switch back to English
-    await user.selectOptions(select, 'en');
-    expect(document.documentElement.lang).toBe('en');
-    expect(screen.queryByText(/Hindi translation is coming soon/i)).not.toBeInTheDocument();
+    for (const locale of LOCALES) {
+      await user.selectOptions(select, locale.code);
+      await waitFor(
+        () => {
+          expect(document.documentElement.lang).toBe(locale.code);
+          expect(window.localStorage.getItem('visarethink.locale')).toBe(locale.code);
+        },
+        { timeout: 3000 },
+      );
+    }
   });
 
   it('rejects unlisted locale strings safely without breaking', async () => {
