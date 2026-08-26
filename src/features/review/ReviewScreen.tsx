@@ -207,11 +207,12 @@ export function ReviewScreen() {
         `${answers.firstName || ''} ${answers.lastName || ''}`.trim() || 'Applicant';
       const passportNo = String(answers.passportNumber || '—');
       const visaType = String(answers.visaType || answers.visaId || 'Tourist Visa');
+      const rawRef = (answers.referenceNumber as string) || `VR-2026-${Math.floor(100000 + Math.random() * 900000)}`;
       const destination = String(answers.destinationCountry || 'United States');
 
       const receipt: PaymentReceiptData = {
         transactionId: txRef,
-        referenceNumber: `VRK-2026-${txRef}`,
+        referenceNumber: rawRef,
         paidAt: confirmOutcome.data?.paidAt || new Date().toISOString(),
         applicantName,
         passportNumber: passportNo,
