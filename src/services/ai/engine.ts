@@ -378,7 +378,6 @@ export async function processChatMessage(
     const result = await generateText({
       model,
       system: ASHA_SYSTEM_PROMPT,
-      prompt: guardrailResult.sanitizedInput,
       messages: conversationMessages,
       tools: ALL_AI_TOOLS,
       stopWhen: isStepCount(5),
