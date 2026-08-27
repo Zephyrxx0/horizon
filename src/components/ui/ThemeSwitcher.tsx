@@ -20,7 +20,10 @@ function syncDomTheme(mode: ThemeMode) {
     root.classList.add('dark');
     root.setAttribute('data-theme', 'dark');
   } else if (mode === 'system') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        : false;
     if (prefersDark) {
       root.classList.add('dark');
       root.setAttribute('data-theme', 'dark');
@@ -35,7 +38,7 @@ function syncDomTheme(mode: ThemeMode) {
 export function ThemeSwitcher({ className = '', variant = 'compact' }: ThemeSwitcherProps) {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === 'undefined') return 'light';
-    const saved = localStorage.getItem('horizon-theme') as ThemeMode | null;
+    const saved = localStorage.getItem('horizon-theme');
     if (saved === 'contrast') return 'light'; // Clean migration
     return (saved as ThemeMode) || 'light';
   });

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Pause, Play, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 export interface Destination {
   id: string;
@@ -94,55 +94,95 @@ export function DestinationCarousel({
 }: DestinationCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const progressTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const activeDest = destinations[currentIndex];
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % destinations.length);
-    setProgress(0);
   }, [destinations.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + destinations.length) % destinations.length);
-    setProgress(0);
   }, [destinations.length]);
 
+  // Touch and Pointer Swipe Listeners via ref (keeps JSX a11y compliant)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let startX: number | null = null;
+    let endX: number | null = null;
+    const minDistance = 40;
+
+    const onTouchStart = (e: TouchEvent) => {
+      setIsPlaying(false);
+      endX = null;
+      startX = e.touches[0].clientX;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      endX = e.touches[0].clientX;
+    };
+
+    const onTouchEnd = () => {
+      setIsPlaying(true);
+      if (startX !== null && endX !== null) {
+        const diff = startX - endX;
+        if (diff > minDistance) {
+          nextSlide();
+        } else if (diff < -minDistance) {
+          prevSlide();
+        }
+      }
+      startX = null;
+      endX = null;
+    };
+
+    const onMouseEnter = () => setIsPlaying(false);
+    const onMouseLeave = () => setIsPlaying(true);
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true });
+    el.addEventListener('touchmove', onTouchMove, { passive: true });
+    el.addEventListener('touchend', onTouchEnd, { passive: true });
+    el.addEventListener('mouseenter', onMouseEnter);
+    el.addEventListener('mouseleave', onMouseLeave);
+
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+      el.removeEventListener('mouseenter', onMouseEnter);
+      el.removeEventListener('mouseleave', onMouseLeave);
+    };
+  }, [nextSlide, prevSlide]);
+
+  // Auto play rotation
   useEffect(() => {
     if (!isPlaying) {
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current);
+      if (autoPlayTimerRef.current) clearInterval(autoPlayTimerRef.current);
       return;
     }
 
-    const intervalStep = 50;
-    const increment = (intervalStep / autoPlayInterval) * 100;
-
-    progressTimerRef.current = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 100) {
-          nextSlide();
-          return 0;
-        }
-        return p + increment;
-      });
-    }, intervalStep);
+    autoPlayTimerRef.current = setInterval(() => {
+      nextSlide();
+    }, autoPlayInterval);
 
     return () => {
-      if (progressTimerRef.current) clearInterval(progressTimerRef.current);
+      if (autoPlayTimerRef.current) clearInterval(autoPlayTimerRef.current);
     };
   }, [currentIndex, isPlaying, autoPlayInterval, nextSlide]);
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-white ${className}`}
-      onMouseEnter={() => setIsPlaying(false)}
-      onMouseLeave={() => setIsPlaying(true)}
+      ref={containerRef}
+      className={`relative overflow-hidden rounded-xl bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-white select-none ${className}`}
       role="region"
       aria-label="Incredible India Destination Carousel"
     >
       {/* Background Image with Clean Cinematic Overlay */}
-      <div className="relative h-[380px] sm:h-[420px] w-full overflow-hidden">
+      <div className="relative h-[380px] sm:h-[420px] w-full overflow-hidden pointer-events-none">
         <img
           src={activeDest.image}
           alt={`${activeDest.title} in ${activeDest.location}`}
@@ -154,20 +194,11 @@ export function DestinationCarousel({
 
         {/* Content Container */}
         <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between">
-          {/* Top Bar with Tag and Auto-Play Toggle */}
+          {/* Top Bar with Tag */}
           <div className="flex items-center justify-between z-10">
             <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-black/40 backdrop-blur-md border border-white/15 text-slate-100">
               {activeDest.tag}
             </span>
-
-            <button
-              type="button"
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-1.5 rounded-md bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/80 hover:text-white border border-white/15 transition-colors cursor-pointer"
-              aria-label={isPlaying ? 'Pause auto-rotation' : 'Play auto-rotation'}
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            </button>
           </div>
 
           {/* Bottom Destination Info */}
@@ -177,9 +208,9 @@ export function DestinationCarousel({
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 <span>{activeDest.location}</span>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white [text-wrap:balance]">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white [text-wrap:balance]">
                 {activeDest.title}
-              </h3>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed [text-wrap:pretty]">
                 {activeDest.description}
               </p>
@@ -200,55 +231,27 @@ export function DestinationCarousel({
         </div>
       </div>
 
-      {/* Slide Navigation & Progress Bar Footer */}
-      <div className="bg-slate-950 px-5 py-3 border-t border-slate-800 flex items-center justify-between gap-4 text-xs">
-        {/* Progress Bar & Indicators */}
-        <div className="flex items-center gap-1.5">
-          {destinations.map((d, index) => (
-            <button
-              key={d.id}
-              type="button"
-              onClick={() => {
-                setCurrentIndex(index);
-                setProgress(0);
-              }}
-              className="relative h-1.5 w-8 rounded-full bg-slate-800 overflow-hidden cursor-pointer"
-              aria-label={`Go to slide ${index + 1}: ${d.title}`}
-            >
-              {index === currentIndex && (
-                <div
-                  className="h-full bg-amber-500 rounded-full transition-all duration-75"
-                  style={{ width: `${progress}%` }}
-                />
-              )}
-              {index < currentIndex && <div className="h-full bg-slate-500 rounded-full w-full" />}
-            </button>
-          ))}
-        </div>
-
-        {/* Previous / Next Controls */}
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] text-slate-400 font-mono tabular-nums">
-            {currentIndex + 1} / {destinations.length}
-          </span>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={prevSlide}
-              className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition-colors cursor-pointer"
-              aria-label="Previous destination"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={nextSlide}
-              className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition-colors cursor-pointer"
-              aria-label="Next destination"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+      {/* Centered Slide Dots Indicator Footer */}
+      <div className="bg-slate-950/90 backdrop-blur-xs px-5 py-3 border-t border-slate-800/80 flex items-center justify-center">
+        <div className="flex items-center gap-2" role="tablist" aria-label="Slide indicators">
+          {destinations.map((d, index) => {
+            const isActive = index === currentIndex;
+            return (
+              <button
+                key={d.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setCurrentIndex(index)}
+                className={`transition-all duration-300 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-amber-400 ${
+                  isActive
+                    ? 'w-6 h-2 bg-amber-500 shadow-xs'
+                    : 'w-2 h-2 bg-slate-700 hover:bg-slate-500'
+                }`}
+                aria-label={`Go to slide ${index + 1} of ${destinations.length}: ${d.title}`}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

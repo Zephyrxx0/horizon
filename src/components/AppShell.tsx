@@ -232,7 +232,7 @@ export function FloatingHelpButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="fixed bottom-5 right-5 z-30 p-2.5 rounded-full bg-[var(--color-ink)] text-[var(--color-surface-bg)] shadow-md hover:opacity-90 transition-all active:scale-95 cursor-pointer"
+      className="fixed bottom-20 right-5 z-30 p-2.5 rounded-full bg-[var(--color-ink)] text-[var(--color-surface-bg)] shadow-md hover:opacity-90 transition-all active:scale-95 cursor-pointer"
       aria-label="Open 24x7 Help Center"
       title="24x7 Help & FAQs"
       data-testid="floating-help-btn"

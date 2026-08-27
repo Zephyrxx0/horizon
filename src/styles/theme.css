@@ -122,9 +122,13 @@ html.theme-transition *:after {
 }
 
 /* Crisp subtle scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -135,4 +139,15 @@ html.theme-transition *:after {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-ink-muted);
+}
+
+/* Hide scrollbar utility for clean pill carousels & suggestions */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
