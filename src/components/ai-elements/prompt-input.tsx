@@ -38,7 +38,7 @@ export function PromptInput({ onSubmit, children, className = '', ...props }: Pr
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex flex-col bg-[var(--color-surface-card)] rounded-2xl border border-[var(--color-border)] shadow-xs focus-within:border-[var(--color-saffron-bright)] focus-within:ring-2 focus-within:ring-[var(--color-saffron-bright)]/20 transition-all ${className}`}
+      className={`flex flex-col bg-[var(--color-surface-card)] rounded-2xl border border-[var(--color-border)] shadow-xs focus-within:border-[var(--color-saffron-bright)]/60 focus-within:ring-0 outline-none focus:outline-none focus-visible:outline-none transition-colors ${className}`}
       {...props}
     >
       {children}
@@ -100,7 +100,7 @@ export function PromptInputTextarea({
       onInput={autoResize}
       onKeyDown={handleKeyDown}
       onChange={onChange}
-      className={`w-full resize-none bg-transparent px-3.5 pt-3 pb-2 text-xs sm:text-sm text-[var(--color-ink)] placeholder:text-[var(--color-ink-muted)] focus:outline-none min-h-[44px] max-h-[140px] leading-relaxed ${className}`}
+      className={`w-full resize-none bg-transparent px-3.5 pt-3 pb-2 text-xs sm:text-sm text-[var(--color-ink)] placeholder:text-[var(--color-ink-muted)] border-none outline-none ring-0 shadow-none focus:outline-none focus:border-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 min-h-[44px] max-h-[140px] leading-relaxed ${className}`}
       {...props}
     />
   );

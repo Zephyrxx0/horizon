@@ -12,7 +12,7 @@ describe('AssistantSheet Component', () => {
 
   it('renders header, greeting, and suggestions when open', () => {
     render(<AssistantSheet isOpen={true} onClose={vi.fn()} currentStepId="visa-selection" />);
-    expect(screen.getByText('Asha — AI Visa Guide')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Asha' })).toBeInTheDocument();
     expect(screen.getByText(/Namaste!/i)).toBeInTheDocument();
     expect(screen.getByText(/What visa do I need for USA tourism\?/i)).toBeInTheDocument();
   });

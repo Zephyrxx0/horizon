@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef, type ChangeEvent } from 'react';
-import { X, Bot, RotateCcw, ShieldAlert, ImagePlus } from 'lucide-react';
+import { X, Bot, RotateCcw, ImagePlus } from 'lucide-react';
 import {
   Conversation,
   ConversationContent,
-  ConversationDownload,
   Message,
   MessageContent,
   MessageResponse,
@@ -144,32 +143,26 @@ export function AssistantSheet({
       }`}
     >
       <div className="flex flex-col h-full w-full">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--color-border)] bg-[var(--color-surface-subtle)]/70 shrink-0">
+        {/* Minimal Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-card)] shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[var(--color-saffron-bright)]/15 border border-[var(--color-saffron-bright)]/30 flex items-center justify-center text-[var(--color-saffron-bright)] dark:text-amber-400 shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[var(--color-saffron-bright)]/15 border border-[var(--color-saffron-bright)]/30 flex items-center justify-center text-[var(--color-saffron-bright)] dark:text-amber-400 shrink-0">
               <Bot className="w-4 h-4" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2
-                  id="assistant-panel-title"
-                  className="font-bold text-sm text-[var(--color-ink)] leading-tight"
-                >
-                  Asha — AI Visa Guide
-                </h2>
-                <span className="text-[9px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-full">
-                  Gemini 2.5 Flash
-                </span>
-              </div>
-              <span className="text-[10px] text-[var(--color-ink-muted)] block">
-                Official VisaReThink Consular Assistant
+              <h2
+                id="assistant-panel-title"
+                className="font-semibold text-sm text-[var(--color-ink)] leading-none"
+              >
+                Asha
+              </h2>
+              <span className="text-[10px] text-[var(--color-ink-muted)] leading-none mt-0.5 block">
+                Visa Assistant
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
-            <ConversationDownload messages={messages} />
+          <div className="flex items-center gap-0.5">
             <button
               type="button"
               onClick={resetChat}
@@ -186,7 +179,7 @@ export function AssistantSheet({
               title="Close Assistant"
               aria-label="Close Assistant"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -275,10 +268,7 @@ export function AssistantSheet({
         </div>
 
         {/* Suggestions Bar */}
-        <div className="px-3.5 pt-2 pb-1.5 border-t border-[var(--color-border)] bg-[var(--color-surface-subtle)]/40 shrink-0">
-          <span className="text-[10px] font-semibold text-[var(--color-ink-muted)] tracking-wider uppercase mb-1 block">
-            Suggested for this step:
-          </span>
+        <div className="px-3 pt-2 pb-1.5 border-t border-[var(--color-border)] bg-[var(--color-surface-subtle)]/30 shrink-0">
           <Suggestions className="no-scrollbar">
             {contextSuggestions.map((suggestion) => (
               <Suggestion
@@ -290,7 +280,7 @@ export function AssistantSheet({
           </Suggestions>
         </div>
 
-        {/* Input Area */}
+        {/* Minimal Input Area */}
         <div className="p-3 bg-[var(--color-surface-card)] border-t border-[var(--color-border)] shrink-0">
           {uploadError && (
             <div className="mb-2 px-2.5 py-1 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 rounded-lg">
@@ -354,11 +344,6 @@ export function AssistantSheet({
                   <ImagePlus className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]" />
                   <span>Attach ({attachedFiles.length}/3)</span>
                 </button>
-
-                <div className="hidden sm:flex items-center gap-1 text-[10px] text-[var(--color-ink-muted)] pl-1">
-                  <ShieldAlert className="w-3 h-3 text-[var(--color-saffron-bright)]" />
-                  <span>In-App Guide</span>
-                </div>
               </PromptInputTools>
 
               <PromptInputSubmit
