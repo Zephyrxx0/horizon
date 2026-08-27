@@ -67,7 +67,7 @@ function MainContent() {
   const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
 
   // Route determination
-  const showLanding = currentRoute === '/' && currentStepId === 'visa-selection';
+  const showLanding = currentRoute === '/';
   const showTracking = currentRoute === '/track';
   const showDesignSystem = currentRoute === '/design-system';
   const showSupport = currentRoute === '/support' || currentRoute === '/faq';
