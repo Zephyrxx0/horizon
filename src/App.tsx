@@ -162,57 +162,58 @@ function MainContent() {
 
         {/* ROUTE 5: Application Wizard Portal */}
         {showWizard && (
-          <div className="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 pb-16 animate-in fade-in duration-150">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-16 animate-in fade-in duration-150 space-y-5">
             <h1 className="sr-only">Visa Application Journey</h1>
 
-            {/* Desktop: sidebar layout. Mobile: stacked */}
-            <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 lg:gap-8 items-start">
-              {/* Left sidebar: progress + save indicator */}
-              <div className="lg:sticky lg:top-[80px] space-y-3">
-                <div className="border border-[var(--color-border)] bg-[var(--color-surface-card)] p-4 rounded-xl shadow-xs space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-muted)]">
-                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                      <span className="tabular-nums">
-                        ~{minutesRemaining} min · {percent}% done
-                      </span>
-                    </div>
-                    <SaveIndicator
-                      state={saveState}
-                      onClickSaved={() => {
-                        setBackupMode('generate');
-                        setIsBackupOpen(true);
-                      }}
-                    />
+            {/* Clean Top Progress Bar & Header */}
+            <div className="border border-[var(--color-border)] bg-[var(--color-surface-card)] p-4 sm:p-5 rounded-2xl shadow-xs space-y-3.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--color-border)]/60 pb-3">
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
+                  <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
+                  <span>e-Visa Application Process</span>
+                  <span className="text-[var(--color-ink-muted)] font-normal">|</span>
+                  <div className="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)] font-medium">
+                    <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="tabular-nums">
+                      ~{minutesRemaining} min · {percent}% completed
+                    </span>
                   </div>
-
-                  {/* Vertical stepper on desktop */}
-                  <ProgressStepper steps={stages} orientation="vertical" className="w-full" />
                 </div>
 
-                {/* Draft Resumption Banner (STATE-04) */}
-                <ResumeBanner
-                  onOpenBackupRestore={() => {
-                    setBackupMode('restore');
+                <SaveIndicator
+                  state={saveState}
+                  onClickSaved={() => {
+                    setBackupMode('generate');
                     setIsBackupOpen(true);
                   }}
                 />
               </div>
 
-              {/* Right: Active Stage Screen */}
-              <div className="bg-[var(--color-surface-card)] p-5 sm:p-8 rounded-xl border border-[var(--color-border)] shadow-xs min-h-[400px]">
-                {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
+              {/* Horizontal Stepper */}
+              <ProgressStepper steps={stages} orientation="horizontal" className="w-full" />
 
-                {(currentStepId === 'personal-identity' ||
-                  currentStepId === 'personal-contact' ||
-                  currentStepId === 'personal-details') && <PersonalDetailsScreen />}
+              {/* Draft Resumption Banner (if exists) */}
+              <ResumeBanner
+                onOpenBackupRestore={() => {
+                  setBackupMode('restore');
+                  setIsBackupOpen(true);
+                }}
+              />
+            </div>
 
-                {currentStepId === 'documents' && <DocumentsScreen />}
+            {/* Active Stage Screen Card */}
+            <div className="bg-[var(--color-surface-card)] p-5 sm:p-8 rounded-2xl border border-[var(--color-border)] shadow-xs min-h-[400px]">
+              {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
 
-                {currentStepId === 'review-payment' && <ReviewScreen />}
+              {(currentStepId === 'personal-identity' ||
+                currentStepId === 'personal-contact' ||
+                currentStepId === 'personal-details') && <PersonalDetailsScreen />}
 
-                {currentStepId === 'confirmation' && <ConfirmationScreen />}
-              </div>
+              {currentStepId === 'documents' && <DocumentsScreen />}
+
+              {currentStepId === 'review-payment' && <ReviewScreen />}
+
+              {currentStepId === 'confirmation' && <ConfirmationScreen />}
             </div>
           </div>
         )}

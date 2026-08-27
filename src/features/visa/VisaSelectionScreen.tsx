@@ -15,7 +15,7 @@ import { RadioCardGroup, RadioCard } from '../../components/ui/RadioCard';
 import { Button } from '../../components/ui/Button';
 import { ErrorSummary, type ErrorSummaryItem } from '../../components/ui/ErrorSummary';
 import { validateVisaSelectionStep } from '../wizard/validators';
-import { ChevronRight, Globe2, Compass } from 'lucide-react';
+import { ChevronRight, Globe2, Compass, ShieldCheck } from 'lucide-react';
 
 export interface VisaSelectionScreenProps {
   className?: string;
@@ -34,6 +34,10 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
   const availableVisas = useMemo(() => {
     return getVisaOptions(destination, purpose);
   }, [destination, purpose]);
+
+  const selectedVisa = useMemo(() => {
+    return availableVisas.find((v) => v.id === selectedVisaId) || availableVisas[0];
+  }, [availableVisas, selectedVisaId]);
 
   const handleDestinationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const nextDest = e.target.value as DestinationCountry;
@@ -112,38 +116,40 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
   };
 
   return (
-    <div className={`space-y-5 ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Accessible Error Summary */}
       {errors.length > 0 && <ErrorSummary errors={errors} />}
 
-      {/* Screen Title */}
-      <div className="space-y-0.5">
-        <h2 className="text-lg font-bold text-[var(--color-ink)]">
+      {/* Screen Header */}
+      <div className="space-y-1">
+        <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-ink)] tracking-tight">
           Select Your Visa & Destination
         </h2>
-        <p className="text-sm text-[var(--color-ink-muted)]">
-          Choose where you're traveling and why to see matching visa options with fees.
+        <p className="text-xs sm:text-sm text-[var(--color-ink-muted)]">
+          Choose where you're traveling and your primary purpose to view matching visa categories.
         </p>
       </div>
 
-      {/* Two-column layout on desktop: filters left, visa cards right */}
-      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-5">
-        {/* Left: Filters */}
-        <div className="space-y-4">
-          {/* Destination */}
+      {/* ── Section 1: Travel Configuration Card ── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface-subtle)]/50 border border-[var(--color-border)] space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          {/* Destination Selector */}
           <div className="space-y-1.5" id="destinationCountry">
             <label
               htmlFor="destination-select"
               className="text-xs font-semibold text-[var(--color-ink)] flex items-center gap-1.5 uppercase tracking-wider"
             >
-              <Globe2 className="w-3.5 h-3.5 text-[var(--color-ink-muted)]" aria-hidden="true" />
+              <Globe2
+                className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]"
+                aria-hidden="true"
+              />
               Where are you traveling to?
             </label>
             <Select
               id="destination-select"
               value={destination}
               onChange={handleDestinationChange}
-              className="w-full"
+              className="w-full bg-[var(--color-surface-card)]"
             >
               {DESTINATIONS.map((d) => (
                 <option
@@ -157,63 +163,96 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
             </Select>
           </div>
 
-          {/* Purpose */}
-          <div className="space-y-1.5" id="tripPurpose">
-            <div className="flex items-center gap-1.5">
-              <Compass className="w-3.5 h-3.5 text-[var(--color-ink-muted)]" aria-hidden="true" />
-              <span className="text-xs font-semibold text-[var(--color-ink)] uppercase tracking-wider">
-                Purpose of Visit
-              </span>
+          {/* Quick Info Box */}
+          <div className="p-3 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)]/70 text-xs space-y-1">
+            <div className="flex items-center gap-1.5 font-semibold text-[var(--color-ink)]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]" />
+              <span>Consular Compliance Guaranteed</span>
             </div>
-            <RadioCardGroup
-              legend="Trip Purpose"
-              value={purpose}
-              onChange={handlePurposeChange}
-              className="grid grid-cols-2 lg:grid-cols-1 gap-1.5"
-            >
-              {TRIP_PURPOSES.map((p) => (
-                <RadioCard
-                  key={p.value}
-                  value={p.value}
-                  label={p.label}
-                  description={p.description}
-                />
-              ))}
-            </RadioCardGroup>
+            <p className="text-[var(--color-ink-muted)] leading-relaxed">
+              All categories are vetted against the latest MEA and international immigration
+              directives.
+            </p>
           </div>
         </div>
 
-        {/* Right: Visa options */}
-        <div className="space-y-2" id="visaId">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold text-[var(--color-ink-muted)] uppercase tracking-wider">
-              {availableVisas.length} option{availableVisas.length !== 1 ? 's' : ''} for{' '}
-              {destination}
-            </h3>
-            <span className="text-xs text-[var(--color-ink-muted)]">
-              Click a card to expand details
+        {/* Purpose of Visit Grid */}
+        <div className="space-y-2 pt-2 border-t border-[var(--color-border)]/60" id="tripPurpose">
+          <div className="flex items-center gap-1.5">
+            <Compass
+              className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]"
+              aria-hidden="true"
+            />
+            <span className="text-xs font-semibold text-[var(--color-ink)] uppercase tracking-wider">
+              Purpose of Visit
             </span>
           </div>
 
-          <div className="space-y-2">
-            {availableVisas.map((visa) => (
-              <VisaCard
-                key={visa.id}
-                visa={visa}
-                isSelected={selectedVisaId === visa.id}
-                onSelect={handleVisaSelect}
+          <RadioCardGroup
+            legend="Trip Purpose"
+            value={purpose}
+            onChange={handlePurposeChange}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"
+          >
+            {TRIP_PURPOSES.map((p) => (
+              <RadioCard
+                key={p.value}
+                value={p.value}
+                label={p.label}
+                description={p.description}
+                className="p-3"
               />
             ))}
-          </div>
+          </RadioCardGroup>
         </div>
       </div>
 
-      {/* Continue Action */}
-      <div className="pt-3 border-t border-[var(--color-border)]">
+      {/* ── Section 2: Matching Visa Options Grid ── */}
+      <div className="space-y-3" id="visaId">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h3 className="text-xs sm:text-sm font-bold text-[var(--color-ink)] uppercase tracking-wider">
+              Matching Visas for {destination}
+            </h3>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-[var(--color-indigo-primary)]/10 text-[var(--color-indigo-primary)] font-semibold">
+              {availableVisas.length} Available
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {availableVisas.map((visa) => (
+            <VisaCard
+              key={visa.id}
+              visa={visa}
+              isSelected={selectedVisaId === visa.id}
+              onSelect={handleVisaSelect}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── Section 3: Bottom Action Bar ── */}
+      <div className="pt-4 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-4">
+        {selectedVisa ? (
+          <div className="text-xs text-[var(--color-ink-muted)] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>
+              Total Fee:{' '}
+              <strong className="text-[var(--color-ink)] font-semibold">
+                ₹{selectedVisa.totalCost.toLocaleString('en-IN')}
+              </strong>{' '}
+              (100% transparent pricing)
+            </span>
+          </div>
+        ) : (
+          <div />
+        )}
+
         <Button
           variant="primary"
           onClick={handleContinue}
-          className="w-full sm:w-auto sm:min-w-[240px] min-h-[44px] text-sm font-semibold flex items-center justify-center gap-2"
+          className="w-full sm:w-auto sm:min-w-[240px] min-h-[44px] text-sm font-semibold flex items-center justify-center gap-2 rounded-xl shadow-xs"
         >
           <span>Continue to Personal Details</span>
           <ChevronRight className="w-4 h-4" aria-hidden="true" />
