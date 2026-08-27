@@ -38,7 +38,7 @@ export function PromptInput({ onSubmit, children, className = '', ...props }: Pr
   return (
     <form
       onSubmit={handleSubmit}
-      className={`flex flex-col bg-[var(--color-surface-card)] rounded-2xl border border-[var(--color-border)] shadow-sm focus-within:border-[var(--color-indigo-primary)] focus-within:ring-2 focus-within:ring-[var(--color-indigo-primary)]/15 transition-all ${className}`}
+      className={`flex flex-col bg-[var(--color-surface-card)] rounded-2xl border border-[var(--color-border)] shadow-xs focus-within:border-[var(--color-saffron-bright)] focus-within:ring-2 focus-within:ring-[var(--color-saffron-bright)]/20 transition-all ${className}`}
       {...props}
     >
       {children}
@@ -100,7 +100,7 @@ export function PromptInputTextarea({
       onInput={autoResize}
       onKeyDown={handleKeyDown}
       onChange={onChange}
-      className={`w-full resize-none bg-transparent px-4 pt-3.5 pb-2 text-xs sm:text-sm text-[var(--color-ink)] placeholder:text-[var(--color-ink-muted)] focus:outline-none min-h-[44px] max-h-[140px] leading-relaxed ${className}`}
+      className={`w-full resize-none bg-transparent px-3.5 pt-3 pb-2 text-xs sm:text-sm text-[var(--color-ink)] placeholder:text-[var(--color-ink-muted)] focus:outline-none min-h-[44px] max-h-[140px] leading-relaxed ${className}`}
       {...props}
     />
   );
@@ -113,7 +113,7 @@ export interface PromptInputFooterProps extends HTMLAttributes<HTMLDivElement> {
 export function PromptInputFooter({ children, className = '', ...props }: PromptInputFooterProps) {
   return (
     <div
-      className={`flex items-center justify-between px-3 pb-2.5 pt-1 gap-2 border-t border-transparent ${className}`}
+      className={`flex items-center justify-between px-3 pb-2 pt-1 gap-2 border-t border-transparent ${className}`}
       {...props}
     >
       {children}
@@ -153,7 +153,7 @@ export function PromptInputSubmit({
     <button
       type="submit"
       disabled={disabled || isPending}
-      className={`p-2 rounded-xl bg-[var(--color-indigo-primary)] text-white shadow-xs hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-all cursor-pointer ${className}`}
+      className={`p-2 rounded-xl bg-[var(--color-saffron-bright)] text-white shadow-xs hover:bg-[var(--color-saffron-deep)] active:scale-95 disabled:opacity-40 disabled:bg-black/10 dark:disabled:bg-white/10 disabled:text-[var(--color-ink-muted)] disabled:pointer-events-none transition-all cursor-pointer ${className}`}
       aria-label={isStreaming ? 'Streaming response' : 'Send message'}
       {...props}
     >

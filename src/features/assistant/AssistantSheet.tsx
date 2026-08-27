@@ -135,30 +135,30 @@ export function AssistantSheet({
 
   return (
     <aside
-      aria-label="Asha AI Visa Guide Companion Panel"
+      aria-label="Asha AI Visa Guide"
       aria-hidden={!isOpen}
-      className={`fixed md:relative top-0 right-0 z-40 h-full flex flex-col bg-[var(--color-surface-card)] border-l border-[var(--color-border)] shadow-2xl md:shadow-none transition-all duration-300 ease-in-out ${
+      className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[400px] md:w-[420px] lg:w-[440px] h-[640px] max-h-[85vh] rounded-3xl border border-[var(--color-border)] shadow-2xl bg-[var(--color-surface-card)] overflow-hidden flex flex-col transition-all duration-300 ease-out origin-bottom-right ${
         isOpen
-          ? 'w-full sm:w-[380px] md:w-[380px] lg:w-[420px] xl:w-[440px] opacity-100 translate-x-0 pointer-events-auto'
-          : 'w-0 opacity-0 translate-x-full overflow-hidden pointer-events-none'
+          ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+          : 'opacity-0 scale-95 translate-y-6 pointer-events-none'
       }`}
     >
-      <div className="flex flex-col h-full w-full min-w-[320px] sm:min-w-[380px] md:min-w-[380px] lg:min-w-[420px]">
+      <div className="flex flex-col h-full w-full">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-surface-subtle)]/70">
+        <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--color-border)] bg-[var(--color-surface-subtle)]/70 shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[var(--color-saffron-bright)]/15 border border-[var(--color-saffron-bright)]/30 flex items-center justify-center text-[var(--color-saffron-bright)] dark:text-amber-400">
+            <div className="w-8 h-8 rounded-xl bg-[var(--color-saffron-bright)]/15 border border-[var(--color-saffron-bright)]/30 flex items-center justify-center text-[var(--color-saffron-bright)] dark:text-amber-400 shrink-0">
               <Bot className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2
                   id="assistant-panel-title"
-                  className="font-bold text-sm text-[var(--color-ink)]"
+                  className="font-bold text-sm text-[var(--color-ink)] leading-tight"
                 >
                   Asha — AI Visa Guide
                 </h2>
-                <span className="text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.2 rounded">
+                <span className="text-[9px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-full">
                   Gemini 2.5 Flash
                 </span>
               </div>
@@ -275,8 +275,8 @@ export function AssistantSheet({
         </div>
 
         {/* Suggestions Bar */}
-        <div className="px-4 pt-2 pb-1 border-t border-[var(--color-border)] bg-[var(--color-surface-subtle)]/40">
-          <span className="text-[10px] font-semibold text-[var(--color-ink-muted)] tracking-wider uppercase mb-1.5 block">
+        <div className="px-3.5 pt-2 pb-1.5 border-t border-[var(--color-border)] bg-[var(--color-surface-subtle)]/40 shrink-0">
+          <span className="text-[10px] font-semibold text-[var(--color-ink-muted)] tracking-wider uppercase mb-1 block">
             Suggested for this step:
           </span>
           <Suggestions className="no-scrollbar">
@@ -291,7 +291,7 @@ export function AssistantSheet({
         </div>
 
         {/* Input Area */}
-        <div className="p-3 bg-[var(--color-surface-card)] border-t border-[var(--color-border)]">
+        <div className="p-3 bg-[var(--color-surface-card)] border-t border-[var(--color-border)] shrink-0">
           {uploadError && (
             <div className="mb-2 px-2.5 py-1 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 rounded-lg">
               {uploadError}
@@ -343,10 +343,10 @@ export function AssistantSheet({
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={attachedFiles.length >= 3}
-                  className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
                     attachedFiles.length >= 3
                       ? 'opacity-40 pointer-events-none border-transparent'
-                      : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] border-[var(--color-border)]'
+                      : 'text-[var(--color-ink)] bg-[var(--color-surface-card)] hover:bg-[var(--color-surface-subtle)] hover:border-[var(--color-saffron-bright)] border-[var(--color-border)] shadow-2xs'
                   }`}
                   title="Attach passport scan or visa photograph (max 3)"
                   aria-label="Attach images (up to 3)"
