@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useWizardReset } from '../features/wizard/context';
 import { getFirstIncompleteStep, JOURNEY_STEPS } from '../features/wizard';
 import { Button } from './ui/Button';
-import { Bookmark, Play, RotateCcw } from 'lucide-react';
+import { Bookmark, Play, RotateCcw, X } from 'lucide-react';
 
 export interface ResumeBannerProps {
   onOpenBackupRestore?: () => void;
@@ -16,6 +16,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
 }) => {
   const actor = useWizardActor();
   const resetDraft = useWizardReset();
+  const [isDismissed, setIsDismissed] = useState(false);
 
   const answers = useSelector(actor, (s) => s.context.answers);
   const currentStepId = useSelector(actor, (s) => s.context.currentStepId);
@@ -23,8 +24,8 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
   const hasDraftAnswers = Object.keys(answers).length > 0;
   const targetStepId = getFirstIncompleteStep(answers);
 
-  // If on the target step already, or if there's no saved draft answers, don't show the banner
-  if (!hasDraftAnswers || currentStepId === targetStepId) {
+  // If on the target step already, or if there's no saved draft answers, or dismissed, don't show the banner
+  if (!hasDraftAnswers || currentStepId === targetStepId || isDismissed) {
     return null;
   }
 
@@ -39,31 +40,29 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
     <div
       role="region"
       aria-label="Resume In-Progress Application"
-      className={`p-4 rounded-[var(--radius-card)] bg-[var(--color-surface-card)] border-2 border-[var(--color-indigo-primary)] shadow-sm space-y-3 ${className}`}
+      className={`px-3.5 py-2 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all animate-in fade-in duration-150 ${className}`}
     >
-      <div className="flex items-start gap-2.5">
-        <Bookmark
-          className="w-5 h-5 text-[var(--color-indigo-primary)] shrink-0 mt-0.5"
-          aria-hidden="true"
-        />
-        <div className="space-y-0.5">
-          <h2 className="text-sm font-bold text-[var(--color-ink)]">
-            Saved Application Draft Found
-          </h2>
-          <p className="text-xs text-[var(--color-ink-muted)] leading-relaxed">
-            You have an in-progress application for <strong>{visaName}</strong>. You can resume
-            directly where you left off.
-          </p>
+      <div className="flex items-center gap-2.5 min-w-0">
+        <div className="w-6 h-6 rounded-lg bg-[var(--color-indigo-primary)]/10 border border-[var(--color-indigo-primary)]/20 text-[var(--color-indigo-primary)] dark:text-blue-400 flex items-center justify-center shrink-0">
+          <Bookmark className="w-3.5 h-3.5" aria-hidden="true" />
+        </div>
+        <div className="text-xs truncate">
+          <span className="font-bold text-[var(--color-ink)] mr-1.5">
+            Saved Application Draft Found:
+          </span>
+          <span className="text-[var(--color-ink-muted)]">
+            <strong className="text-[var(--color-ink)]">{visaName}</strong> in progress
+          </span>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 pt-1">
+      <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
         <Button
           variant="primary"
           onClick={handleResume}
-          className="min-h-[44px] py-2 px-4 text-xs font-bold flex items-center gap-1.5"
+          className="min-h-[32px] py-1 px-3 text-xs font-bold flex items-center gap-1.5 rounded-lg shadow-2xs cursor-pointer active:scale-[0.96]"
         >
-          <Play className="w-3.5 h-3.5" aria-hidden="true" />
+          <Play className="w-3 h-3" aria-hidden="true" />
           <span>Continue Application ({targetStep?.label || 'Next Step'})</span>
         </Button>
 
@@ -71,7 +70,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
           <Button
             variant="outline"
             onClick={onOpenBackupRestore}
-            className="min-h-[44px] py-2 px-3 text-xs font-semibold border-indigo-200 text-[var(--color-indigo-primary)] hover:bg-indigo-50"
+            className="min-h-[32px] py-1 px-2.5 text-xs font-semibold rounded-lg border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] cursor-pointer active:scale-[0.96]"
             data-testid="resume-restore-code-btn"
           >
             Restore from Code
@@ -81,11 +80,21 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
         <Button
           variant="secondary"
           onClick={resetDraft}
-          className="min-h-[44px] py-2 px-3 text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-error)] flex items-center gap-1.5"
+          className="min-h-[32px] py-1 px-2 text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-error)] rounded-lg cursor-pointer"
+          title="Start Over"
         >
-          <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>Start Over</span>
+          <RotateCcw className="w-3 h-3" aria-hidden="true" />
+          <span className="hidden sm:inline">Start Over</span>
         </Button>
+
+        <button
+          type="button"
+          onClick={() => setIsDismissed(true)}
+          className="p-1 rounded-lg text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] transition-colors cursor-pointer"
+          aria-label="Dismiss draft notice"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
       </div>
     </div>
   );

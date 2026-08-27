@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
+
 import { axe } from 'vitest-axe';
 import { createActor } from 'xstate';
 import App from './App';
@@ -8,6 +9,10 @@ import { WizardContext } from './features/wizard/context';
 import { createAutosaveController } from './persistence/autosave';
 
 describe('App Shell', () => {
+  beforeEach(() => {
+    window.location.hash = '';
+  });
+
   it('renders the accessible shell with header and skip link', () => {
     const actor = createActor(wizardMachine).start();
     const controller = createAutosaveController({ flush: () => true });
@@ -28,7 +33,23 @@ describe('App Shell', () => {
     expect(screen.getByTestId('header-backup-btn')).toBeInTheDocument();
   });
 
-  it('renders ConfirmationScreen when currentStepId is confirmation', () => {
+  it('renders LandingPage on root route / even when form has draft in progress', () => {
+    window.location.hash = '#/';
+    const actor = createActor(wizardMachine).start();
+    actor.send({ type: 'GOTO', stepId: 'personal-identity' });
+    const controller = createAutosaveController({ flush: () => true });
+
+    render(
+      <WizardContext.Provider value={{ actor, controller, resetDraft: () => {} }}>
+        <App />
+      </WizardContext.Provider>,
+    );
+
+    expect(screen.getByText('Start New Application')).toBeInTheDocument();
+  });
+
+  it('renders ConfirmationScreen when currentStepId is confirmation on /apply route', () => {
+    window.location.hash = '#/apply';
     const actor = createActor(wizardMachine).start();
     actor.send({ type: 'GOTO', stepId: 'confirmation' });
     const controller = createAutosaveController({ flush: () => true });

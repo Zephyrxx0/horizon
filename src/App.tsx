@@ -128,6 +128,21 @@ function MainContent() {
     },
   ];
 
+  const stageTargetSteps: Record<string, StepId> = {
+    'stage-1': 'visa-selection',
+    'stage-2': 'personal-identity',
+    'stage-3': 'documents',
+    'stage-4': 'review-payment',
+    'stage-5': 'confirmation',
+  };
+
+  const handleStageClick = (step: { id: string }) => {
+    const target = stageTargetSteps[step.id];
+    if (target) {
+      actor.send({ type: 'GOTO', stepId: target });
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)] transition-colors duration-150 relative">
       <SkipLink />
@@ -167,57 +182,64 @@ function MainContent() {
 
             {/* Full-width Top Progress Bar */}
             <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-card)] px-6 sm:px-10 xl:px-16 2xl:px-24 py-4 space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
-                  <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
-                  <span>e-Visa Application Process</span>
-                  <span className="text-[var(--color-ink-muted)] font-normal">|</span>
-                  <div className="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)] font-medium">
-                    <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span className="tabular-nums">
-                      ~{minutesRemaining} min · {percent}% completed
-                    </span>
+              <div className="max-w-5xl mx-auto w-full space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
+                    <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
+                    <span>e-Visa Application Process</span>
+                    <span className="text-[var(--color-ink-muted)] font-normal">|</span>
+                    <div className="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)] font-medium">
+                      <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span className="tabular-nums">
+                        ~{minutesRemaining} min · {percent}% completed
+                      </span>
+                    </div>
                   </div>
+
+                  <SaveIndicator
+                    state={saveState}
+                    onClickSaved={() => {
+                      setBackupMode('generate');
+                      setIsBackupOpen(true);
+                    }}
+                  />
                 </div>
 
-                <SaveIndicator
-                  state={saveState}
-                  onClickSaved={() => {
-                    setBackupMode('generate');
+                {/* Horizontal Stepper (Interactive & Connected) */}
+                <ProgressStepper
+                  steps={stages}
+                  orientation="horizontal"
+                  onStepClick={handleStageClick}
+                  className="w-full"
+                />
+
+                {/* Compact Draft Resumption Notice (if exists) */}
+                <ResumeBanner
+                  onOpenBackupRestore={() => {
+                    setBackupMode('restore');
                     setIsBackupOpen(true);
                   }}
                 />
               </div>
-
-              {/* Horizontal Stepper */}
-              <ProgressStepper
-                steps={stages}
-                orientation="horizontal"
-                className="w-full max-w-3xl"
-              />
-
-              {/* Draft Resumption Banner (if exists) */}
-              <ResumeBanner
-                onOpenBackupRestore={() => {
-                  setBackupMode('restore');
-                  setIsBackupOpen(true);
-                }}
-              />
             </div>
 
             {/* Full-width Stage Content */}
             <div className="px-6 sm:px-10 xl:px-16 2xl:px-24 py-8 xl:py-10 pb-16 min-h-[600px]">
-              {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
+              <div className="max-w-5xl mx-auto w-full">
+                {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
 
-              {(currentStepId === 'personal-identity' ||
-                currentStepId === 'personal-contact' ||
-                currentStepId === 'personal-details') && <PersonalDetailsScreen />}
+                {(currentStepId === 'personal-identity' ||
+                  currentStepId === 'personal-contact' ||
+                  currentStepId === 'personal-details') && (
+                  <PersonalDetailsScreen onOpenHelp={() => setIsHelpOpen(true)} />
+                )}
 
-              {currentStepId === 'documents' && <DocumentsScreen />}
+                {currentStepId === 'documents' && <DocumentsScreen />}
 
-              {currentStepId === 'review-payment' && <ReviewScreen />}
+                {currentStepId === 'review-payment' && <ReviewScreen />}
 
-              {currentStepId === 'confirmation' && <ConfirmationScreen />}
+                {currentStepId === 'confirmation' && <ConfirmationScreen />}
+              </div>
             </div>
           </div>
         )}

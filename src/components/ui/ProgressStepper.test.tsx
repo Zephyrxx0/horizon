@@ -37,4 +37,25 @@ describe('ProgressStepper component', () => {
 
     expect(screen.getByRole('status')).toHaveTextContent(/Step 3 of 4: Document Upload/i);
   });
+
+  it('triggers onStepClick when a step button is clicked', () => {
+    let clickedStep: StepItem | null = null;
+    let clickedIndex = -1;
+
+    render(
+      <ProgressStepper
+        steps={steps}
+        onStepClick={(step, idx) => {
+          clickedStep = step;
+          clickedIndex = idx;
+        }}
+      />,
+    );
+
+    const step1Btn = screen.getByRole('button', { name: /Go to Step 1: Passport Details/i });
+    step1Btn.click();
+
+    expect(clickedStep).toEqual(steps[0]);
+    expect(clickedIndex).toBe(0);
+  });
 });
