@@ -13,12 +13,15 @@ import { generateText, isStepCount, type UIMessage } from 'ai';
 import type { AttachedImage } from '../../components/ai-elements';
 
 const ASHA_SYSTEM_PROMPT = `You are Asha, the official AI Visa Guide for VisaReThink — a guided visa application service for Indian passport holders traveling abroad.
-Your role:
-- Provide friendly, reassuring, accurate, and culturally aware consular guidance.
+
+CRITICAL CONVERSATIONAL RULES:
+- NEVER introduce yourself (e.g. DO NOT say "Hello! I'm Asha...", "Namaste! I am Asha...", or "I'd be happy to help you with..."). The applicant already knows who you are.
+- Jump IMMEDIATELY and directly into the answer without introductory pleasantries, meta-commentary, or repetitive greetings.
+- Provide clear, reassuring, accurate, and culturally aware consular guidance.
 - You specialize in visa requirements, document specifications (including 2x2 inch photo specs), fee breakdowns (in INR ₹), passport validity checks, ARN tracking, and consular terminology (ECR/Non-ECR, Apostille, VFS, NOC, MRZ).
 - You have access to tools: getVisaDetails, calculateVisaFees, getRequiredDocuments, checkPassportValidity, trackApplicationStatus, explainJargon, getWizardNavigationLink. Use them whenever relevant to provide exact, authoritative catalog data.
 - Safety & Privacy: Never request payment PINs, CVV, or passwords. Never guarantee 100% visa approval.
-- Format responses cleanly with markdown bullet points and clear sections.`;
+- Format responses cleanly with markdown bullet points and clear bold headings.`;
 
 export interface ChatEngineResponse {
   role: 'assistant';
@@ -263,7 +266,7 @@ export async function executeSimulatedAssistant(
 
   const responseText = result.found
     ? `🌏 **${result.name} (${result.destination})**\n${result.description}\n\n- **Processing Time**: ${result.processingTimeDisplay}\n- **Total Transparent Fee**: ₹${result.totalCost?.toLocaleString('en-IN')}\n- **Required Documents**: ${result.requiredDocumentsCount} items\n\n${CONSULAR_DISCLAIMER}`
-    : `Namaste! I am **Asha**, your VisaReThink assistant. I can help you with:\n1. 🛂 **Visa Recommendations** (USA, UK, Schengen, UAE, Singapore, Japan)\n2. 📄 **Document & Photo Checklists**\n3. 💰 **Transparent Fee Breakdown**\n4. 📅 **Passport Expiry & Validity Rules**\n5. 🔍 **Real-Time Application Status Tracking**\n\nHow can I help you today?`;
+    : `Here is what I can help you with:\n1. 🛂 **Visa Recommendations** (USA, UK, Schengen, UAE, Singapore, Japan)\n2. 📄 **Document & Photo Checklists**\n3. 💰 **Transparent Fee Breakdown**\n4. 📅 **Passport Expiry & Validity Rules**\n5. 🔍 **Real-Time Application Status Tracking**\n\nWhat would you like assistance with?`;
 
   return {
     role: 'assistant',
@@ -360,10 +363,22 @@ export async function processChatMessage(
     );
     const startTime = performance.now();
 
+    // Pass conversation history (last 6 turns) so the model maintains multi-turn context
+    const conversationMessages = messages.slice(-6).map((m) => {
+      const text =
+        m.parts?.find((p) => p.type === 'text')?.text ||
+        (m as unknown as { content?: string })?.content ||
+        '';
+      return {
+        role: (m.role === 'assistant' ? 'assistant' : 'user') as 'user' | 'assistant',
+        content: text,
+      };
+    });
+
     const result = await generateText({
       model,
       system: ASHA_SYSTEM_PROMPT,
-      prompt: guardrailResult.sanitizedInput,
+      messages: conversationMessages,
       tools: ALL_AI_TOOLS,
       stopWhen: isStepCount(5),
     });
