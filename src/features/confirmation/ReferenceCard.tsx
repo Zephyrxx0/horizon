@@ -69,11 +69,11 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
     <Card
       role="region"
       aria-label="Application Submission Confirmation & Reference"
-      className={`border-2 border-[var(--color-green-success,#166534)] bg-white overflow-hidden shadow-sm ${className}`}
+      className={`border-2 border-[var(--color-success)] bg-[var(--color-surface-card)] overflow-hidden shadow-sm ${className}`}
     >
       {/* Header Banner */}
-      <div className="bg-[var(--color-green-50,#F0FDF4)] border-b border-[var(--color-green-100,#DCFCE7)] p-5 sm:p-6 text-center space-y-2">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-green-100,#DCFCE7)] text-[var(--color-green-success,#166534)] mb-1">
+      <div className="bg-[var(--color-success)]/10 border-b border-[var(--color-success)]/20 p-5 sm:p-6 text-center space-y-2">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-success)]/20 text-[var(--color-success)] mb-1">
           <CheckCircle2 className="w-7 h-7" aria-hidden="true" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-[var(--color-ink)]">
@@ -87,13 +87,13 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
 
       {/* Reference Box */}
       <div className="p-5 sm:p-6 space-y-5">
-        <div className="bg-slate-50 border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 sm:p-5 text-center space-y-1.5">
+        <div className="bg-[var(--color-surface-subtle)] border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 sm:p-5 text-center space-y-1.5">
           <span className="text-xs font-bold tracking-wider text-[var(--color-ink-muted)] uppercase">
             Your Application Reference Number
           </span>
           <div className="flex items-center justify-center gap-2 py-1">
             <span
-              className="text-2xl sm:text-3xl font-extrabold font-mono tracking-wide text-[var(--color-green-success,#166534)] select-all"
+              className="text-2xl sm:text-3xl font-extrabold font-mono tracking-wide text-[var(--color-success)] select-all"
               data-testid="reference-number-display"
             >
               {referenceNumber}
@@ -106,19 +106,19 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
 
         {/* Metadata Badges */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
-          <div className="p-2.5 rounded-[var(--radius-input)] bg-slate-50 border border-slate-200">
+          <div className="p-2.5 rounded-[var(--radius-input)] bg-[var(--color-surface-subtle)] border border-[var(--color-border-subtle)]">
             <span className="text-[var(--color-ink-muted)] block">Applicant</span>
             <strong className="text-[var(--color-ink)] font-semibold truncate block">
               {applicantName || 'Applicant'}
             </strong>
           </div>
-          <div className="p-2.5 rounded-[var(--radius-input)] bg-slate-50 border border-slate-200">
+          <div className="p-2.5 rounded-[var(--radius-input)] bg-[var(--color-surface-subtle)] border border-[var(--color-border-subtle)]">
             <span className="text-[var(--color-ink-muted)] block">Visa & Destination</span>
             <strong className="text-[var(--color-ink)] font-semibold truncate block">
               {visaType} ({destinationCountry})
             </strong>
           </div>
-          <div className="p-2.5 rounded-[var(--radius-input)] bg-slate-50 border border-slate-200 col-span-2 sm:col-span-1">
+          <div className="p-2.5 rounded-[var(--radius-input)] bg-[var(--color-surface-subtle)] border border-[var(--color-border-subtle)] col-span-2 sm:col-span-1">
             <span className="text-[var(--color-ink-muted)] block">Submitted On</span>
             <strong className="text-[var(--color-ink)] font-semibold block">{formattedDate}</strong>
           </div>
@@ -129,16 +129,13 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
           <Button
             variant="outline"
             onClick={handleCopy}
-            className="flex-1 min-h-[48px] font-semibold text-sm flex items-center justify-center gap-2 border-slate-300 hover:border-slate-400"
+            className="flex-1 min-h-[48px] font-semibold text-sm flex items-center justify-center gap-2 border-[var(--color-border)] hover:border-[var(--color-border-subtle)]"
             data-testid="copy-reference-btn"
           >
             {copied ? (
               <>
-                <Check
-                  className="w-4 h-4 text-[var(--color-green-success,#166534)]"
-                  aria-hidden="true"
-                />
-                <span className="text-[var(--color-green-success,#166534)]">Reference Copied</span>
+                <Check className="w-4 h-4 text-[var(--color-success)]" aria-hidden="true" />
+                <span className="text-[var(--color-success)]">Reference Copied</span>
               </>
             ) : (
               <>

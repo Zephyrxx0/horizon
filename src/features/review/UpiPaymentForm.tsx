@@ -42,7 +42,7 @@ export function UpiPaymentForm({
       : error;
 
   return (
-    <div className="p-4 sm:p-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-white space-y-4 shadow-xs">
+    <div className="p-4 sm:p-5 rounded-[var(--radius-card)] border border-[var(--color-border)] bg-[var(--color-surface-card)] space-y-4 shadow-xs">
       {/* Mode switcher */}
       <div className="flex rounded-lg border border-[var(--color-border)] p-1 bg-[var(--color-surface-bg)]">
         <button
@@ -50,7 +50,7 @@ export function UpiPaymentForm({
           onClick={() => onModeChange('vpa')}
           className={`flex-1 py-2 px-3 rounded-md text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors min-h-[40px] ${
             mode === 'vpa'
-              ? 'bg-white text-[var(--color-indigo-primary)] shadow-xs'
+              ? 'bg-[var(--color-surface-card)] text-[var(--color-indigo-primary)] shadow-xs'
               : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]'
           }`}
           aria-pressed={mode === 'vpa'}
@@ -64,7 +64,7 @@ export function UpiPaymentForm({
           onClick={() => onModeChange('qr')}
           className={`flex-1 py-2 px-3 rounded-md text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors min-h-[40px] ${
             mode === 'qr'
-              ? 'bg-white text-[var(--color-indigo-primary)] shadow-xs'
+              ? 'bg-[var(--color-surface-card)] text-[var(--color-indigo-primary)] shadow-xs'
               : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]'
           }`}
           aria-pressed={mode === 'qr'}
@@ -121,7 +121,7 @@ export function UpiPaymentForm({
         </div>
       ) : (
         <div className="text-center py-3 space-y-3">
-          <div className="inline-block p-4 rounded-xl border-2 border-dashed border-[var(--color-indigo-primary)]/40 bg-[#F7F7FA]">
+          <div className="inline-block p-4 rounded-xl border-2 border-dashed border-[var(--color-indigo-primary)]/40 bg-[var(--color-surface-subtle)]">
             {/* SVG Mock QR Code */}
             <svg
               className="w-40 h-40 mx-auto text-[var(--color-ink)]"
@@ -167,7 +167,7 @@ export function UpiPaymentForm({
             </p>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F0FDF4] text-[var(--color-success)]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--color-success)]/10 text-[var(--color-success)] border border-[var(--color-success)]/20">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
             Simulated Instant Payment Confirmation
           </div>

@@ -33,12 +33,12 @@ export function StageReviewCard({
 
   return (
     <>
-      <Card className="p-5 sm:p-6 space-y-4 border border-[var(--color-border)] bg-white shadow-xs">
+      <Card className="p-5 sm:p-6 space-y-4 shadow-xs">
         {/* Header with Stage info and Edit action */}
         <div className="flex items-start justify-between gap-3 border-b border-[var(--color-border)] pb-3">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-bold bg-[#EEF0FB] text-[var(--color-indigo-primary)]">
+              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-bold bg-[var(--color-surface-subtle)] text-[var(--color-ink)]">
                 Stage {stageNumber}
               </span>
               <h2 className="text-base sm:text-lg font-bold text-[var(--color-ink)]">
@@ -105,14 +105,14 @@ export function StageReviewCard({
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[#F0FDF4] text-[var(--color-success)]">
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-semibold bg-[var(--color-success)]/10 text-[var(--color-success)] border border-[var(--color-success)]/20">
                       <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
                       Ready
                     </span>
                     <button
                       type="button"
                       onClick={() => setActivePreviewDoc(doc)}
-                      className="p-1 rounded hover:bg-gray-200 text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
+                      className="p-1 rounded hover:bg-[var(--color-border)] text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
                       aria-label={`Preview ${doc.fileName}`}
                     >
                       <Eye className="w-4 h-4" aria-hidden="true" />

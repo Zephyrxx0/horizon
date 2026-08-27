@@ -12,13 +12,13 @@ export const SecuritySealBadge: React.FC<SecuritySealBadgeProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 rounded-xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-3 ${className}`}
+      className={`p-4 rounded-xl bg-[var(--color-surface-subtle)] border border-[var(--color-border)] shadow-sm space-y-3 ${className}`}
       data-testid="security-seal-badge"
     >
       {/* Title & Trust Header */}
-      <div className="flex items-center justify-between gap-2 border-b border-slate-200/70 pb-2.5">
+      <div className="flex items-center justify-between gap-2 border-b border-[var(--color-border)] pb-2.5">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+          <div className="w-6 h-6 rounded-md bg-[var(--color-success)] text-[var(--color-surface-bg)] flex items-center justify-center shrink-0 shadow-xs">
             <ShieldCheck className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
@@ -30,7 +30,7 @@ export const SecuritySealBadge: React.FC<SecuritySealBadgeProps> = ({
             </span>
           </div>
         </div>
-        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[var(--color-success)] bg-[var(--color-success)]/10 border border-[var(--color-success)]/20 px-2 py-0.5 rounded-full">
           <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
           Verified
         </span>
@@ -38,8 +38,11 @@ export const SecuritySealBadge: React.FC<SecuritySealBadgeProps> = ({
 
       {/* 3 Integrity Badges */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-        <div className="flex items-start gap-2 p-2 rounded-lg bg-white border border-slate-200/60">
-          <Lock className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" aria-hidden="true" />
+        <div className="flex items-start gap-2 p-2 rounded-lg bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)]">
+          <Lock
+            className="w-3.5 h-3.5 text-[var(--color-success)] shrink-0 mt-0.5"
+            aria-hidden="true"
+          />
           <div>
             <span className="font-bold text-[var(--color-ink)] block text-[11px]">
               TLS 1.3 / AES-256
@@ -50,7 +53,7 @@ export const SecuritySealBadge: React.FC<SecuritySealBadgeProps> = ({
           </div>
         </div>
 
-        <div className="flex items-start gap-2 p-2 rounded-lg bg-white border border-slate-200/60">
+        <div className="flex items-start gap-2 p-2 rounded-lg bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)]">
           <Award
             className="w-3.5 h-3.5 text-[var(--color-indigo-primary)] shrink-0 mt-0.5"
             aria-hidden="true"
@@ -65,8 +68,8 @@ export const SecuritySealBadge: React.FC<SecuritySealBadgeProps> = ({
           </div>
         </div>
 
-        <div className="flex items-start gap-2 p-2 rounded-lg bg-white border border-slate-200/60">
-          <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" aria-hidden="true" />
+        <div className="flex items-start gap-2 p-2 rounded-lg bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)]">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#3b82f6] shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <span className="font-bold text-[var(--color-ink)] block text-[11px]">
               SHA-256 Payload Seal

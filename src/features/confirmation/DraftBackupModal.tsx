@@ -229,13 +229,13 @@ export const DraftBackupModal: React.FC<DraftBackupModalProps> = ({
         ) : (
           <>
             {/* Mode Switcher Tabs */}
-            <div className="flex rounded-[var(--radius-input)] bg-slate-100 p-1">
+            <div className="flex rounded-[var(--radius-input)] bg-[var(--color-surface-subtle)] p-1">
               <button
                 type="button"
                 onClick={() => setMode('generate')}
                 className={`flex-1 py-2 text-xs font-bold rounded-[var(--radius-input)] transition-all flex items-center justify-center gap-1.5 ${
                   mode === 'generate'
-                    ? 'bg-white text-[var(--color-indigo-primary)] shadow-xs'
+                    ? 'bg-[var(--color-surface-card)] text-[var(--color-ink)] shadow-xs'
                     : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]'
                 }`}
                 data-testid="mode-tab-generate"
@@ -249,7 +249,7 @@ export const DraftBackupModal: React.FC<DraftBackupModalProps> = ({
                 onClick={() => setMode('restore')}
                 className={`flex-1 py-2 text-xs font-bold rounded-[var(--radius-input)] transition-all flex items-center justify-center gap-1.5 ${
                   mode === 'restore'
-                    ? 'bg-white text-[var(--color-indigo-primary)] shadow-xs'
+                    ? 'bg-[var(--color-surface-card)] text-[var(--color-ink)] shadow-xs'
                     : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)]'
                 }`}
                 data-testid="mode-tab-restore"

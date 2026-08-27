@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       id={id}
       aria-invalid={isInvalid ? 'true' : undefined}
       aria-describedby={ariaDescribedBy}
-      className={`h-14 w-full px-4 text-base text-[var(--color-ink)] bg-white rounded-[var(--radius-input)] border ${
+      className={`h-14 w-full px-4 text-base text-[var(--color-ink)] bg-[var(--color-surface-card)] rounded-[var(--radius-input)] border ${
         isInvalid ? 'border-[var(--color-error)]' : 'border-[var(--color-border)]'
       } transition-colors duration-150 ${FOCUS_RING_CLASS} ${className}`}
       {...props}

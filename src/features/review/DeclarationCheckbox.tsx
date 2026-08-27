@@ -16,10 +16,10 @@ export const DeclarationCheckbox = forwardRef<HTMLInputElement, DeclarationCheck
         <div
           className={`p-4 rounded-[var(--radius-card)] border transition-colors ${
             error
-              ? 'border-[var(--color-error)] bg-[#FEF2F2]'
+              ? 'border-[var(--color-error)] bg-[var(--color-error)]/10'
               : checked
-                ? 'border-[var(--color-indigo-primary)] bg-[#EEF0FB]'
-                : 'border-[var(--color-border)] bg-white'
+                ? 'border-[var(--color-indigo-primary)] bg-[var(--color-indigo-primary)]/10'
+                : 'border-[var(--color-border)] bg-[var(--color-surface-card)]'
           }`}
         >
           <Checkbox

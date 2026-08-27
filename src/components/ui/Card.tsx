@@ -30,7 +30,7 @@ export function Card({
             }
           : undefined
       }
-      className={`bg-white rounded-[var(--radius-card)] p-6 border border-[var(--color-border)] ${
+      className={`bg-[var(--color-surface-card)] rounded-[var(--radius-card)] p-6 border border-[var(--color-border)] ${
         isInteractive
           ? `cursor-pointer min-h-[var(--spacing-touch)] hover:border-[var(--color-indigo-primary)] transition-colors duration-150 ${FOCUS_RING_CLASS}`
           : ''

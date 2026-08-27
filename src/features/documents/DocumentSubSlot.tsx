@@ -102,8 +102,10 @@ export const DocumentSubSlot: React.FC<DocumentSubSlotProps> = ({
 
   return (
     <div
-      className={`p-4 bg-gray-50/70 border rounded-xl space-y-3 transition-colors ${
-        isDragOver ? 'border-indigo-500 bg-indigo-50/50' : 'border-gray-200'
+      className={`p-4 bg-[var(--color-surface-subtle)] border rounded-xl space-y-3 transition-colors ${
+        isDragOver
+          ? 'border-[var(--color-indigo-primary)] bg-[var(--color-indigo-primary)]/10'
+          : 'border-[var(--color-border)]'
       }`}
       onDragOver={(e) => {
         e.preventDefault();
@@ -114,8 +116,8 @@ export const DocumentSubSlot: React.FC<DocumentSubSlotProps> = ({
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <h4 className="text-sm font-semibold text-gray-900">{subSlot.title}</h4>
-          <p className="text-xs text-gray-600 mt-0.5">{subSlot.description}</p>
+          <h4 className="text-sm font-semibold text-[var(--color-ink)]">{subSlot.title}</h4>
+          <p className="text-xs text-[var(--color-ink-muted)] mt-0.5">{subSlot.description}</p>
         </div>
       </div>
 
@@ -126,7 +128,7 @@ export const DocumentSubSlot: React.FC<DocumentSubSlotProps> = ({
             <button
               type="button"
               onClick={() => cameraInputRef.current?.click()}
-              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-white bg-indigo-900 rounded-lg hover:bg-indigo-950 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-sm"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-[var(--color-surface-bg)] bg-[var(--color-indigo-primary)] rounded-lg hover:opacity-90 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)] shadow-sm"
             >
               <Camera className="w-4 h-4" aria-hidden="true" />
               <span>📷 Take Photo</span>
@@ -135,14 +137,14 @@ export const DocumentSubSlot: React.FC<DocumentSubSlotProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-medium text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-medium text-[var(--color-ink)] bg-transparent border border-[var(--color-border)] rounded-lg hover:bg-[var(--color-surface-card)] min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)]"
             >
-              <Upload className="w-4 h-4 text-gray-600" aria-hidden="true" />
+              <Upload className="w-4 h-4 text-[var(--color-ink-muted)]" aria-hidden="true" />
               <span>📁 Upload File / PDF</span>
             </button>
           </div>
 
-          <p className="text-[11px] text-gray-500 hidden sm:block">
+          <p className="text-[11px] text-[var(--color-ink-muted)] hidden sm:block">
             Or drag & drop your file here (JPG, PNG, PDF up to 10MB)
           </p>
         </div>

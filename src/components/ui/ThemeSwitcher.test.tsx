@@ -24,16 +24,15 @@ describe('ThemeSwitcher Component', () => {
     expect(localStorage.getItem('horizon-theme')).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
 
-    // Click to cycle to contrast
+    // Click to cycle to system
     fireEvent.click(btn);
-    expect(localStorage.getItem('horizon-theme')).toBe('contrast');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('contrast');
+    expect(localStorage.getItem('horizon-theme')).toBe('system');
   });
 
   it('renders full radio variant', () => {
     render(<ThemeSwitcher variant="full" />);
     expect(screen.getByText('Light')).toBeDefined();
     expect(screen.getByText('Dark')).toBeDefined();
-    expect(screen.getByText('Contrast')).toBeDefined();
+    expect(screen.getByText('System')).toBeDefined();
   });
 });

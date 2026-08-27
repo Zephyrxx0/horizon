@@ -91,7 +91,7 @@ export function Sheet({ open, onClose, title, description, children }: SheetProp
         aria-labelledby="sheet-title"
         aria-describedby={description ? 'sheet-description' : undefined}
         tabIndex={-1}
-        className="relative z-10 w-full md:max-w-lg bg-white rounded-t-2xl md:rounded-2xl p-6 shadow-xl max-h-[90vh] overflow-y-auto motion-safe:transition-all duration-200"
+        className="relative z-10 w-full md:max-w-lg bg-[var(--color-surface-card)] rounded-t-2xl md:rounded-2xl p-6 shadow-xl max-h-[90vh] overflow-y-auto motion-safe:transition-all duration-200"
       >
         <div className="flex items-center justify-between mb-4">
           <h2 id="sheet-title" className="text-xl font-semibold text-[var(--color-ink)]">

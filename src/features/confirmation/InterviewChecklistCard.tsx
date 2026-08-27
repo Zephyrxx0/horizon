@@ -80,7 +80,7 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
     <Card
       role="region"
       aria-label="Interview & Embassy Preparation Checklist"
-      className={`p-5 sm:p-6 bg-white space-y-6 ${className}`}
+      className={`p-5 sm:p-6 bg-[var(--color-surface-card)] space-y-6 ${className}`}
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--color-border)] pb-4">
@@ -106,13 +106,13 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
         <div
           className={`self-start sm:self-auto px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 ${
             isAllCompleted
-              ? 'bg-green-100 text-green-800'
-              : 'bg-indigo-50 text-[var(--color-indigo-primary)] border border-indigo-200'
+              ? 'bg-[var(--color-success)]/10 text-[var(--color-success)]'
+              : 'bg-[var(--color-indigo-primary)]/10 text-[var(--color-indigo-primary)] border border-[var(--color-indigo-primary)]/20'
           }`}
           data-testid="checklist-progress-badge"
         >
           {isAllCompleted ? (
-            <CheckCircle2 className="w-3.5 h-3.5 text-green-600" aria-hidden="true" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[var(--color-success)]" aria-hidden="true" />
           ) : (
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           )}
@@ -137,8 +137,8 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
                 htmlFor={`check-${item.id}`}
                 className={`p-3 sm:p-3.5 rounded-[var(--radius-card)] border transition-colors cursor-pointer flex items-start gap-3 select-none ${
                   isChecked
-                    ? 'bg-[var(--color-green-50,#F0FDF4)] border-green-300'
-                    : 'bg-slate-50 border-[var(--color-border)] hover:bg-slate-100'
+                    ? 'bg-[var(--color-success)]/10 border-[var(--color-success)]/30'
+                    : 'bg-[var(--color-surface-subtle)] border-[var(--color-border)] hover:bg-[var(--color-surface-card)] hover:brightness-150'
                 }`}
               >
                 <div className="pt-0.5">
@@ -156,13 +156,15 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
                   <div className="flex flex-wrap items-center justify-between gap-1">
                     <span
                       className={`text-sm font-semibold ${
-                        isChecked ? 'line-through text-slate-500' : 'text-[var(--color-ink)]'
+                        isChecked
+                          ? 'line-through text-[var(--color-ink-muted)]'
+                          : 'text-[var(--color-ink)]'
                       }`}
                     >
                       {item.title}
                     </span>
                     {item.required && (
-                      <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-red-100 text-red-800">
+                      <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-[var(--color-error)]/10 text-[var(--color-error)]">
                         Mandatory
                       </span>
                     )}
@@ -178,12 +180,12 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
       </div>
 
       {/* Consulate Security & Rules Section */}
-      <div className="p-4 rounded-[var(--radius-card)] bg-amber-50 border border-amber-200 space-y-2 text-xs text-amber-900">
+      <div className="p-4 rounded-[var(--radius-card)] bg-amber-500/10 border border-amber-500/20 space-y-2 text-xs text-amber-500">
         <div className="flex items-center gap-1.5 font-bold">
           <ShieldAlert className="w-4 h-4 text-amber-700 shrink-0" aria-hidden="true" />
           <span>Consulate Arrival Essentials & Embassy Rules</span>
         </div>
-        <ul className="list-disc list-inside space-y-1 text-amber-800 leading-relaxed">
+        <ul className="list-disc list-inside space-y-1 text-[var(--color-ink-muted)] leading-relaxed">
           <li>Arrive at the visa application center 15 minutes before your slot.</li>
           <li>Carry all original physical certificates and 2 printed copies of this checklist.</li>
           <li>
@@ -209,7 +211,7 @@ export const InterviewChecklistCard: React.FC<InterviewChecklistCardProps> = ({
         <Button
           variant="outline"
           onClick={handlePrint}
-          className="flex-1 min-h-[48px] font-semibold text-sm flex items-center justify-center gap-2 border-slate-300"
+          className="flex-1 min-h-[48px] font-semibold text-sm flex items-center justify-center gap-2 border-[var(--color-border)] hover:border-[var(--color-border-subtle)]"
           data-testid="print-checklist-btn"
         >
           <Printer className="w-4 h-4" aria-hidden="true" />

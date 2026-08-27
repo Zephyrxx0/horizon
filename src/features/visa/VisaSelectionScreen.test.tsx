@@ -31,18 +31,17 @@ describe('VisaSelectionScreen Component', () => {
     return { ...utils, actor };
   }
 
-  it('renders destination dropdown, purpose options, and recommended visa card', () => {
+  it('renders destination dropdown, available visa options list, and open details panel', () => {
     renderScreen();
 
     expect(screen.getByText(/Select Your Visa & Destination/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Where are you traveling to\?/i)).toBeInTheDocument();
-    expect(screen.getByText('Tourism & Leisure')).toBeInTheDocument();
-    expect(screen.getByText('Business & Conferences')).toBeInTheDocument();
-    expect(screen.getByText('B1/B2 Visitor Visa')).toBeInTheDocument();
-    expect(screen.getByText(/Recommended for your trip/i)).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /B1\/B2 Visitor Visa/i })).toBeInTheDocument();
+    expect(screen.getByText('Official Fee Breakdown')).toBeInTheDocument();
+    expect(screen.getByText('Required Documents Checklist')).toBeInTheDocument();
   });
 
-  it('updates visa list and recommendation when destination or purpose changes', async () => {
+  it('updates visa list and open details when destination changes', async () => {
     const user = userEvent.setup();
     const { actor } = renderScreen();
 
@@ -50,15 +49,19 @@ describe('VisaSelectionScreen Component', () => {
     const select = screen.getByLabelText(/Where are you traveling to\?/i);
     await user.selectOptions(select, 'UK');
 
-    expect(screen.getByText('Standard Visitor Visa')).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: /Standard Visitor Visa/i })).toBeInTheDocument();
     expect(actor.getSnapshot().context.answers.destinationCountry).toBe('UK');
+  });
 
-    // Change purpose to Study
-    const studyCard = screen.getByRole('radio', { name: /Education & Studies/i });
-    await user.click(studyCard);
+  it('selects visa option on click and updates active selection', async () => {
+    const user = userEvent.setup();
+    const { actor } = renderScreen();
 
-    expect(screen.getByText('Student Visa')).toBeInTheDocument();
-    expect(actor.getSnapshot().context.answers.tripPurpose).toBe('study');
+    const f1Card = screen.getByRole('radio', { name: /F1 Student Visa/i });
+    await user.click(f1Card);
+
+    expect(actor.getSnapshot().context.answers.visaId).toBe('usa-f1');
+    expect(f1Card).toHaveAttribute('aria-checked', 'true');
   });
 
   it('advances machine step to personal-identity on continue', async () => {

@@ -32,28 +32,43 @@ export function AppHeader({
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--color-surface-card)]/95 backdrop-blur-md border-b border-[var(--color-border)] transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14 gap-4">
+      <div className="w-full px-6 sm:px-10 xl:px-16 2xl:px-24">
+        <div className="flex items-center justify-between h-16 gap-6">
           {/* Brand & Wordmark */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="flex items-center gap-2.5 text-left cursor-pointer group focus-visible:outline-2 focus-visible:outline-[var(--color-indigo-primary)] rounded-md py-1"
+              className="flex items-center gap-3 text-left cursor-pointer group focus-visible:outline-2 focus-visible:outline-[var(--color-indigo-primary)] rounded-md py-1"
             >
-              <div className="w-7 h-7 rounded-md bg-[var(--color-ink)] flex items-center justify-center text-[var(--color-surface-bg)] font-bold text-xs shrink-0">
-                🇮🇳
+              <div className="w-9 h-9 rounded-xl bg-[var(--color-saffron-bright)]/10 flex items-center justify-center shrink-0 border border-[var(--color-saffron-bright)]/25">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="w-5 h-5 text-[var(--color-saffron-bright)] dark:text-amber-500"
+                >
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+                  <circle cx="12" cy="12" r="2" fill="currentColor" />
+                  {[...Array(24)].map((_, i) => (
+                    <line
+                      key={i}
+                      x1="12"
+                      y1="12"
+                      x2={12 + 10 * Math.cos((i * 15 * Math.PI) / 180)}
+                      y2={12 + 10 * Math.sin((i * 15 * Math.PI) / 180)}
+                      stroke="currentColor"
+                      strokeWidth="0.8"
+                    />
+                  ))}
+                </svg>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-sm text-[var(--color-ink)] tracking-tight">
-                    {t('app.appName', 'e-Visa India')}
-                  </span>
-                  <span className="hidden md:inline-block text-[10px] px-1.5 py-0.5 rounded bg-[var(--color-surface-subtle)] text-[var(--color-ink-muted)] font-mono border border-[var(--color-border)]">
-                    GOI
+                  <span className="font-bold text-base text-[var(--color-ink)] tracking-tight">
+                    {t('app.appName', 'VisaReThink')}
                   </span>
                 </div>
-                <span className="text-[10px] text-[var(--color-ink-muted)] leading-none hidden sm:block">
+                <span className="text-[11px] text-[var(--color-ink-muted)] leading-none hidden sm:block">
                   Ministry of External Affairs
                 </span>
               </div>
@@ -62,7 +77,7 @@ export function AppHeader({
 
           {/* Desktop Navigation Links */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 text-xs font-medium"
+            className="hidden lg:flex items-center gap-1 text-sm font-medium"
             aria-label="Main Navigation"
           >
             {navLinks.map((link) => {
@@ -72,7 +87,7 @@ export function AppHeader({
                   key={link.path}
                   type="button"
                   onClick={() => navigate(link.path)}
-                  className={`px-3 py-1.5 rounded-md transition-colors cursor-pointer ${
+                  className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${
                     isActive
                       ? 'bg-[var(--color-surface-subtle)] text-[var(--color-ink)] font-semibold'
                       : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)]'
@@ -217,7 +232,7 @@ export function FloatingHelpButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="fixed bottom-5 right-5 z-30 p-2.5 rounded-full bg-[var(--color-ink)] text-[var(--color-surface-bg)] shadow-md hover:opacity-90 transition-all active:scale-95 cursor-pointer"
+      className="fixed bottom-20 right-5 z-30 p-2.5 rounded-full bg-[var(--color-ink)] text-[var(--color-surface-bg)] shadow-md hover:opacity-90 transition-all active:scale-95 cursor-pointer"
       aria-label="Open 24x7 Help Center"
       title="24x7 Help & FAQs"
       data-testid="floating-help-btn"

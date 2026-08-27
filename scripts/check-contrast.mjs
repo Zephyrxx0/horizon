@@ -32,14 +32,14 @@ function getContrastRatio(hex1, hex2) {
 }
 
 const PAIRS = [
-  { name: 'ink on surface-bg', fg: '#1E1B4B', bg: '#F7F7FA', minRatio: 7.0 },
-  { name: 'ink-muted on surface-bg', fg: '#4A5072', bg: '#F7F7FA', minRatio: 4.5 },
-  { name: 'indigo-primary on white', fg: '#3730A3', bg: '#FFFFFF', minRatio: 4.5 },
-  { name: 'white on indigo-primary', fg: '#FFFFFF', bg: '#3730A3', minRatio: 4.5 },
-  { name: 'error on white', fg: '#B91C1C', bg: '#FFFFFF', minRatio: 4.5 },
-  { name: 'success on white', fg: '#166534', bg: '#FFFFFF', minRatio: 4.5 },
-  { name: 'saffron-deep on white', fg: '#B45309', bg: '#FFFFFF', minRatio: 4.5 },
-  { name: 'white on error', fg: '#FFFFFF', bg: '#B91C1C', minRatio: 4.5 },
+  { name: 'ink on surface-bg', fg: '#1C1917', bg: '#FAF8F5', minRatio: 7.0 },
+  { name: 'ink-muted on surface-bg', fg: '#5C5550', bg: '#FAF8F5', minRatio: 4.5 },
+  { name: 'indigo-primary on white', fg: '#1A2A44', bg: '#FFFFFF', minRatio: 4.5 },
+  { name: 'white on indigo-primary', fg: '#FFFFFF', bg: '#1A2A44', minRatio: 4.5 },
+  { name: 'error on white', fg: '#A82222', bg: '#FFFFFF', minRatio: 4.5 },
+  { name: 'success on white', fg: '#1D683E', bg: '#FFFFFF', minRatio: 4.5 },
+  { name: 'saffron-deep on white', fg: '#A04810', bg: '#FFFFFF', minRatio: 4.5 },
+  { name: 'white on error', fg: '#FFFFFF', bg: '#A82222', minRatio: 4.5 },
 ];
 
 let failed = false;

@@ -118,7 +118,7 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
   const isPincodeValid = touched.pincode && isValidPincode(pincode);
 
   return (
-    <div className={`space-y-6 max-w-xl mx-auto ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Top Error Summary */}
       {errors.length > 0 && <ErrorSummary errors={errors} />}
 
@@ -138,9 +138,9 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
       </div>
 
       {/* Form Fields */}
-      <div className="space-y-4">
-        {/* Email & Phone */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="space-y-5">
+        {/* Email & Phone — 2-col */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <Field id="email" invalid={touched.email && !isValidEmail(email)} isValid={isEmailValid}>
             <FieldLabel>Email Address</FieldLabel>
             <Input
@@ -152,10 +152,6 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
               autoComplete="email"
             />
             <FieldHint>For receipt delivery & status alerts.</FieldHint>
-            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
-              <span aria-hidden="true">🔒</span>
-              <span>Kept secure on this device until final submission</span>
-            </div>
             {touched.email && !isValidEmail(email) && (
               <FieldError>
                 {!email.trim()
@@ -187,106 +183,119 @@ export const ContactStep: React.FC<ContactStepProps> = ({ className = '' }) => {
               autoComplete="tel"
             />
             <FieldHint>Auto-prefixed with +91 country code.</FieldHint>
-            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
-              <span aria-hidden="true">🔒</span>
-              <span>Kept secure on this device until final submission</span>
-            </div>
             {touched.phone && !isValidPhone(phone) && (
               <FieldError>Please enter a valid 10-digit Indian mobile number.</FieldError>
             )}
           </Field>
         </div>
 
-        {/* Address Lines */}
-        <Field
-          id="addressLine1"
-          invalid={touched.addressLine1 && !addressLine1.trim()}
-          isValid={isAddr1Valid}
-        >
-          <FieldLabel>Current Residential Address (Line 1)</FieldLabel>
-          <Input
-            value={addressLine1}
-            onChange={(e) => handleInputChange('addressLine1', e.target.value)}
-            onBlur={() => handleBlur('addressLine1')}
-            placeholder="Flat/House No., Building, Street Name"
-            autoComplete="address-line1"
-          />
-          <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
-            <span aria-hidden="true">🔒</span>
-            <span>Kept secure on this device until final submission</span>
+        {/* ── Residential Address Section ── */}
+        <div className="pt-1">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px flex-1 bg-[var(--color-border)]" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-ink-muted)] shrink-0">
+              Residential Address
+            </span>
+            <div className="h-px flex-1 bg-[var(--color-border)]" />
           </div>
-          {touched.addressLine1 && !addressLine1.trim() && (
-            <FieldError>Address line 1 is required.</FieldError>
-          )}
-        </Field>
 
-        <Field id="addressLine2" required={false}>
-          <FieldLabel>Address (Line 2)</FieldLabel>
-          <Input
-            value={addressLine2}
-            onChange={(e) => handleInputChange('addressLine2', e.target.value)}
-            placeholder="Area, Landmark, Locality"
-            autoComplete="address-line2"
-          />
-        </Field>
-
-        {/* City, State, PIN */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Field id="city" invalid={touched.city && !city.trim()} isValid={isCityValid}>
-            <FieldLabel>City / Town</FieldLabel>
-            <Input
-              value={city}
-              onChange={(e) => handleInputChange('city', e.target.value)}
-              onBlur={() => handleBlur('city')}
-              placeholder="e.g. Bengaluru"
-              autoComplete="address-level2"
-            />
-            {touched.city && !city.trim() && <FieldError>City is required.</FieldError>}
-          </Field>
-
-          <Field id="state" invalid={touched.state && !state.trim()} isValid={isStateValid}>
-            <FieldLabel>State / UT</FieldLabel>
-            <Input
-              value={state}
-              onChange={(e) => handleInputChange('state', e.target.value)}
-              onBlur={() => handleBlur('state')}
-              placeholder="e.g. Karnataka"
-              autoComplete="address-level1"
-            />
-            {touched.state && !state.trim() && <FieldError>State is required.</FieldError>}
-          </Field>
-
-          <Field
-            id="pincode"
-            invalid={touched.pincode && !isValidPincode(pincode)}
-            isValid={isPincodeValid}
-          >
-            <FieldLabel
-              tooltip={
-                <JargonTooltip
-                  ariaLabel="Help: postal code format"
-                  title="6-Digit Postal PIN Code"
-                  explanation="Postal Index Number (PIN) used by India Post to identify your delivery post office and administrative zone."
-                  example="e.g. 560001 (Bengaluru), 110001 (New Delhi), 400001 (Mumbai)"
-                />
-              }
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-subtle)]/40 p-4 space-y-4">
+            {/* Address Line 1 — full-width */}
+            <Field
+              id="addressLine1"
+              invalid={touched.addressLine1 && !addressLine1.trim()}
+              isValid={isAddr1Valid}
             >
-              6-Digit PIN Code
-            </FieldLabel>
-            <Input
-              value={pincode}
-              onChange={(e) =>
-                handleInputChange('pincode', e.target.value.replace(/\D/g, '').slice(0, 6))
-              }
-              onBlur={() => handleBlur('pincode')}
-              placeholder="560001"
-              maxLength={6}
-              autoComplete="postal-code"
-            />
-            {touched.pincode && !isValidPincode(pincode) && (
-              <FieldError>6-digit PIN is required.</FieldError>
-            )}
-          </Field>
+              <FieldLabel>Address Line 1</FieldLabel>
+              <Input
+                value={addressLine1}
+                onChange={(e) => handleInputChange('addressLine1', e.target.value)}
+                onBlur={() => handleBlur('addressLine1')}
+                placeholder="Flat/House No., Building, Street Name"
+                autoComplete="address-line1"
+              />
+              {touched.addressLine1 && !addressLine1.trim() && (
+                <FieldError>Address line 1 is required.</FieldError>
+              )}
+            </Field>
+
+            {/* Address Line 2 — optional */}
+            <Field id="addressLine2" required={false}>
+              <FieldLabel>Address Line 2</FieldLabel>
+              <Input
+                value={addressLine2}
+                onChange={(e) => handleInputChange('addressLine2', e.target.value)}
+                placeholder="Area, Landmark, Locality"
+                autoComplete="address-line2"
+              />
+            </Field>
+
+            {/* City, State, PIN — proper proportions */}
+            <div className="grid grid-cols-2 sm:grid-cols-[1fr_1fr_160px] gap-4">
+              <Field id="city" invalid={touched.city && !city.trim()} isValid={isCityValid}>
+                <FieldLabel>City / Town</FieldLabel>
+                <Input
+                  value={city}
+                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  onBlur={() => handleBlur('city')}
+                  placeholder="e.g. Bengaluru"
+                  autoComplete="address-level2"
+                />
+                {touched.city && !city.trim() && <FieldError>City is required.</FieldError>}
+              </Field>
+
+              <Field id="state" invalid={touched.state && !state.trim()} isValid={isStateValid}>
+                <FieldLabel>State / UT</FieldLabel>
+                <Input
+                  value={state}
+                  onChange={(e) => handleInputChange('state', e.target.value)}
+                  onBlur={() => handleBlur('state')}
+                  placeholder="e.g. Karnataka"
+                  autoComplete="address-level1"
+                />
+                {touched.state && !state.trim() && <FieldError>State is required.</FieldError>}
+              </Field>
+
+              <Field
+                id="pincode"
+                invalid={touched.pincode && !isValidPincode(pincode)}
+                isValid={isPincodeValid}
+                className="col-span-2 sm:col-span-1"
+              >
+                <FieldLabel
+                  tooltip={
+                    <JargonTooltip
+                      ariaLabel="Help: postal code format"
+                      title="6-Digit Postal PIN Code"
+                      explanation="Postal Index Number (PIN) used by India Post to identify your delivery post office and administrative zone."
+                      example="e.g. 560001 (Bengaluru), 110001 (New Delhi), 400001 (Mumbai)"
+                    />
+                  }
+                >
+                  PIN Code
+                </FieldLabel>
+                <Input
+                  value={pincode}
+                  onChange={(e) =>
+                    handleInputChange('pincode', e.target.value.replace(/\D/g, '').slice(0, 6))
+                  }
+                  onBlur={() => handleBlur('pincode')}
+                  placeholder="560001"
+                  maxLength={6}
+                  autoComplete="postal-code"
+                />
+                {touched.pincode && !isValidPincode(pincode) && (
+                  <FieldError>6-digit PIN is required.</FieldError>
+                )}
+              </Field>
+            </div>
+
+            {/* Single privacy note for the whole address section */}
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400 pt-1">
+              <span aria-hidden="true">🔒</span>
+              <span>All contact details are kept secure on this device until final submission</span>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -22,15 +22,15 @@ export function PaymentProcessingModal({ isOpen, stepIndex, amount }: PaymentPro
       aria-labelledby="payment-processing-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
     >
-      <div className="w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl border border-[var(--color-border)] text-center animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-md bg-[var(--color-surface-card)] rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl border border-[var(--color-border)] text-center animate-in fade-in zoom-in-95 duration-200">
         {/* Animated spinner badge */}
-        <div className="mx-auto w-16 h-16 rounded-full bg-[#EEF0FB] flex items-center justify-center relative">
+        <div className="mx-auto w-16 h-16 rounded-full bg-[var(--color-indigo-primary)]/10 flex items-center justify-center relative">
           <Loader2
             className="w-8 h-8 text-[var(--color-indigo-primary)] animate-spin"
             aria-hidden="true"
           />
           <ShieldCheck
-            className="w-4 h-4 text-[var(--color-indigo-primary)] absolute -bottom-1 -right-1 bg-white rounded-full p-0.5"
+            className="w-4 h-4 text-[var(--color-indigo-primary)] absolute -bottom-1 -right-1 bg-[var(--color-surface-card)] rounded-full p-0.5"
             aria-hidden="true"
           />
         </div>
@@ -58,22 +58,25 @@ export function PaymentProcessingModal({ isOpen, stepIndex, amount }: PaymentPro
                 key={idx}
                 className={`flex items-start gap-3 p-3 rounded-xl transition-colors ${
                   isCurrent
-                    ? 'bg-[#EEF0FB] border border-[var(--color-indigo-primary)]/20'
+                    ? 'bg-[var(--color-indigo-primary)]/10 border border-[var(--color-indigo-primary)]/20'
                     : isCompleted
-                      ? 'bg-emerald-50/50'
+                      ? 'bg-[var(--color-success)]/10'
                       : 'opacity-40'
                 }`}
               >
                 <div className="mt-0.5 shrink-0">
                   {isCompleted ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" aria-hidden="true" />
+                    <CheckCircle2
+                      className="w-4 h-4 text-[var(--color-success)]"
+                      aria-hidden="true"
+                    />
                   ) : isCurrent ? (
                     <Loader2
                       className="w-4 h-4 text-[var(--color-indigo-primary)] animate-spin"
                       aria-hidden="true"
                     />
                   ) : (
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
+                    <div className="w-4 h-4 rounded-full border-2 border-[var(--color-border)]" />
                   )}
                 </div>
                 <div className="min-w-0">
@@ -82,7 +85,7 @@ export function PaymentProcessingModal({ isOpen, stepIndex, amount }: PaymentPro
                       isCurrent
                         ? 'text-[var(--color-indigo-primary)]'
                         : isCompleted
-                          ? 'text-emerald-900'
+                          ? 'text-[var(--color-success)]'
                           : 'text-[var(--color-ink-muted)]'
                     }`}
                   >

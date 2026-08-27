@@ -146,7 +146,7 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
     <Card
       role="region"
       aria-label="Application Status Timeline"
-      className={`p-5 sm:p-6 bg-white space-y-6 ${className}`}
+      className={`p-5 sm:p-6 bg-[var(--color-surface-card)] space-y-6 ${className}`}
     >
       {/* Title */}
       <div className="flex items-center justify-between gap-2 border-b border-[var(--color-border)] pb-4">
@@ -163,7 +163,7 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
         </div>
 
         {referenceNumber && (
-          <span className="text-xs font-mono px-2.5 py-1 rounded bg-slate-100 text-slate-700 font-semibold hidden sm:inline">
+          <span className="text-xs font-mono px-2.5 py-1 rounded bg-[var(--color-surface-subtle)] text-[var(--color-ink)] font-semibold hidden sm:inline">
             {referenceNumber}
           </span>
         )}
@@ -184,7 +184,7 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
               {!isLast && (
                 <div
                   className={`absolute left-[15px] top-[30px] bottom-[-24px] w-0.5 ${
-                    isCompleted ? 'bg-[var(--color-green-success,#166534)]' : 'bg-slate-200'
+                    isCompleted ? 'bg-[var(--color-success)]' : 'bg-[var(--color-border)]'
                   }`}
                   aria-hidden="true"
                 />
@@ -193,22 +193,22 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
               {/* Node Icon */}
               <div className="shrink-0 z-10" aria-hidden="true">
                 {isCompleted && (
-                  <div className="w-8 h-8 rounded-full bg-[var(--color-green-success,#166534)] text-white flex items-center justify-center shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[var(--color-success)] text-[var(--color-surface-bg)] flex items-center justify-center shadow-sm">
                     <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                   </div>
                 )}
                 {isInProgress && (
-                  <div className="w-8 h-8 rounded-full bg-blue-50 border-2 border-[var(--color-indigo-primary)] text-[var(--color-indigo-primary)] flex items-center justify-center animate-pulse">
+                  <div className="w-8 h-8 rounded-full bg-[var(--color-indigo-primary)]/10 border-2 border-[var(--color-indigo-primary)] text-[var(--color-indigo-primary)] flex items-center justify-center animate-pulse">
                     <Circle className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
                   </div>
                 )}
                 {isActionRequired && (
-                  <div className="w-8 h-8 rounded-full bg-amber-100 border-2 border-amber-600 text-amber-800 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/10 border-2 border-amber-500 text-amber-500 flex items-center justify-center">
                     <AlertTriangle className="w-4 h-4" aria-hidden="true" />
                   </div>
                 )}
                 {isUpcoming && (
-                  <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 text-slate-400 flex items-center justify-center text-xs font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-[var(--color-surface-subtle)] border border-[var(--color-border)] text-[var(--color-ink-muted)] flex items-center justify-center text-xs font-semibold">
                     {index + 1}
                   </div>
                 )}
@@ -227,12 +227,12 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
                   <span
                     className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                       isCompleted
-                        ? 'bg-green-100 text-green-800'
+                        ? 'bg-[var(--color-success)]/10 text-[var(--color-success)]'
                         : isInProgress
-                          ? 'bg-blue-100 text-blue-800'
+                          ? 'bg-[var(--color-indigo-primary)]/10 text-[var(--color-indigo-primary)]'
                           : isActionRequired
-                            ? 'bg-amber-100 text-amber-800'
-                            : 'bg-slate-100 text-slate-700'
+                            ? 'bg-amber-500/10 text-amber-500'
+                            : 'bg-[var(--color-surface-subtle)] text-[var(--color-ink)]'
                     }`}
                   >
                     {stage.date}
@@ -247,10 +247,10 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
                   <div
                     className={`mt-2 p-2.5 rounded-[var(--radius-input)] text-xs flex items-start gap-2 ${
                       isActionRequired
-                        ? 'bg-amber-50 border border-amber-300 text-amber-900 font-semibold'
+                        ? 'bg-amber-500/10 border border-amber-500/30 text-amber-500 font-semibold'
                         : isInProgress
-                          ? 'bg-blue-50 border border-blue-200 text-blue-900'
-                          : 'bg-slate-50 text-[var(--color-ink-muted)]'
+                          ? 'bg-[var(--color-indigo-primary)]/10 border border-[var(--color-indigo-primary)]/30 text-[var(--color-indigo-primary)]'
+                          : 'bg-[var(--color-surface-subtle)] text-[var(--color-ink-muted)]'
                     }`}
                   >
                     <FileSearch className="w-3.5 h-3.5 mt-0.5 shrink-0" aria-hidden="true" />
@@ -264,7 +264,7 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
       </div>
 
       {/* Interactive Demo Scenario Controller (TRCK-02) */}
-      <div className="mt-6 pt-4 border-t border-dashed border-[var(--color-border)] bg-slate-50 p-4 rounded-[var(--radius-card)] space-y-2.5">
+      <div className="mt-6 pt-4 border-t border-dashed border-[var(--color-border)] bg-[var(--color-surface-subtle)] p-4 rounded-[var(--radius-card)] space-y-2.5">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--color-indigo-primary)]">
             <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
@@ -288,30 +288,30 @@ export const StatusTimelineCard: React.FC<StatusTimelineCardProps> = ({
           <Button
             variant="outline"
             onClick={handleAdvanceStatus}
-            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-white"
+            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-transparent border border-[var(--color-border)] hover:bg-[var(--color-surface-card)] text-[var(--color-ink)]"
             data-testid="demo-advance-btn"
           >
-            <Play className="w-3.5 h-3.5 text-blue-600" aria-hidden="true" />
+            <Play className="w-3.5 h-3.5 text-[#3b82f6]" aria-hidden="true" />
             <span>[Advance Status]</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={handleSimulateInfoRequest}
-            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-white text-amber-800 border-amber-300 hover:bg-amber-50"
+            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-transparent text-amber-500 border-amber-500/30 hover:bg-amber-500/10"
             data-testid="demo-info-request-btn"
           >
-            <AlertTriangle className="w-3.5 h-3.5 text-amber-600" aria-hidden="true" />
+            <AlertTriangle className="w-3.5 h-3.5 text-amber-500" aria-hidden="true" />
             <span>[Simulate Info Request]</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={handleSimulateApproval}
-            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-white text-green-800 border-green-300 hover:bg-green-50"
+            className="min-h-[40px] py-1.5 px-3 text-xs font-semibold flex items-center gap-1.5 bg-transparent text-[var(--color-success)] border-[var(--color-success)]/30 hover:bg-[var(--color-success)]/10"
             data-testid="demo-approval-btn"
           >
-            <CheckCircle2 className="w-3.5 h-3.5 text-green-600" aria-hidden="true" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-[var(--color-success)]" aria-hidden="true" />
             <span>[Simulate Approval]</span>
           </Button>
         </div>

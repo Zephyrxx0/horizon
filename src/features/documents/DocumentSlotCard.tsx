@@ -103,25 +103,29 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
     <Card
       id={`doc-slot-${slot.id}`}
       className={`space-y-4 border transition-all ${
-        isDragOver ? 'border-indigo-600 bg-indigo-50/30' : 'border-gray-200'
+        isDragOver
+          ? 'border-[var(--color-indigo-primary)] bg-[var(--color-indigo-primary)]/10'
+          : 'border-[var(--color-border)]'
       }`}
     >
       {/* Slot Header */}
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-base font-semibold text-gray-900">{slot.title}</h3>
+            <h3 className="text-base font-semibold text-[var(--color-ink)]">{slot.title}</h3>
             {slot.isMandatory ? (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-800">
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[var(--color-error)]/10 text-[var(--color-error)]">
                 Required
               </span>
             ) : (
-              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[var(--color-surface-subtle)] text-[var(--color-ink-muted)]">
                 Optional
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-600 leading-relaxed">{slot.description}</p>
+          <p className="text-xs text-[var(--color-ink-muted)] leading-relaxed">
+            {slot.description}
+          </p>
         </div>
 
         {/* Guidance and Template links */}
@@ -130,7 +134,7 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
             <button
               type="button"
               onClick={() => onOpenSampleGuide(slot.id)}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-800 hover:text-indigo-950 p-2 min-h-[48px] rounded focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-indigo-primary)] hover:opacity-80 p-2 min-h-[48px] rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)]"
             >
               <HelpCircle className="w-3.5 h-3.5" aria-hidden="true" />
               <span>View sample & tips</span>
@@ -141,7 +145,7 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
             <button
               type="button"
               onClick={() => onDownloadTemplate(slot.templateType!)}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-800 hover:text-emerald-950 p-2 min-h-[48px] rounded focus:outline-none focus:ring-2 focus:ring-emerald-600"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-success)] hover:opacity-80 p-2 min-h-[48px] rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-success)]"
             >
               <FileText className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Download template</span>
@@ -152,8 +156,8 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
 
       {/* Instructions list */}
       {slot.instructions.length > 0 && (
-        <div className="p-3 bg-gray-50 rounded-lg text-xs text-gray-700 space-y-1">
-          <p className="font-semibold text-gray-900">Upload tips:</p>
+        <div className="p-3 bg-[var(--color-surface-subtle)] rounded-lg text-xs text-[var(--color-ink-muted)] space-y-1">
+          <p className="font-semibold text-[var(--color-ink)]">Upload tips:</p>
           <ul className="list-disc list-inside space-y-0.5">
             {slot.instructions.map((tip, idx) => (
               <li key={idx}>{tip}</li>
@@ -198,7 +202,7 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
                 <button
                   type="button"
                   onClick={() => cameraInputRef.current?.click()}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-white bg-indigo-900 rounded-lg hover:bg-indigo-950 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-sm"
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-[var(--color-surface-bg)] bg-[var(--color-indigo-primary)] rounded-lg hover:opacity-90 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)] shadow-sm"
                 >
                   <Camera className="w-4 h-4" aria-hidden="true" />
                   <span>📷 Take Photo</span>
@@ -207,14 +211,14 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-medium text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-medium text-[var(--color-ink)] bg-transparent border border-[var(--color-border)] rounded-lg hover:bg-[var(--color-surface-subtle)] min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)]"
                 >
-                  <Upload className="w-4 h-4 text-gray-600" aria-hidden="true" />
+                  <Upload className="w-4 h-4 text-[var(--color-ink-muted)]" aria-hidden="true" />
                   <span>📁 Upload File / PDF</span>
                 </button>
               </div>
 
-              <p className="text-[11px] text-gray-500 hidden sm:block">
+              <p className="text-[11px] text-[var(--color-ink-muted)] hidden sm:block">
                 Drag and drop your file here, or tap buttons above (JPG, PNG, PDF up to 10MB)
               </p>
             </div>

@@ -46,13 +46,13 @@ export const PrivacyTrustCard: React.FC<PrivacyTrustCardProps> = ({
   return (
     <>
       <div
-        className={`p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-indigo-50/80 via-white to-blue-50/50 border border-indigo-100 shadow-sm space-y-4 ${className}`}
+        className={`p-4 sm:p-5 rounded-2xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-sm space-y-4 ${className}`}
         data-testid="privacy-trust-card"
       >
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-indigo-primary)] text-white flex items-center justify-center shadow-sm shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[var(--color-indigo-primary)] text-[var(--color-surface-bg)] flex items-center justify-center shadow-sm shrink-0">
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
@@ -71,16 +71,16 @@ export const PrivacyTrustCard: React.FC<PrivacyTrustCardProps> = ({
           {PRIVACY_PILLARS.map((pillar) => (
             <div
               key={pillar.id}
-              className="p-3 rounded-xl bg-white/90 border border-indigo-50/80 shadow-[0_1px_2px_rgba(0,0,0,0.02)] space-y-1.5 flex flex-col justify-between"
+              className="p-3 rounded-xl bg-[var(--color-surface-subtle)] border border-[var(--color-border-subtle)] shadow-[0_1px_2px_rgba(0,0,0,0.02)] space-y-1.5 flex flex-col justify-between"
             >
               <div className="flex items-center justify-between">
-                <div className="w-6 h-6 rounded-md bg-indigo-50 text-[var(--color-indigo-primary)] flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 rounded-md bg-[var(--color-surface-card)] text-[var(--color-indigo-primary)] flex items-center justify-center shrink-0">
                   {pillar.icon === 'device' && <HardDrive className="w-3.5 h-3.5" />}
                   {pillar.icon === 'shield-ban' && <EyeOff className="w-3.5 h-3.5" />}
                   {pillar.icon === 'lock' && <Lock className="w-3.5 h-3.5" />}
                 </div>
                 {pillar.badge && (
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-50/70 text-[var(--color-indigo-primary)]">
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[var(--color-surface-card)] text-[var(--color-indigo-primary)] border border-[var(--color-border-subtle)]">
                     {pillar.badge}
                   </span>
                 )}
@@ -98,14 +98,14 @@ export const PrivacyTrustCard: React.FC<PrivacyTrustCardProps> = ({
         </div>
 
         {/* Expandable Privacy Promise Trigger */}
-        <div className="pt-1 flex items-center justify-between border-t border-indigo-100/60">
+        <div className="pt-1 flex items-center justify-between border-t border-[var(--color-border)]">
           <span className="text-xs text-[var(--color-ink-muted)]">
             🔒 Bank-grade encryption standards
           </span>
           <button
             type="button"
             onClick={handleOpenPromise}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-indigo-primary)] hover:text-indigo-800 hover:underline min-h-[32px] px-1 py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-indigo-primary)] hover:text-[var(--color-ink)] hover:underline min-h-[32px] px-1 py-1 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)]"
             data-testid="read-privacy-promise-btn"
           >
             <span>Read our Privacy Promise</span>

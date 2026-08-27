@@ -25,13 +25,13 @@ export function ReceiptCard({ receipt, onPrint, className = '' }: ReceiptCardPro
 
   return (
     <Card
-      className={`p-6 sm:p-8 space-y-6 border border-[var(--color-border)] bg-white shadow-md print:shadow-none print:border-none ${className}`}
+      className={`p-6 sm:p-8 space-y-6 border border-[var(--color-border)] bg-[var(--color-surface-card)] shadow-md print:shadow-none print:border-none ${className}`}
     >
       {/* Official Header */}
       <div className="flex items-start justify-between border-b border-[var(--color-border)] pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="p-1 rounded-full bg-emerald-100 text-emerald-700">
+            <span className="p-1 rounded-full bg-[var(--color-success)]/10 text-[var(--color-success)] border border-[var(--color-success)]/20">
               <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
             </span>
             <h3 className="text-lg sm:text-xl font-extrabold text-[var(--color-ink)]">
@@ -77,7 +77,7 @@ export function ReceiptCard({ receipt, onPrint, className = '' }: ReceiptCardPro
 
         <div>
           <span className="font-semibold text-[var(--color-ink-muted)]">Status</span>
-          <p className="inline-flex items-center gap-1 font-bold text-emerald-700 text-xs mt-0.5">
+          <p className="inline-flex items-center gap-1 font-bold text-[var(--color-success)] text-xs mt-0.5">
             <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
             SUCCESSFUL
           </p>
@@ -147,7 +147,7 @@ export function ReceiptCard({ receipt, onPrint, className = '' }: ReceiptCardPro
       {/* Footer Trust Seal */}
       <div className="flex items-center justify-between text-xs text-[var(--color-ink-muted)] border-t border-[var(--color-border)] pt-4">
         <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" aria-hidden="true" />
+          <ShieldCheck className="w-4 h-4 text-[var(--color-success)]" aria-hidden="true" />
           <span>Digitally Signed & Verified</span>
         </div>
         <span>Thank you for using VisaReThink</span>

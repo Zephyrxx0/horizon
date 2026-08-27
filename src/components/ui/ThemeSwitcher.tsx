@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Sun, Moon, Eye, Monitor } from 'lucide-react';
+import { Sun, Moon, Monitor } from 'lucide-react';
 
-export type ThemeMode = 'light' | 'dark' | 'contrast' | 'system';
+export type ThemeMode = 'light' | 'dark' | 'system';
 
 export interface ThemeSwitcherProps {
   className?: string;
@@ -19,11 +19,11 @@ function syncDomTheme(mode: ThemeMode) {
   if (mode === 'dark') {
     root.classList.add('dark');
     root.setAttribute('data-theme', 'dark');
-  } else if (mode === 'contrast') {
-    root.classList.add('dark');
-    root.setAttribute('data-theme', 'contrast');
   } else if (mode === 'system') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark =
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        : false;
     if (prefersDark) {
       root.classList.add('dark');
       root.setAttribute('data-theme', 'dark');
@@ -38,8 +38,9 @@ function syncDomTheme(mode: ThemeMode) {
 export function ThemeSwitcher({ className = '', variant = 'compact' }: ThemeSwitcherProps) {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === 'undefined') return 'light';
-    const saved = localStorage.getItem('horizon-theme') as ThemeMode | null;
-    return saved || 'light';
+    const saved = localStorage.getItem('horizon-theme');
+    if (saved === 'contrast') return 'light'; // Clean migration
+    return (saved as ThemeMode) || 'light';
   });
 
   useEffect(() => {
@@ -54,8 +55,7 @@ export function ThemeSwitcher({ className = '', variant = 'compact' }: ThemeSwit
   const cycleTheme = () => {
     const nextMode: Record<ThemeMode, ThemeMode> = {
       light: 'dark',
-      dark: 'contrast',
-      contrast: 'light',
+      dark: 'system',
       system: 'light',
     };
     applyTheme(nextMode[theme] || 'light');
@@ -99,16 +99,16 @@ export function ThemeSwitcher({ className = '', variant = 'compact' }: ThemeSwit
         <button
           type="button"
           role="radio"
-          aria-checked={theme === 'contrast'}
-          onClick={() => applyTheme('contrast')}
+          aria-checked={theme === 'system'}
+          onClick={() => applyTheme('system')}
           className={`flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
-            theme === 'contrast'
-              ? 'bg-amber-400 text-black shadow-2xs font-semibold'
+            theme === 'system'
+              ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 shadow-2xs'
               : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
           }`}
         >
-          <Eye className="w-3.5 h-3.5" />
-          <span>Contrast</span>
+          <Monitor className="w-3.5 h-3.5" />
+          <span>System</span>
         </button>
       </div>
     );
@@ -125,7 +125,6 @@ export function ThemeSwitcher({ className = '', variant = 'compact' }: ThemeSwit
     >
       {theme === 'light' && <Sun className="w-4 h-4" aria-hidden="true" />}
       {theme === 'dark' && <Moon className="w-4 h-4" aria-hidden="true" />}
-      {theme === 'contrast' && <Eye className="w-4 h-4 text-amber-500" aria-hidden="true" />}
       {theme === 'system' && <Monitor className="w-4 h-4" aria-hidden="true" />}
     </button>
   );

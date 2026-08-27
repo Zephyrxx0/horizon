@@ -23,6 +23,7 @@ import { LandingPage } from './features/landing/LandingPage';
 import { TrackingPage } from './features/tracking/TrackingPage';
 import { DesignSystemPage } from './features/design-system/DesignSystemPage';
 import { SupportPage } from './features/support/SupportPage';
+import { AssistantSheet, FloatingAssistantButton } from './features/assistant';
 import { Clock } from 'lucide-react';
 
 const STEP_ANNOUNCEMENTS: Record<string, string> = {
@@ -58,6 +59,7 @@ function MainContent() {
   const currentStepId = useSelector(actor, (s) => s.context.currentStepId);
 
   // Modal Dialog States
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
   const [isBackupOpen, setIsBackupOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -65,7 +67,7 @@ function MainContent() {
   const [backupMode, setBackupMode] = useState<'generate' | 'restore'>('generate');
 
   // Route determination
-  const showLanding = currentRoute === '/' && currentStepId === 'visa-selection';
+  const showLanding = currentRoute === '/';
   const showTracking = currentRoute === '/track';
   const showDesignSystem = currentRoute === '/design-system';
   const showSupport = currentRoute === '/support' || currentRoute === '/faq';
@@ -126,8 +128,23 @@ function MainContent() {
     },
   ];
 
+  const stageTargetSteps: Record<string, StepId> = {
+    'stage-1': 'visa-selection',
+    'stage-2': 'personal-identity',
+    'stage-3': 'documents',
+    'stage-4': 'review-payment',
+    'stage-5': 'confirmation',
+  };
+
+  const handleStageClick = (step: { id: string }) => {
+    const target = stageTargetSteps[step.id];
+    if (target) {
+      actor.send({ type: 'GOTO', stepId: target });
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)] transition-colors duration-150">
+    <div className="min-h-screen flex flex-col bg-[var(--color-surface-bg)] text-[var(--color-ink)] transition-colors duration-150 relative">
       <SkipLink />
       <A11yAnnouncer />
       <AppHeader
@@ -160,35 +177,43 @@ function MainContent() {
 
         {/* ROUTE 5: Application Wizard Portal */}
         {showWizard && (
-          <div className="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 pb-16 animate-in fade-in duration-150">
+          <div className="animate-in fade-in duration-150">
             <h1 className="sr-only">Visa Application Journey</h1>
 
-            {/* Desktop: sidebar layout. Mobile: stacked */}
-            <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 lg:gap-8 items-start">
-              {/* Left sidebar: progress + save indicator */}
-              <div className="lg:sticky lg:top-[80px] space-y-3">
-                <div className="border border-[var(--color-border)] bg-[var(--color-surface-card)] p-4 rounded-xl shadow-xs space-y-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-muted)]">
+            {/* Full-width Top Progress Bar */}
+            <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-card)] px-6 sm:px-10 xl:px-16 2xl:px-24 py-4 space-y-3">
+              <div className="max-w-5xl mx-auto w-full space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
+                    <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
+                    <span>e-Visa Application Process</span>
+                    <span className="text-[var(--color-ink-muted)] font-normal">|</span>
+                    <div className="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)] font-medium">
                       <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                       <span className="tabular-nums">
-                        ~{minutesRemaining} min · {percent}% done
+                        ~{minutesRemaining} min · {percent}% completed
                       </span>
                     </div>
-                    <SaveIndicator
-                      state={saveState}
-                      onClickSaved={() => {
-                        setBackupMode('generate');
-                        setIsBackupOpen(true);
-                      }}
-                    />
                   </div>
 
-                  {/* Vertical stepper on desktop */}
-                  <ProgressStepper steps={stages} orientation="vertical" className="w-full" />
+                  <SaveIndicator
+                    state={saveState}
+                    onClickSaved={() => {
+                      setBackupMode('generate');
+                      setIsBackupOpen(true);
+                    }}
+                  />
                 </div>
 
-                {/* Draft Resumption Banner (STATE-04) */}
+                {/* Horizontal Stepper (Interactive & Connected) */}
+                <ProgressStepper
+                  steps={stages}
+                  orientation="horizontal"
+                  onStepClick={handleStageClick}
+                  className="w-full"
+                />
+
+                {/* Compact Draft Resumption Notice (if exists) */}
                 <ResumeBanner
                   onOpenBackupRestore={() => {
                     setBackupMode('restore');
@@ -196,14 +221,18 @@ function MainContent() {
                   }}
                 />
               </div>
+            </div>
 
-              {/* Right: Active Stage Screen */}
-              <div className="bg-[var(--color-surface-card)] p-5 sm:p-8 rounded-xl border border-[var(--color-border)] shadow-xs min-h-[400px]">
+            {/* Full-width Stage Content */}
+            <div className="px-6 sm:px-10 xl:px-16 2xl:px-24 py-8 xl:py-10 pb-16 min-h-[600px]">
+              <div className="max-w-5xl mx-auto w-full">
                 {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
 
                 {(currentStepId === 'personal-identity' ||
                   currentStepId === 'personal-contact' ||
-                  currentStepId === 'personal-details') && <PersonalDetailsScreen />}
+                  currentStepId === 'personal-details') && (
+                  <PersonalDetailsScreen onOpenHelp={() => setIsHelpOpen(true)} />
+                )}
 
                 {currentStepId === 'documents' && <DocumentsScreen />}
 
@@ -223,8 +252,26 @@ function MainContent() {
             {/* Col 1 */}
             <div className="space-y-2 md:col-span-2">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded bg-[var(--color-footer-border)] flex items-center justify-center text-xs">
-                  🇮🇳
+                <div className="w-6 h-6 rounded bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="w-4 h-4 text-[var(--color-saffron-bright)] dark:text-amber-500"
+                  >
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="12" cy="12" r="2" fill="currentColor" />
+                    {[...Array(24)].map((_, i) => (
+                      <line
+                        key={i}
+                        x1="12"
+                        y1="12"
+                        x2={12 + 10 * Math.cos((i * 15 * Math.PI) / 180)}
+                        y2={12 + 10 * Math.sin((i * 15 * Math.PI) / 180)}
+                        stroke="currentColor"
+                        strokeWidth="0.8"
+                      />
+                    ))}
+                  </svg>
                 </div>
                 <span className="font-semibold text-white text-sm">
                   e-Visa India • Government of India
@@ -301,8 +348,23 @@ function MainContent() {
         </div>
       </footer>
 
+      {/* Floating AI Assistant Trigger (Hidden when window is open) */}
+      {!isAssistantOpen && (
+        <FloatingAssistantButton
+          onClick={() => setIsAssistantOpen(true)}
+          isOpen={isAssistantOpen}
+        />
+      )}
+
       {/* Floating Help Escape Hatch Button (SUPRT-01) */}
       <FloatingHelpButton onClick={() => setIsHelpOpen(true)} />
+
+      {/* AI Assistant Floating Layer */}
+      <AssistantSheet
+        isOpen={isAssistantOpen}
+        onClose={() => setIsAssistantOpen(false)}
+        currentStepId={currentStepId}
+      />
 
       {/* Global Standalone Modals */}
       <FaqSheet open={isHelpOpen} onClose={() => setIsHelpOpen(false)} />

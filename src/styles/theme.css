@@ -1,41 +1,41 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-surface-bg: #fafafa;
-  --color-surface-card: #ffffff;
-  --color-surface-subtle: #f4f4f5;
-  --color-indigo-primary: #0f172a;
-  --color-indigo-hover: #1e293b;
-  --color-ink: #09090b;
-  --color-ink-muted: #71717a;
-  --color-border: #e4e4e7;
-  --color-border-subtle: #f4f4f5;
+  --color-surface-bg: #faf8f5; /* Warm Ivory background */
+  --color-surface-card: #ffffff; /* White card surface */
+  --color-surface-subtle: #f3ede2; /* Warm neutral cream */
+  --color-indigo-primary: #1a2a44; /* Regal Deep Navy */
+  --color-indigo-hover: #233756; /* Hover Navy */
+  --color-ink: #1c1917; /* Warm Charcoal text */
+  --color-ink-muted: #5c5550; /* Muted warm gray text */
+  --color-border: #e5ddd0; /* Warm border */
+  --color-border-subtle: #f2ece2; /* Subtle warm border */
 
   /* Sovereign Accent (Restrained single highlight) */
-  --color-saffron-50: #fff7ed;
-  --color-saffron-100: #ffedd5;
-  --color-saffron-bright: #ea580c;
-  --color-saffron-deep: #c2410c;
+  --color-saffron-50: #fffbeb;
+  --color-saffron-100: #fef3c7;
+  --color-saffron-bright: #d96b27; /* Tasteful Indian Saffron */
+  --color-saffron-deep: #a04810; /* Deep Terracotta/Saffron */
 
-  --color-navy-900: #090d16;
-  --color-navy-800: #0f172a;
-  --color-navy-700: #1e293b;
+  --color-navy-900: #0a111c;
+  --color-navy-800: #101926;
+  --color-navy-700: #1a2a44;
 
   --color-green-50: #f0fdf4;
   --color-green-700: #15803d;
-  --color-success: #15803d;
+  --color-success: #1d683e; /* Rich Muted Green */
 
-  --color-error: #dc2626;
+  --color-error: #a82222; /* Toned-down warning red */
   --color-disabled-text: #a1a1aa;
   --color-disabled-bg: #f4f4f5;
-  --color-selected-bg: #f4f4f5;
-  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-selected-bg: #f3ede2;
+  --color-overlay: rgba(0, 0, 0, 0.4);
 
   /* Footer surface — distinct from card/bg */
-  --color-surface-footer: #09090b;
-  --color-footer-text: #d4d4d8;
-  --color-footer-text-muted: #71717a;
-  --color-footer-border: #27272a;
+  --color-surface-footer: #0a111c; /* Deep Navy footer */
+  --color-footer-text: #e2e8f0;
+  --color-footer-text-muted: #8b95a5;
+  --color-footer-border: #1a2a44;
 
   --text-meta: 0.8125rem;
   --text-body: 0.9375rem;
@@ -66,50 +66,27 @@
 /* Dark mode */
 :root[data-theme='dark'],
 .dark {
-  --color-surface-bg: #09090b;
-  --color-surface-card: #121215;
-  --color-surface-subtle: #18181b;
-  --color-indigo-primary: #f4f4f5;
-  --color-indigo-hover: #e4e4e7;
-  --color-ink: #fafafa;
-  --color-ink-muted: #a1a1aa;
-  --color-border: #27272a;
-  --color-border-subtle: #18181b;
-  --color-selected-bg: #18181b;
-  --color-disabled-bg: #18181b;
-  --color-disabled-text: #52525b;
-  --color-saffron-bright: #f97316;
-  --color-saffron-deep: #ea580c;
-  --color-success: #22c55e;
-  --color-error: #f87171;
+  --color-surface-bg: #0f1319; /* Deep Dark Navy */
+  --color-surface-card: #151a22; /* Slate Card */
+  --color-surface-subtle: #1d232e; /* Muted surface dark */
+  --color-indigo-primary: #f0f4f8; /* Muted White action */
+  --color-indigo-hover: #e2e8f0;
+  --color-ink: #f0f4f8; /* Crisp light gray text */
+  --color-ink-muted: #8b95a5; /* Blue-gray muted text */
+  --color-border: #2e3846; /* Navy border */
+  --color-border-subtle: #1d2430;
+  --color-selected-bg: #1d232e;
+  --color-disabled-bg: #151a22;
+  --color-disabled-text: #525c6c;
+  --color-saffron-bright: #f59e0b; /* Golden saffron */
+  --color-saffron-deep: #ea580c; /* Bright saffron deep */
+  --color-success: #2eae68; /* Emerald Green */
+  --color-error: #e55959; /* Bright error red */
   /* Footer stays dark even in light mode — override for dark to keep continuity */
-  --color-surface-footer: #060609;
-  --color-footer-text: #a1a1aa;
-  --color-footer-text-muted: #52525b;
-  --color-footer-border: #18181b;
-  color-scheme: dark;
-}
-
-/* High Contrast theme */
-:root[data-theme='contrast'] {
-  --color-surface-bg: #000000;
-  --color-surface-card: #09090b;
-  --color-surface-subtle: #18181b;
-  --color-indigo-primary: #fbbf24;
-  --color-indigo-hover: #f59e0b;
-  --color-ink: #ffffff;
-  --color-ink-muted: #e4e4e7;
-  --color-border: #ffffff;
-  --color-border-subtle: #a1a1aa;
-  --color-saffron-bright: #f59e0b;
-  --color-saffron-deep: #d97706;
-  --color-selected-bg: #27272a;
-  --color-success: #4ade80;
-  --color-error: #fca5a5;
-  --color-surface-footer: #000000;
-  --color-footer-text: #d4d4d8;
-  --color-footer-text-muted: #a1a1aa;
-  --color-footer-border: #52525b;
+  --color-surface-footer: #0a0d11;
+  --color-footer-text: #8b95a5;
+  --color-footer-text-muted: #525c6c;
+  --color-footer-border: #151a22;
   color-scheme: dark;
 }
 
@@ -145,9 +122,13 @@ html.theme-transition *:after {
 }
 
 /* Crisp subtle scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -158,4 +139,15 @@ html.theme-transition *:after {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-ink-muted);
+}
+
+/* Hide scrollbar utility for clean pill carousels & suggestions */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }

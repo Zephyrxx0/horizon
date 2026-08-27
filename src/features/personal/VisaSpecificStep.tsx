@@ -131,7 +131,7 @@ export const VisaSpecificStep: React.FC<VisaSpecificStepProps> = ({ className = 
   const isJobValid = touched.jobTitle && jobTitle.trim().length > 0;
 
   return (
-    <div className={`space-y-6 max-w-xl mx-auto ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Top Error Summary */}
       {errors.length > 0 && <ErrorSummary errors={errors} />}
 

@@ -82,14 +82,14 @@ export function SupportPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12 animate-in fade-in duration-200">
       {/* Page Header */}
-      <div className="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <div className="space-y-2 border-b border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-2">
           <GovtBadge variant="emblem" size="sm" />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-ink)]">
           e-Visa Guidelines, Specifications & Support
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-xs sm:text-sm text-[var(--color-ink-muted)]">
           Official compliance guidelines, technical document specifications, and 24x7 helpdesk
           assistance.
         </p>
@@ -98,17 +98,17 @@ export function SupportPage() {
       {/* SECTION 1: PHOTO & PASSPORT SPECIFICATIONS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Photo Specs Card */}
-        <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 space-y-4 shadow-2xs">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-            <Camera className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        <div className="rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] p-5 space-y-4 shadow-2xs">
+          <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
+            <Camera className="w-4 h-4 text-[var(--color-ink-muted)]" />
+            <h2 className="text-sm font-semibold text-[var(--color-ink)]">
               Digital Photo Specifications
             </h2>
           </div>
-          <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+          <ul className="space-y-2 text-xs text-[var(--color-ink-muted)]">
             {photoRequirements.map((req, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="text-zinc-400 font-bold">•</span>
+                <span className="text-[var(--color-ink-muted)] font-bold opacity-60">•</span>
                 <span>{req}</span>
               </li>
             ))}
@@ -116,17 +116,17 @@ export function SupportPage() {
         </div>
 
         {/* Passport Specs Card */}
-        <div className="rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 space-y-4 shadow-2xs">
-          <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-            <FileCheck className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        <div className="rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] p-5 space-y-4 shadow-2xs">
+          <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3">
+            <FileCheck className="w-4 h-4 text-[var(--color-ink-muted)]" />
+            <h2 className="text-sm font-semibold text-[var(--color-ink)]">
               Passport Document Specifications
             </h2>
           </div>
-          <ul className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+          <ul className="space-y-2 text-xs text-[var(--color-ink-muted)]">
             {passportRequirements.map((req, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="text-zinc-400 font-bold">•</span>
+                <span className="text-[var(--color-ink-muted)] font-bold opacity-60">•</span>
                 <span>{req}</span>
               </li>
             ))}
@@ -137,26 +137,26 @@ export function SupportPage() {
       {/* SECTION 2: ENTRY AIRPORTS & SEAPORTS */}
       <div className="space-y-4">
         <div className="space-y-1">
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
             <Plane className="w-4 h-4" />
             <span>Designated Immigration Ports of Entry</span>
           </h2>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-[var(--color-ink-muted)]">
             e-Visa holders can enter India through 31 designated international airports and 5 major
             seaports.
           </p>
         </div>
 
-        <div className="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xs space-y-4">
+        <div className="p-5 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-2xs space-y-4">
           <div>
-            <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 block mb-2">
+            <span className="text-xs font-semibold text-[var(--color-ink)] block mb-2">
               31 Designated International Airports:
             </span>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs text-[var(--color-ink-muted)]">
               {airports.map((ap, i) => (
                 <div
                   key={i}
-                  className="p-1.5 rounded bg-zinc-50 dark:bg-zinc-800/60 font-mono text-[11px]"
+                  className="p-1.5 rounded bg-[var(--color-surface-subtle)] font-mono text-[11px]"
                 >
                   {ap}
                 </div>
@@ -164,15 +164,15 @@ export function SupportPage() {
             </div>
           </div>
 
-          <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800">
-            <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 block mb-1">
+          <div className="pt-2 border-t border-[var(--color-border)]">
+            <span className="text-xs font-semibold text-[var(--color-ink)] block mb-1">
               5 Designated Cruise Seaports:
             </span>
             <div className="flex flex-wrap gap-2 text-xs">
               {seaports.map((sp, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-medium"
+                  className="px-2.5 py-1 rounded bg-[var(--color-surface-subtle)] text-[var(--color-ink-muted)] text-xs font-medium"
                 >
                   {sp}
                 </span>
@@ -185,11 +185,11 @@ export function SupportPage() {
       {/* SECTION 3: FREQUENTLY ASKED QUESTIONS */}
       <div className="space-y-4">
         <div className="space-y-1">
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+          <h2 className="text-lg font-bold text-[var(--color-ink)] flex items-center gap-2">
             <HelpCircle className="w-4 h-4" />
             <span>Frequently Asked Questions</span>
           </h2>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-[var(--color-ink-muted)]">
             Common questions regarding processing rules, validity, and immigration requirements.
           </p>
         </div>
@@ -200,24 +200,24 @@ export function SupportPage() {
             return (
               <div
                 key={idx}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden shadow-2xs"
+                className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-card)] overflow-hidden shadow-2xs"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full px-4 py-3 text-left flex items-center justify-between gap-4 text-xs font-semibold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 cursor-pointer"
+                  className="w-full px-4 py-3 text-left flex items-center justify-between gap-4 text-xs font-semibold text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] cursor-pointer"
                   aria-expanded={isOpen}
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-zinc-500 transition-transform duration-200 shrink-0 ${
+                    className={`w-4 h-4 text-[var(--color-ink-muted)] transition-transform duration-200 shrink-0 ${
                       isOpen ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-3.5 pt-1 text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800">
+                  <div className="px-4 pb-3.5 pt-1 text-xs text-[var(--color-ink-muted)] leading-relaxed border-t border-[var(--color-border-subtle)]">
                     {faq.a}
                   </div>
                 )}
@@ -228,10 +228,10 @@ export function SupportPage() {
       </div>
 
       {/* SECTION 4: 24/7 HELPLINE CONTACT */}
-      <div className="p-6 rounded-xl bg-zinc-900 text-white flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="p-6 rounded-xl bg-[var(--color-ink)] text-[var(--color-surface-bg)] flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="space-y-1 text-center sm:text-left">
           <h2 className="text-base font-bold">24x7 Official e-Visa Tourist Helpline</h2>
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs opacity-80">
             Dedicated support for foreign nationals and applicants in distress.
           </p>
         </div>
@@ -239,7 +239,7 @@ export function SupportPage() {
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
           <a
             href="tel:1800111363"
-            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold flex items-center justify-center gap-2 border border-zinc-700 transition-colors"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold flex items-center justify-center gap-2 border border-white/20 transition-colors"
           >
             <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
             <span>1800-11-1363 (Toll Free)</span>
@@ -247,7 +247,7 @@ export function SupportPage() {
 
           <a
             href="mailto:indian-evisa@gov.in"
-            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold flex items-center justify-center gap-2 border border-zinc-700 transition-colors"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold flex items-center justify-center gap-2 border border-white/20 transition-colors"
           >
             <Mail className="w-3.5 h-3.5 text-blue-400" />
             <span>indian-evisa@gov.in</span>

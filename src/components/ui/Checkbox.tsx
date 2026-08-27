@@ -30,13 +30,18 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         <div
           className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors duration-150 peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-indigo-primary)] peer-focus-visible:ring-offset-2 ${
             checked
-              ? 'bg-[var(--color-indigo-primary)] border-[var(--color-indigo-primary)] text-white'
+              ? 'bg-[var(--color-indigo-primary)] border-[var(--color-indigo-primary)] text-[var(--color-surface-bg)]'
               : invalid
-                ? 'border-[var(--color-error)] bg-white'
-                : 'border-[var(--color-border)] bg-white'
+                ? 'border-[var(--color-error)] bg-transparent'
+                : 'border-[var(--color-border)] bg-transparent'
           }`}
         >
-          {checked && <Check className="w-4 h-4 text-white stroke-[3]" aria-hidden="true" />}
+          {checked && (
+            <Check
+              className="w-4 h-4 text-[var(--color-surface-bg)] stroke-[3]"
+              aria-hidden="true"
+            />
+          )}
         </div>
       </div>
       <span className="text-base font-normal text-[var(--color-ink)] leading-normal pointer-events-none">

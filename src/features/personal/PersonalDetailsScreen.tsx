@@ -4,14 +4,18 @@ import { useWizardActor } from '../wizard/context';
 import { IdentityStep } from './IdentityStep';
 import { ContactStep } from './ContactStep';
 import { VisaSpecificStep } from './VisaSpecificStep';
-import { PrivacyTrustCard } from '../trust';
+import { FormSidebar } from './FormSidebar';
 import type { StepId } from '../wizard/types';
 
 export interface PersonalDetailsScreenProps {
   className?: string;
+  onOpenHelp?: () => void;
 }
 
-export const PersonalDetailsScreen: React.FC<PersonalDetailsScreenProps> = ({ className = '' }) => {
+export const PersonalDetailsScreen: React.FC<PersonalDetailsScreenProps> = ({
+  className = '',
+  onOpenHelp,
+}) => {
   const actor = useWizardActor();
   const currentStepId = useSelector(actor, (s) => s.context.currentStepId);
 
@@ -24,42 +28,57 @@ export const PersonalDetailsScreen: React.FC<PersonalDetailsScreenProps> = ({ cl
   const currentSubStepIndex = subSteps.findIndex((s) => s.id === currentStepId);
 
   return (
-    <div className={`space-y-6 ${className}`}>
-      {/* Sub-step Pill Navigator */}
-      <nav aria-label="Personal details sub-steps" className="max-w-xl mx-auto">
-        <ol className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-[var(--color-surface-bg)] border border-[var(--color-border)] text-xs">
-          {subSteps.map((sub, idx) => {
-            const isCurrent = sub.id === currentStepId;
-            const isDone = currentSubStepIndex > idx;
+    <div className={`lg:grid lg:grid-cols-[1fr_300px] lg:gap-8 xl:gap-10 items-start ${className}`}>
+      {/* Left: Form Column */}
+      <div className="space-y-6 min-w-0">
+        {/* Sub-step Pill Navigator (Interactive Tabs) */}
+        <nav aria-label="Personal details sub-steps">
+          <ol className="flex items-center justify-between gap-2 p-1.5 rounded-xl bg-[var(--color-surface-bg)] border border-[var(--color-border)] text-xs">
+            {subSteps.map((sub, idx) => {
+              const isCurrent = sub.id === currentStepId;
+              const isDone = currentSubStepIndex > idx;
 
-            return (
-              <li
-                key={sub.id}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md font-medium transition-colors ${
-                  isCurrent
-                    ? 'bg-[var(--color-indigo-primary)] text-white shadow-sm'
-                    : isDone
-                      ? 'text-[var(--color-success)] font-semibold'
-                      : 'text-[var(--color-ink-muted)]'
-                }`}
-                aria-current={isCurrent ? 'step' : undefined}
-              >
-                <span className="font-bold">{sub.number}</span>
-                <span className="hidden sm:inline">{sub.label}</span>
-                {isDone && <span aria-hidden="true">✓</span>}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
+              return (
+                <li key={sub.id} className="flex-1">
+                  <button
+                    type="button"
+                    onClick={() => actor.send({ type: 'GOTO', stepId: sub.id })}
+                    className={`w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-medium transition-all duration-150 cursor-pointer active:scale-[0.98] ${
+                      isCurrent
+                        ? 'bg-[var(--color-indigo-primary)] text-[var(--color-surface-bg)] shadow-sm'
+                        : isDone
+                          ? 'text-[var(--color-success)] font-semibold hover:bg-[var(--color-surface-subtle)]'
+                          : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)]'
+                    }`}
+                    aria-current={isCurrent ? 'step' : undefined}
+                    aria-label={`Step ${sub.number}: ${sub.label}`}
+                  >
+                    <span className="font-bold">{sub.number}</span>
+                    <span className="hidden sm:inline">{sub.label}</span>
+                    {isDone && (
+                      <span aria-hidden="true" className="text-[var(--color-success)]">
+                        ✓
+                      </span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
 
-      {/* Pre-flight Privacy Trust Card on Initial Identity Sub-step (D-05 / TRUST-01) */}
-      {currentStepId === 'personal-identity' && <PrivacyTrustCard className="max-w-xl mx-auto" />}
+        {/* Active Sub-step Form */}
+        {currentStepId === 'personal-identity' && <IdentityStep />}
+        {currentStepId === 'personal-contact' && <ContactStep />}
+        {currentStepId === 'personal-details' && <VisaSpecificStep />}
+      </div>
 
-      {/* Active Sub-step Form */}
-      {currentStepId === 'personal-identity' && <IdentityStep />}
-      {currentStepId === 'personal-contact' && <ContactStep />}
-      {currentStepId === 'personal-details' && <VisaSpecificStep />}
+      {/* Right: Sticky Sidebar (desktop only) */}
+      <FormSidebar
+        currentStepId={currentStepId as StepId}
+        onOpenHelp={onOpenHelp}
+        className="lg:sticky lg:top-24"
+      />
     </div>
   );
 };

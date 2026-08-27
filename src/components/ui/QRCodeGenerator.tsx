@@ -70,20 +70,20 @@ export function QRCodeGenerator({
 
   return (
     <div
-      className={`rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 shadow-xs flex flex-col items-center text-center space-y-4 ${className}`}
+      className={`rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] p-5 shadow-xs flex flex-col items-center text-center space-y-4 ${className}`}
       data-testid="qr-code-generator"
     >
       <div className="space-y-1">
-        <div className="flex items-center justify-center gap-1.5 text-zinc-900 dark:text-zinc-100 font-semibold text-sm">
-          <QrIcon className="w-4 h-4 text-zinc-600 dark:text-zinc-400" aria-hidden="true" />
+        <div className="flex items-center justify-center gap-1.5 text-[var(--color-ink)] font-semibold text-sm">
+          <QrIcon className="w-4 h-4 text-[var(--color-ink-muted)]" aria-hidden="true" />
           <span>{title}</span>
         </div>
-        {subtitle && <p className="text-xs text-zinc-500 dark:text-zinc-400">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-[var(--color-ink-muted)]">{subtitle}</p>}
       </div>
 
-      <div className="p-2.5 rounded-lg bg-white border border-zinc-200 shadow-2xs">
+      <div className="p-2.5 rounded-lg bg-white border border-[var(--color-border)] shadow-2xs">
         {error ? (
-          <div className="w-36 h-36 flex items-center justify-center text-xs text-red-600 font-medium">
+          <div className="w-36 h-36 flex items-center justify-center text-xs text-[var(--color-error)] font-medium">
             {error}
           </div>
         ) : (
@@ -92,7 +92,7 @@ export function QRCodeGenerator({
       </div>
 
       <div className="w-full text-center">
-        <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate max-w-[240px] inline-block">
+        <span className="text-[11px] font-mono text-[var(--color-ink-muted)] truncate max-w-[240px] inline-block">
           {value}
         </span>
       </div>
@@ -107,7 +107,7 @@ export function QRCodeGenerator({
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <Check className="w-3.5 h-3.5 text-[var(--color-success)]" />
                 <span>Copied</span>
               </>
             ) : (

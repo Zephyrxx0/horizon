@@ -11,9 +11,7 @@ export function FeeBreakdownCard({ feeBreakdown, className = '' }: FeeBreakdownC
   const { processingFee, governmentFee, platformFee, totalAmount } = feeBreakdown;
 
   return (
-    <Card
-      className={`p-5 sm:p-6 space-y-4 border border-[var(--color-border)] bg-white shadow-xs ${className}`}
-    >
+    <Card className={`p-5 sm:p-6 space-y-4 shadow-xs ${className}`}>
       <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-5 h-5 text-[var(--color-indigo-primary)]" aria-hidden="true" />
@@ -21,7 +19,7 @@ export function FeeBreakdownCard({ feeBreakdown, className = '' }: FeeBreakdownC
             Total Amount Due
           </h2>
         </div>
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#F0FDF4] text-[var(--color-success)] border border-[#DCFCE7]">
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--color-success)]/10 text-[var(--color-success)] border border-[var(--color-success)]/20">
           <Check className="w-3.5 h-3.5 stroke-[2.5]" aria-hidden="true" />
           Zero hidden charges
         </span>

@@ -17,25 +17,32 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.54",
+    "@ai-sdk/openai": "^4.0.50",
+    "@ai-sdk/react": "^4.0.86",
     "@fontsource/noto-sans": "~5.3.0",
     "@fontsource/noto-sans-devanagari": "~5.3.0",
     "@fontsource/noto-sans-kannada": "~5.3.0",
     "@fontsource/noto-sans-tamil": "~5.3.0",
     "@fontsource/noto-sans-telugu": "~5.3.0",
     "@tailwindcss/vite": "~4.3.3",
+    "@types/marked": "^6.0.0",
     "@xstate/react": "~6.1.0",
+    "ai": "^7.0.83",
     "canvas-confetti": "^1.9.4",
     "gsap": "^3.15.0",
     "i18next": "~26.4.0",
     "i18next-browser-languagedetector": "~8.2.1",
     "idb-keyval": "~6.3.0",
     "lucide-react": "~1.34.0",
+    "marked": "^18.0.11",
     "qrcode": "^1.5.4",
     "react": "~19.2.8",
     "react-dom": "~19.2.8",
     "react-i18next": "~17.0.12",
     "tailwindcss": "~4.3.3",
-    "xstate": "~5.32.5"
+    "xstate": "~5.32.5",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

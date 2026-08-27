@@ -24,7 +24,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   const variantStyles = {
     primary:
-      'bg-[var(--color-ink)] text-[var(--color-surface-bg)] hover:opacity-90 shadow-xs active:scale-[0.98]',
+      'bg-[#1a2a44] text-white dark:bg-[#f0f4f8] dark:text-[#0f1319] hover:opacity-90 shadow-xs active:scale-[0.98]',
     secondary:
       'bg-[var(--color-surface-subtle)] text-[var(--color-ink)] hover:bg-[var(--color-border)] active:scale-[0.98]',
     outline:
@@ -46,13 +46,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       aria-disabled={isDisabled ? 'true' : undefined}
       aria-busy={loading ? 'true' : undefined}
       onClick={isDisabled ? undefined : onClick}
-      className={`min-h-[40px] px-4 py-2 rounded-lg font-medium text-sm inline-flex items-center justify-center gap-2 transition-all duration-150 select-none ${FOCUS_RING_CLASS} ${
+      className={`min-h-[40px] px-4 py-2 rounded-lg font-medium text-sm inline-flex flex-row flex-nowrap whitespace-nowrap items-center justify-center gap-2 transition-all duration-150 select-none ${FOCUS_RING_CLASS} ${
         isDisabled ? disabledStyles : `${variantStyles} ${disabledStyles}`
       } ${className}`}
       {...props}
     >
       {loading && <Loader2 className="w-4 h-4 animate-spin shrink-0" aria-hidden="true" />}
-      <span>{children}</span>
+      {children}
     </button>
   );
 });

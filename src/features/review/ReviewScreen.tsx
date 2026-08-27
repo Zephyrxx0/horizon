@@ -341,7 +341,7 @@ export function ReviewScreen() {
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#EEF0FB] text-[var(--color-indigo-primary)]">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[var(--color-surface-subtle)] text-[var(--color-ink)]">
             Stage 4 of 5
           </span>
           <span className="text-xs font-semibold text-[var(--color-ink-muted)]">
