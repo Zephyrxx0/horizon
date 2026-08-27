@@ -10,7 +10,6 @@ import {
   EyeOff,
   ChevronRight,
 } from 'lucide-react';
-
 import { PrivacyPromiseSheet } from '../trust/PrivacyPromiseSheet';
 import type { StepId } from '../wizard/types';
 
@@ -149,6 +148,30 @@ export const FormSidebar: React.FC<FormSidebarProps> = ({
           <span className="font-semibold text-[var(--color-ink)]">Have questions? Open FAQ</span>
           <ChevronRight className="w-3.5 h-3.5 ml-auto opacity-50" />
         </button>
+
+        {/* Indian Cultural Heritage ASCII Card */}
+        <div className="rounded-2xl border border-[var(--color-saffron-bright)]/20 bg-[var(--color-saffron-50)]/60 dark:bg-[var(--color-saffron-bright)]/8 p-3.5 space-y-2 text-center overflow-hidden">
+          <div className="flex items-center justify-between text-[11px] font-bold text-[var(--color-saffron-deep)] border-b border-[var(--color-saffron-bright)]/20 pb-1.5">
+            <span>Incredible India</span>
+            <span className="text-[10px] font-mono text-[var(--color-ink-muted)]">
+              अतिथि देवो भव
+            </span>
+          </div>
+          <pre className="font-mono text-[8px] leading-[1.05] text-[var(--color-saffron-bright)] dark:text-amber-400 select-none mx-auto whitespace-pre py-1">
+            {`   _/\\_
+  (    )
+.-'      '-.
+ |  _/\\_  |
+ | (    ) |
+/   \\\\  /   \\\\
+|   |  |   |
+=============
+[ TAJ MAHAL ]`}
+          </pre>
+          <p className="text-[10px] text-[var(--color-ink-muted)] leading-tight text-pretty">
+            Official visa gateway for exploring India's heritage & cultural landmarks.
+          </p>
+        </div>
       </aside>
 
       <PrivacyPromiseSheet open={isPrivacySheetOpen} onClose={() => setIsPrivacySheetOpen(false)} />
