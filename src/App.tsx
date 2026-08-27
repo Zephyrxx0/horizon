@@ -162,12 +162,12 @@ function MainContent() {
 
         {/* ROUTE 5: Application Wizard Portal */}
         {showWizard && (
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-16 animate-in fade-in duration-150 space-y-5">
+          <div className="animate-in fade-in duration-150">
             <h1 className="sr-only">Visa Application Journey</h1>
 
-            {/* Clean Top Progress Bar & Header */}
-            <div className="border border-[var(--color-border)] bg-[var(--color-surface-card)] p-4 sm:p-5 rounded-2xl shadow-xs space-y-3.5">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--color-border)]/60 pb-3">
+            {/* Full-width Top Progress Bar */}
+            <div className="border-b border-[var(--color-border)] bg-[var(--color-surface-card)] px-6 sm:px-10 xl:px-16 2xl:px-24 py-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
                   <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
                   <span>e-Visa Application Process</span>
@@ -190,7 +190,11 @@ function MainContent() {
               </div>
 
               {/* Horizontal Stepper */}
-              <ProgressStepper steps={stages} orientation="horizontal" className="w-full" />
+              <ProgressStepper
+                steps={stages}
+                orientation="horizontal"
+                className="w-full max-w-3xl"
+              />
 
               {/* Draft Resumption Banner (if exists) */}
               <ResumeBanner
@@ -201,8 +205,8 @@ function MainContent() {
               />
             </div>
 
-            {/* Active Stage Screen Card */}
-            <div className="bg-[var(--color-surface-card)] p-5 sm:p-8 rounded-2xl border border-[var(--color-border)] shadow-xs min-h-[400px]">
+            {/* Full-width Stage Content */}
+            <div className="px-6 sm:px-10 xl:px-16 2xl:px-24 py-8 xl:py-10 pb-16 min-h-[600px]">
               {currentStepId === 'visa-selection' && <VisaSelectionScreen />}
 
               {(currentStepId === 'personal-identity' ||
