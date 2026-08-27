@@ -137,7 +137,7 @@ export function AssistantSheet({
     <aside
       aria-label="Asha AI Visa Guide"
       aria-hidden={!isOpen}
-      className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[400px] md:w-[420px] lg:w-[440px] h-[640px] max-h-[85vh] rounded-3xl border border-[var(--color-border)] shadow-2xl bg-[var(--color-surface-card)] overflow-hidden flex flex-col transition-all duration-300 ease-out origin-bottom-right ${
+      className={`fixed top-16 sm:top-18 bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[420px] md:w-[440px] lg:w-[460px] h-[calc(100vh-80px)] sm:h-[calc(100vh-92px)] max-h-[calc(100vh-80px)] rounded-3xl border border-[var(--color-border)] shadow-2xl bg-[var(--color-surface-card)] overflow-hidden flex flex-col transition-all duration-300 ease-out origin-bottom-right ${
         isOpen
           ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 scale-95 translate-y-6 pointer-events-none'
