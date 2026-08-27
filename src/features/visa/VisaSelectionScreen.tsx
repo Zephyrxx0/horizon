@@ -122,49 +122,42 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
       </div>
 
       {/* ── Top Destination Bar ── */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[var(--color-surface-subtle)]/50 border border-[var(--color-border)]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-          <div className="space-y-1.5" id="destinationCountry">
-            <label
-              htmlFor="destination-select"
-              className="text-xs font-semibold text-[var(--color-ink)] flex items-center gap-1.5 uppercase tracking-wider"
-            >
-              <Globe2
-                className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]"
-                aria-hidden="true"
-              />
-              Where are you traveling to?
-            </label>
-            <Select
-              id="destination-select"
-              value={destination}
-              onChange={handleDestinationChange}
-              className="w-full bg-[var(--color-surface-card)]"
-            >
-              {DESTINATIONS.map((d) => (
-                <option
-                  key={d.value}
-                  value={d.value}
-                  className="bg-[var(--color-surface-card)] text-[var(--color-ink)]"
-                >
-                  {d.flag} {d.label}
-                </option>
-              ))}
-            </Select>
-          </div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 sm:p-5 rounded-2xl bg-[var(--color-surface-subtle)]/50 border border-[var(--color-border)]">
+        <div className="flex-1 min-w-0 space-y-1.5" id="destinationCountry">
+          <label
+            htmlFor="destination-select"
+            className="text-xs font-semibold text-[var(--color-ink)] flex items-center gap-1.5 uppercase tracking-wider"
+          >
+            <Globe2 className="w-3.5 h-3.5 text-[var(--color-saffron-bright)]" aria-hidden="true" />
+            Where are you traveling to?
+          </label>
+          <Select
+            id="destination-select"
+            value={destination}
+            onChange={handleDestinationChange}
+            className="w-full max-w-sm bg-[var(--color-surface-card)]"
+          >
+            {DESTINATIONS.map((d) => (
+              <option
+                key={d.value}
+                value={d.value}
+                className="bg-[var(--color-surface-card)] text-[var(--color-ink)]"
+              >
+                {d.flag} {d.label}
+              </option>
+            ))}
+          </Select>
+        </div>
 
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)]/70 text-xs">
-            <div className="w-8 h-8 rounded-lg bg-[var(--color-saffron-bright)]/10 flex items-center justify-center shrink-0 text-[var(--color-saffron-bright)]">
-              <ShieldCheck className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-semibold text-[var(--color-ink)] block">
-                Consular Verified Pricing
-              </span>
-              <span className="text-[var(--color-ink-muted)] text-[11px] block">
-                100% transparent fee breakdowns with zero hidden surcharge.
-              </span>
-            </div>
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)]/70 text-xs shrink-0">
+          <ShieldCheck className="w-4 h-4 text-[var(--color-saffron-bright)] shrink-0" />
+          <div>
+            <span className="font-semibold text-[var(--color-ink)] block">
+              Consular Verified Pricing
+            </span>
+            <span className="text-[var(--color-ink-muted)] text-[11px]">
+              100% transparent fee breakdowns with zero hidden surcharge.
+            </span>
           </div>
         </div>
       </div>
@@ -334,11 +327,11 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
             </div>
 
             {/* Consular Tip */}
-            <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-xs text-amber-900 dark:text-amber-200">
-              <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-[var(--color-indigo-primary)]/8 dark:bg-[var(--color-indigo-primary)]/15 border border-[var(--color-indigo-primary)]/25 text-xs text-[var(--color-ink)]">
+              <Info className="w-4 h-4 text-[var(--color-indigo-primary)] shrink-0 mt-0.5" />
               <span>
                 Passport must have minimum <strong>6 months validity</strong> from travel date with
-                at least <strong>2 blank pages</strong>.
+                at least <strong>2 blank pages</strong> remaining for entry stamps.
               </span>
             </div>
           </div>
@@ -363,7 +356,7 @@ export const VisaSelectionScreen: React.FC<VisaSelectionScreenProps> = ({ classN
         <Button
           variant="primary"
           onClick={handleContinue}
-          className="w-full sm:w-auto sm:min-w-[240px] min-h-[44px] text-sm font-semibold flex items-center justify-center gap-2 rounded-xl shadow-xs"
+          className="w-full sm:w-auto sm:min-w-[260px] min-h-[46px] text-sm font-bold flex items-center justify-center gap-2 rounded-xl shadow-sm"
         >
           <span>Continue to Personal Details</span>
           <ChevronRight className="w-4 h-4" aria-hidden="true" />

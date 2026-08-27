@@ -32,16 +32,16 @@ export function AppHeader({
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--color-surface-card)]/95 backdrop-blur-md border-b border-[var(--color-border)] transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14 gap-4">
+      <div className="w-full px-6 sm:px-10 xl:px-16 2xl:px-24">
+        <div className="flex items-center justify-between h-16 gap-6">
           {/* Brand & Wordmark */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="flex items-center gap-2.5 text-left cursor-pointer group focus-visible:outline-2 focus-visible:outline-[var(--color-indigo-primary)] rounded-md py-1"
+              className="flex items-center gap-3 text-left cursor-pointer group focus-visible:outline-2 focus-visible:outline-[var(--color-indigo-primary)] rounded-md py-1"
             >
-              <div className="w-8 h-8 rounded-lg bg-[var(--color-saffron-bright)]/10 flex items-center justify-center shrink-0 border border-[var(--color-saffron-bright)]/25">
+              <div className="w-9 h-9 rounded-xl bg-[var(--color-saffron-bright)]/10 flex items-center justify-center shrink-0 border border-[var(--color-saffron-bright)]/25">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -64,11 +64,11 @@ export function AppHeader({
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-sm text-[var(--color-ink)] tracking-tight">
-                    {t('app.appName', 'e-Visa India')}
+                  <span className="font-bold text-base text-[var(--color-ink)] tracking-tight">
+                    {t('app.appName', 'VisaReThink')}
                   </span>
                 </div>
-                <span className="text-[10px] text-[var(--color-ink-muted)] leading-none hidden sm:block">
+                <span className="text-[11px] text-[var(--color-ink-muted)] leading-none hidden sm:block">
                   Ministry of External Affairs
                 </span>
               </div>
@@ -77,7 +77,7 @@ export function AppHeader({
 
           {/* Desktop Navigation Links */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 text-xs font-medium"
+            className="hidden lg:flex items-center gap-1 text-sm font-medium"
             aria-label="Main Navigation"
           >
             {navLinks.map((link) => {
@@ -87,7 +87,7 @@ export function AppHeader({
                   key={link.path}
                   type="button"
                   onClick={() => navigate(link.path)}
-                  className={`px-3 py-1.5 rounded-md transition-colors cursor-pointer ${
+                  className={`px-4 py-2 rounded-lg transition-colors cursor-pointer ${
                     isActive
                       ? 'bg-[var(--color-surface-subtle)] text-[var(--color-ink)] font-semibold'
                       : 'text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)]'

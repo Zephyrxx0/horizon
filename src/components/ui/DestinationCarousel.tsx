@@ -181,16 +181,16 @@ export function DestinationCarousel({
       role="region"
       aria-label="Incredible India Destination Carousel"
     >
-      {/* Background Image with Clean Cinematic Overlay */}
-      <div className="relative h-[380px] sm:h-[420px] w-full overflow-hidden pointer-events-none">
+      {/* Background Image — fills 100% of container */}
+      <div className="relative w-full h-full min-h-[420px] overflow-hidden pointer-events-none">
         <img
           src={activeDest.image}
           alt={`${activeDest.title} in ${activeDest.location}`}
-          className="w-full h-full object-cover object-center transition-all duration-700 ease-out outline outline-1 outline-black/10 dark:outline-white/10 -outline-offset-1"
+          className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-out"
           loading="lazy"
         />
-        {/* Subtle dark gradient for high text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-black/20" />
+        {/* Cinematic gradient: heavy at bottom for text, light at top */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-black/10" />
 
         {/* Content Container */}
         <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between">
@@ -201,57 +201,62 @@ export function DestinationCarousel({
             </span>
           </div>
 
-          {/* Bottom Destination Info */}
-          <div className="space-y-3 max-w-xl z-10">
-            <div className="space-y-1">
-              <div className="flex items-center gap-1.5 text-amber-400 text-xs font-medium">
-                <MapPin className="w-3.5 h-3.5 shrink-0" />
-                <span>{activeDest.location}</span>
+          {/* Bottom: Info + Dots */}
+          <div className="space-y-4 z-10">
+            {/* Destination Info */}
+            <div className="space-y-3 max-w-xl">
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5 text-amber-400 text-xs font-medium">
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
+                  <span>{activeDest.location}</span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white [text-wrap:balance]">
+                  {activeDest.title}
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed [text-wrap:pretty]">
+                  {activeDest.description}
+                </p>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white [text-wrap:balance]">
-                {activeDest.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed [text-wrap:pretty]">
-                {activeDest.description}
-              </p>
+
+              {/* Feature Pills */}
+              <div className="flex flex-wrap gap-1.5">
+                {activeDest.highlights.map((h, i) => (
+                  <span
+                    key={i}
+                    className="text-[11px] px-2 py-0.5 rounded bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 font-normal"
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Feature Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {activeDest.highlights.map((h, i) => (
-                <span
-                  key={i}
-                  className="text-[11px] px-2 py-0.5 rounded bg-white/10 backdrop-blur-md border border-white/10 text-slate-200 font-normal"
-                >
-                  {h}
-                </span>
-              ))}
+            {/* Slide Dots — inside image gradient */}
+            <div
+              className="flex items-center justify-center gap-2"
+              role="tablist"
+              aria-label="Slide indicators"
+            >
+              {destinations.map((d, index) => {
+                const isActive = index === currentIndex;
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`transition-all duration-300 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-amber-400 ${
+                      isActive
+                        ? 'w-6 h-2 bg-amber-500 shadow-xs'
+                        : 'w-2 h-2 bg-white/30 hover:bg-white/60'
+                    }`}
+                    aria-label={`Go to slide ${index + 1} of ${destinations.length}: ${d.title}`}
+                  />
+                );
+              })}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Centered Slide Dots Indicator Footer */}
-      <div className="bg-slate-950/90 backdrop-blur-xs px-5 py-3 border-t border-slate-800/80 flex items-center justify-center">
-        <div className="flex items-center gap-2" role="tablist" aria-label="Slide indicators">
-          {destinations.map((d, index) => {
-            const isActive = index === currentIndex;
-            return (
-              <button
-                key={d.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setCurrentIndex(index)}
-                className={`transition-all duration-300 rounded-full cursor-pointer focus-visible:outline-2 focus-visible:outline-amber-400 ${
-                  isActive
-                    ? 'w-6 h-2 bg-amber-500 shadow-xs'
-                    : 'w-2 h-2 bg-slate-700 hover:bg-slate-500'
-                }`}
-                aria-label={`Go to slide ${index + 1} of ${destinations.length}: ${d.title}`}
-              />
-            );
-          })}
         </div>
       </div>
     </div>
