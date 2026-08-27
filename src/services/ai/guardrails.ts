@@ -110,7 +110,7 @@ export function hasIndicCharacters(text: string): boolean {
  */
 export function maskPassportNumbers(text: string): string {
   return text.replace(PASSPORT_NUMBER_REGEX, (_match, p1) => {
-    return `${p1.slice(0, 3)}***${p1.slice(5)}`;
+    return `${p1.slice(0, 3)}***${p1.slice(6)}`;
   });
 }
 

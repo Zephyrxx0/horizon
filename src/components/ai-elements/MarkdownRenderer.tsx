@@ -14,13 +14,13 @@ function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
       case 'strong':
         return (
           <strong key={idx} className="font-bold text-[var(--color-ink)] dark:text-white">
-            {renderInlineTokens(tok.tokens)}
+            {tok.tokens ? renderInlineTokens(tok.tokens) : tok.text}
           </strong>
         );
       case 'em':
         return (
           <em key={idx} className="italic text-[var(--color-ink)] dark:text-white">
-            {renderInlineTokens(tok.tokens)}
+            {tok.tokens ? renderInlineTokens(tok.tokens) : tok.text}
           </em>
         );
       case 'codespan':
@@ -41,12 +41,15 @@ function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
             rel="noopener noreferrer"
             className="text-[var(--color-indigo-primary)] dark:text-blue-400 underline hover:opacity-80"
           >
-            {tok.text}
+            {tok.tokens ? renderInlineTokens(tok.tokens) : tok.text}
           </a>
         );
       case 'text':
       default:
-        return <span key={idx}>{tok.text}</span>;
+        if (tok.tokens && tok.tokens.length > 0) {
+          return <span key={idx}>{renderInlineTokens(tok.tokens)}</span>;
+        }
+        return tok.text;
     }
   });
 }
@@ -54,8 +57,9 @@ function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
 function renderBlockToken(token: Tokens.Generic, index: number): ReactNode {
   switch (token.type) {
     case 'heading': {
-      const level = (token as Tokens.Heading).depth;
-      const children = renderInlineTokens((token as Tokens.Heading).tokens);
+      const headingTok = token as Tokens.Heading;
+      const level = headingTok.depth;
+      const children = headingTok.tokens ? renderInlineTokens(headingTok.tokens) : headingTok.text;
       if (level === 1 || level === 2) {
         return (
           <h3
@@ -75,12 +79,14 @@ function renderBlockToken(token: Tokens.Generic, index: number): ReactNode {
         </h4>
       );
     }
-    case 'paragraph':
+    case 'paragraph': {
+      const paraTok = token as Tokens.Paragraph;
       return (
         <p key={index} className="my-1.5 leading-relaxed">
-          {renderInlineTokens((token as Tokens.Paragraph).tokens)}
+          {paraTok.tokens ? renderInlineTokens(paraTok.tokens) : paraTok.text}
         </p>
       );
+    }
     case 'list': {
       const listTok = token as Tokens.List;
       const Tag = listTok.ordered ? 'ol' : 'ul';
