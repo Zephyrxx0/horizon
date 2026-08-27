@@ -5,6 +5,7 @@ import { FOCUS_RING_CLASS } from './focus';
 
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   invalid?: boolean;
+  containerClassName?: string;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
@@ -12,6 +13,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     id: customId,
     invalid: propInvalid,
     className = '',
+    containerClassName = '',
     'aria-describedby': propDescribedBy,
     children,
     ...props
@@ -31,7 +33,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const ariaDescribedBy = describedByParts.length > 0 ? describedByParts.join(' ') : undefined;
 
   return (
-    <div className="relative w-full">
+    <div className={`relative ${containerClassName || 'w-full'}`}>
       <select
         ref={ref}
         id={id}

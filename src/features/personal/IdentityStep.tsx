@@ -156,7 +156,7 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
     (!showExpiryWarning || passportExpiryConfirmed);
 
   return (
-    <div className={`space-y-6 max-w-xl mx-auto ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Top Error Summary */}
       {errors.length > 0 && <ErrorSummary errors={errors} />}
 
@@ -234,10 +234,6 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
               onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
               onBlur={() => handleBlur('dateOfBirth')}
             />
-            <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
-              <span aria-hidden="true">🔒</span>
-              <span>Kept secure on this device until final submission</span>
-            </div>
             {touched.dateOfBirth && !isValidIsoDate(dateOfBirth) && (
               <FieldError>Valid date of birth is required.</FieldError>
             )}
@@ -278,118 +274,133 @@ export const IdentityStep: React.FC<IdentityStepProps> = ({ className = '' }) =>
           )}
         </Field>
 
-        {/* Passport Number with Auto-formatting */}
-        <Field
-          id="passportNumber"
-          invalid={touched.passportNumber && !isValidPassport(passportNumber)}
-          isValid={isPassportValid}
-        >
-          <FieldLabel
-            tooltip={
-              <JargonTooltip
-                ariaLabel="Help: passport document format"
-                jargonKey="givenNameVsSurname"
-                diagramZone="passportNumber"
-                title="Passport Number Zone"
-                explanation="Your 8 or 9 digit passport number is printed in the upper right corner of your bio-data page and stamped along the edge."
+        {/* ── Passport Details Section ── */}
+        <div className="pt-2">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px flex-1 bg-[var(--color-border)]" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-ink-muted)] shrink-0">
+              Passport Details
+            </span>
+            <div className="h-px flex-1 bg-[var(--color-border)]" />
+          </div>
+
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-subtle)]/40 p-4 space-y-4">
+            {/* Passport Number with Auto-formatting */}
+            <Field
+              id="passportNumber"
+              invalid={touched.passportNumber && !isValidPassport(passportNumber)}
+              isValid={isPassportValid}
+            >
+              <FieldLabel
+                tooltip={
+                  <JargonTooltip
+                    ariaLabel="Help: passport document format"
+                    jargonKey="givenNameVsSurname"
+                    diagramZone="passportNumber"
+                    title="Passport Number Zone"
+                    explanation="Your 8 or 9 digit passport number is printed in the upper right corner of your bio-data page and stamped along the edge."
+                  />
+                }
+              >
+                Passport Number
+              </FieldLabel>
+              <Input
+                value={passportNumber}
+                onChange={handlePassportChange}
+                onBlur={() => handleBlur('passportNumber')}
+                placeholder="AA1234567"
+                maxLength={9}
+                className="uppercase tracking-widest font-mono font-semibold"
               />
-            }
-          >
-            Passport Number
-          </FieldLabel>
-          <Input
-            value={passportNumber}
-            onChange={handlePassportChange}
-            onBlur={() => handleBlur('passportNumber')}
-            placeholder="AA1234567"
-            maxLength={9}
-            className="uppercase tracking-widest font-mono font-semibold"
-          />
-          <FieldHint>2 letters followed by 7 numbers (e.g. AA1234567).</FieldHint>
-          <div className="flex items-center gap-1 text-[11px] font-medium text-emerald-700 mt-1">
-            <span aria-hidden="true">🔒</span>
-            <span>Kept secure on this device until final submission</span>
+              <FieldHint>2 letters followed by 7 numbers (e.g. AA1234567).</FieldHint>
+              {touched.passportNumber && !isValidPassport(passportNumber) && (
+                <FieldError>
+                  Passport must start with 2 letters and 7 digits (e.g. AA1234567).
+                </FieldError>
+              )}
+            </Field>
+
+            {/* Duplicate Application Warning Card */}
+            {showDuplicateWarning && duplicateCheck.record && (
+              <DuplicateWarningCard
+                record={duplicateCheck.record}
+                onTrackExisting={(ref) => {
+                  setSelectedTrackingRef(ref);
+                  setIsTrackingOpen(true);
+                }}
+                onDismiss={() => setDuplicateDismissed(true)}
+              />
+            )}
+
+            {/* Issue Date & Expiry Date */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field
+                id="passportIssueDate"
+                invalid={touched.passportIssueDate && !isValidIsoDate(passportIssueDate)}
+                isValid={isIssueValid}
+              >
+                <FieldLabel
+                  tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
+                >
+                  Date of Issue
+                </FieldLabel>
+                <Input
+                  type="date"
+                  value={passportIssueDate}
+                  onChange={(e) => handleInputChange('passportIssueDate', e.target.value)}
+                  onBlur={() => handleBlur('passportIssueDate')}
+                />
+                {touched.passportIssueDate && !isValidIsoDate(passportIssueDate) && (
+                  <FieldError>Date of issue is required.</FieldError>
+                )}
+              </Field>
+
+              <Field
+                id="passportExpiryDate"
+                invalid={
+                  touched.passportExpiryDate &&
+                  (!isValidIsoDate(passportExpiryDate) || Boolean(expiryStatus?.isExpired))
+                }
+                isValid={isExpiryValid}
+              >
+                <FieldLabel
+                  tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
+                >
+                  Date of Expiry
+                </FieldLabel>
+                <Input
+                  type="date"
+                  value={passportExpiryDate}
+                  onChange={(e) => handleInputChange('passportExpiryDate', e.target.value)}
+                  onBlur={() => handleBlur('passportExpiryDate')}
+                />
+                {touched.passportExpiryDate && !isValidIsoDate(passportExpiryDate) && (
+                  <FieldError>Date of expiry is required.</FieldError>
+                )}
+                {touched.passportExpiryDate && expiryStatus?.isExpired && (
+                  <FieldError>{expiryStatus.message}</FieldError>
+                )}
+              </Field>
+            </div>
+
+            {/* Contextual Expiry Warning if <6 months */}
+            {showExpiryWarning && (
+              <div id="passportExpiryConfirmed">
+                <ExpiryWarning
+                  expiryDate={passportExpiryDate}
+                  confirmed={passportExpiryConfirmed}
+                  onConfirmChange={(val) => handleInputChange('passportExpiryConfirmed', val)}
+                />
+              </div>
+            )}
+
+            {/* Single consolidated privacy note */}
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400 pt-1">
+              <span aria-hidden="true">🔒</span>
+              <span>Passport details are kept secure on this device until final submission</span>
+            </div>
           </div>
-          {touched.passportNumber && !isValidPassport(passportNumber) && (
-            <FieldError>
-              Passport must start with 2 letters and 7 digits (e.g. AA1234567).
-            </FieldError>
-          )}
-        </Field>
-
-        {/* Duplicate Application Warning Card */}
-        {showDuplicateWarning && duplicateCheck.record && (
-          <DuplicateWarningCard
-            record={duplicateCheck.record}
-            onTrackExisting={(ref) => {
-              setSelectedTrackingRef(ref);
-              setIsTrackingOpen(true);
-            }}
-            onDismiss={() => setDuplicateDismissed(true)}
-          />
-        )}
-
-        {/* Issue Date & Expiry Date */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Field
-            id="passportIssueDate"
-            invalid={touched.passportIssueDate && !isValidIsoDate(passportIssueDate)}
-            isValid={isIssueValid}
-          >
-            <FieldLabel
-              tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
-            >
-              Date of Issue
-            </FieldLabel>
-            <Input
-              type="date"
-              value={passportIssueDate}
-              onChange={(e) => handleInputChange('passportIssueDate', e.target.value)}
-              onBlur={() => handleBlur('passportIssueDate')}
-            />
-            {touched.passportIssueDate && !isValidIsoDate(passportIssueDate) && (
-              <FieldError>Date of issue is required.</FieldError>
-            )}
-          </Field>
-
-          <Field
-            id="passportExpiryDate"
-            invalid={
-              touched.passportExpiryDate &&
-              (!isValidIsoDate(passportExpiryDate) || Boolean(expiryStatus?.isExpired))
-            }
-            isValid={isExpiryValid}
-          >
-            <FieldLabel
-              tooltip={<JargonTooltip jargonKey="dateOfIssueVsExpiry" diagramZone="dates" />}
-            >
-              Date of Expiry
-            </FieldLabel>
-            <Input
-              type="date"
-              value={passportExpiryDate}
-              onChange={(e) => handleInputChange('passportExpiryDate', e.target.value)}
-              onBlur={() => handleBlur('passportExpiryDate')}
-            />
-            {touched.passportExpiryDate && !isValidIsoDate(passportExpiryDate) && (
-              <FieldError>Date of expiry is required.</FieldError>
-            )}
-            {touched.passportExpiryDate && expiryStatus?.isExpired && (
-              <FieldError>{expiryStatus.message}</FieldError>
-            )}
-          </Field>
         </div>
-
-        {/* Contextual Expiry Warning if <6 months */}
-        {showExpiryWarning && (
-          <div id="passportExpiryConfirmed">
-            <ExpiryWarning
-              expiryDate={passportExpiryDate}
-              confirmed={passportExpiryConfirmed}
-              onConfirmChange={(val) => handleInputChange('passportExpiryConfirmed', val)}
-            />
-          </div>
-        )}
       </div>
 
       {/* Buttons */}
