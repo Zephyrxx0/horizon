@@ -15,6 +15,8 @@ import { useRouter } from '../../router/Router';
 import { GovtBadge } from '../../components/ui/GovtBadge';
 import { Button } from '../../components/ui/Button';
 import { DestinationCarousel } from '../../components/ui/DestinationCarousel';
+import branchAscii from '../../assets/cultural/branch-ascii.png';
+import lotusElephantAscii from '../../assets/cultural/lotus-elephant-ascii.png';
 
 export function LandingPage() {
   const { navigate } = useRouter();
@@ -103,8 +105,25 @@ export function LandingPage() {
 
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-64px)]">
           {/* Left: Headline + CTAs */}
-          <div className="flex items-center px-8 sm:px-12 xl:px-20 2xl:px-28 py-16 lg:py-0 bg-[var(--color-surface-bg)]">
-            <div className="space-y-8 max-w-2xl w-full">
+          <div className="relative flex items-center px-8 sm:px-12 xl:px-20 2xl:px-28 py-16 lg:py-0 bg-[var(--color-surface-bg)]">
+            {/* ASCII Art Branch — Top Left Corner */}
+            <div
+              className="absolute top-2 -left-4 sm:top-6 sm:left-6 w-56 sm:w-72 md:w-88 pointer-events-none opacity-85 dark:opacity-80 select-none z-0 transition-all duration-300"
+              aria-hidden="true"
+            >
+              <img
+                src={branchAscii}
+                alt=""
+                className="w-full h-auto object-contain"
+                style={{
+                  scale: '-2',
+                  transform: 'rotate(-160deg)',
+                }}
+                loading="eager"
+              />
+            </div>
+
+            <div className="space-y-8 max-w-2xl w-full relative z-10">
               <div className="flex flex-wrap items-center gap-2">
                 <GovtBadge variant="emblem" size="sm" />
                 <GovtBadge variant="fast-track" size="sm" />
@@ -160,7 +179,23 @@ export function LandingPage() {
           {/* Right: Destination Carousel — fills full height */}
           <div className="relative hidden lg:flex items-stretch bg-[var(--color-surface-subtle)] border-l border-[var(--color-border)]">
             <div className="absolute inset-0 flex items-center justify-center p-10 xl:p-16">
-              <DestinationCarousel className="shadow-2xl w-full h-full max-h-[600px] rounded-2xl" />
+              <div className="relative w-full h-full max-h-[600px]">
+                {/* ASCII Art Lotus — BEHIND the Carousel Layer (z-0), Top-Right Corner, Tilted 45°, Scaled 2x */}
+                <div
+                  className="absolute -top-16 -right-16 xl:-top-20 xl:-right-20 w-44 sm:w-56 xl:w-68 pointer-events-none opacity-90 dark:opacity-85 select-none z-0 transform rotate-45 scale-[2.0] origin-center transition-all duration-300 drop-shadow-xl"
+                  aria-hidden="true"
+                >
+                  <img
+                    src={lotusElephantAscii}
+                    alt=""
+                    className="w-full h-auto object-contain"
+                    loading="eager"
+                  />
+                </div>
+
+                {/* Carousel Card in Foreground (z-10) */}
+                <DestinationCarousel className="relative z-10 shadow-2xl w-full h-full rounded-2xl" />
+              </div>
             </div>
           </div>
         </div>

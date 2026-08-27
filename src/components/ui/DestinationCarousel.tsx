@@ -202,6 +202,7 @@ export function DestinationCarousel({
           </div>
 
           {/* Bottom: Info + Dots */}
+
           <div className="space-y-4 z-10">
             {/* Destination Info */}
             <div className="space-y-3 max-w-xl">
