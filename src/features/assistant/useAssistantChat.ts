@@ -5,6 +5,7 @@ import type { AttachedImage } from '../../components/ai-elements';
 
 export type ExtendedUIMessage = UIMessage & {
   attachments?: AttachedImage[];
+  toolCalls?: Array<{ toolName: string; input: unknown; output: unknown }>;
 };
 
 export interface AssistantChatState {
@@ -95,8 +96,11 @@ export function useAssistantChat(currentStepId: string = 'visa-selection'): Assi
       setMessages(updatedMessages);
       setStatus('streaming');
       try {
-        // Small async delay for natural conversation feel in production/dev
-        if (import.meta.env.MODE !== 'test') {
+        // Small async delay for natural conversation feel in production/dev (skip in tests)
+        const isTestEnv =
+          (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') ||
+          import.meta.env?.MODE === 'test';
+        if (!isTestEnv) {
           await new Promise((resolve) => setTimeout(resolve, 250));
         }
 
@@ -110,9 +114,10 @@ export function useAssistantChat(currentStepId: string = 'visa-selection'): Assi
           id: `assistant-${Date.now()}`,
           role: 'assistant',
           parts: [{ type: 'text', text: response.content }],
+          toolCalls: response.toolCalls,
         };
 
-        setMessages((prev) => [...prev, assistantMessage]);
+        setMessages([...updatedMessages, assistantMessage]);
         setStatus('ready');
       } catch (err) {
         console.error('Assistant error:', err);

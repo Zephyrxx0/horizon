@@ -6,6 +6,20 @@ export interface MarkdownRendererProps {
   className?: string;
 }
 
+function isUnsafeOrFileUrl(url: string): boolean {
+  if (!url) return true;
+  const trimmed = url.trim();
+  // Catch file: / file/// / local paths / windows drives / home dirs
+  if (/^(file:|file\/|\/home\/|\/Users\/|[a-zA-Z]:\\|\.\/|\.\.\/)/i.test(trimmed)) {
+    return true;
+  }
+  // Catch dangerous execution protocols
+  if (/^(javascript:|vbscript:|data:(?!image\/))/i.test(trimmed)) {
+    return true;
+  }
+  return false;
+}
+
 function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
   if (!tokens || tokens.length === 0) return null;
 
@@ -38,14 +52,49 @@ function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
             {tok.text}
           </code>
         );
+      case 'image': {
+        const src = tok.href || '';
+        if (
+          isUnsafeOrFileUrl(src) ||
+          (!src.startsWith('http://') &&
+            !src.startsWith('https://') &&
+            !src.startsWith('data:image/') &&
+            !src.startsWith('/'))
+        ) {
+          return (
+            <span
+              key={idx}
+              className="inline-flex items-center px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-[11px] font-mono text-inherit opacity-80"
+            >
+              📄 {tok.text || 'Document Asset'}
+            </span>
+          );
+        }
+        return (
+          <img
+            key={idx}
+            src={src}
+            alt={tok.text || ''}
+            className="max-w-full h-auto rounded my-1 object-contain"
+            loading="lazy"
+          />
+        );
+      }
       case 'link': {
         const href = tok.href || '';
-        const isFileProtocol = href.startsWith('file:') || href.startsWith('file///');
-        if (isFileProtocol) {
+        const isSafeWebLink =
+          (href.startsWith('http://') ||
+            href.startsWith('https://') ||
+            href.startsWith('mailto:') ||
+            href.startsWith('tel:') ||
+            href.startsWith('#')) &&
+          !isUnsafeOrFileUrl(href);
+
+        if (!isSafeWebLink) {
           return (
             <code
               key={idx}
-              title={`Local file: ${href}`}
+              title={`Reference: ${href}`}
               className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-white/15 text-[11px] font-mono text-inherit"
             >
               {tok.tokens ? renderInlineTokens(tok.tokens) : tok.text}
@@ -64,6 +113,12 @@ function renderInlineTokens(tokens?: Tokens.Generic[]): ReactNode {
           </a>
         );
       }
+      case 'html':
+        return (
+          <span key={idx} className="text-inherit">
+            {tok.text}
+          </span>
+        );
       case 'br':
         return <br key={idx} />;
       case 'escape':
@@ -209,6 +264,38 @@ function renderBlockToken(token: Tokens.Generic, index: number): ReactNode {
         </div>
       );
     }
+    case 'image': {
+      const imgTok = token as Tokens.Image;
+      const src = imgTok.href || '';
+      if (
+        isUnsafeOrFileUrl(src) ||
+        (!src.startsWith('http://') &&
+          !src.startsWith('https://') &&
+          !src.startsWith('data:image/') &&
+          !src.startsWith('/'))
+      ) {
+        return (
+          <p key={index} className="my-1 text-xs opacity-75 font-mono">
+            📄 {imgTok.text || 'Document Asset'}
+          </p>
+        );
+      }
+      return (
+        <img
+          key={index}
+          src={src}
+          alt={imgTok.text || ''}
+          className="max-w-full h-auto rounded my-2 object-contain"
+          loading="lazy"
+        />
+      );
+    }
+    case 'html':
+      return (
+        <p key={index} className="my-1 text-inherit">
+          {token.text}
+        </p>
+      );
     case 'space':
       return null;
     default:

@@ -51,7 +51,8 @@ describe('AssistantSheet Component', () => {
     fireEvent.click(suggestionBtn);
 
     await waitFor(() => {
-      expect(screen.getByText(/B1\/B2 Visitor Visa/i)).toBeInTheDocument();
+      const matches = screen.getAllByText(/B1\/B2 Visitor Visa/i);
+      expect(matches.length).toBeGreaterThan(0);
     });
   });
 

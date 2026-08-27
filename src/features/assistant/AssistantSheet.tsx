@@ -55,7 +55,7 @@ export function AssistantSheet({
 
   const [inputVal, setInputVal] = useState('');
   const [attachedFiles, setAttachedFiles] = useState<AttachedImage[]>([]);
-  const [openToolIndex, setOpenToolIndex] = useState<number | null>(null);
+  const [closedToolIndices, setClosedToolIndices] = useState<Record<number, boolean>>({});
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -196,7 +196,9 @@ export function AssistantSheet({
                 const isAssistant = msg.role === 'assistant';
 
                 // Look for tool calls associated with assistant response
-                const toolCall = isAssistant && currentToolCalls[index - 1];
+                const toolCall =
+                  isAssistant &&
+                  (msg.toolCalls?.[0] || currentToolCalls[currentToolCalls.length - 1]);
 
                 return (
                   <Message key={msg.id || index} from={msg.role as 'user' | 'assistant'}>
@@ -218,41 +220,52 @@ export function AssistantSheet({
 
                       <MessageResponse>{textContent}</MessageResponse>
 
-                      {toolCall && (
-                        <Tool defaultOpen={openToolIndex === index}>
-                          <ToolHeader
-                            toolName={toolCall.toolName}
-                            state="success"
-                            isOpen={openToolIndex === index}
-                            onToggle={() =>
-                              setOpenToolIndex(openToolIndex === index ? null : index)
-                            }
-                          />
-                          <ToolContent isOpen={openToolIndex === index}>
-                            {toolCall.toolName === 'getVisaDetails' && (
-                              <VisaDetailsVisualizer data={toolCall.output as VisaDetailsResult} />
-                            )}
-                            {toolCall.toolName === 'calculateVisaFees' && (
-                              <FeeSummaryVisualizer
-                                data={toolCall.output as FeeCalculationResult}
+                      {toolCall &&
+                        (() => {
+                          const isToolOpen = !closedToolIndices[index];
+                          return (
+                            <Tool defaultOpen={isToolOpen}>
+                              <ToolHeader
+                                toolName={toolCall.toolName}
+                                state="success"
+                                isOpen={isToolOpen}
+                                onToggle={() =>
+                                  setClosedToolIndices((prev) => ({
+                                    ...prev,
+                                    [index]: !prev[index],
+                                  }))
+                                }
                               />
-                            )}
-                            {toolCall.toolName === 'getRequiredDocuments' && (
-                              <DocChecklistVisualizer
-                                data={toolCall.output as RequiredDocumentsResult}
-                              />
-                            )}
-                            {toolCall.toolName === 'checkPassportValidity' && (
-                              <PassportValidityVisualizer
-                                data={toolCall.output as PassportValidityResult}
-                              />
-                            )}
-                            {toolCall.toolName === 'trackApplicationStatus' && (
-                              <TrackingVisualizer data={toolCall.output as TrackingStatusResult} />
-                            )}
-                          </ToolContent>
-                        </Tool>
-                      )}
+                              <ToolContent isOpen={isToolOpen}>
+                                {toolCall.toolName === 'getVisaDetails' && (
+                                  <VisaDetailsVisualizer
+                                    data={toolCall.output as VisaDetailsResult}
+                                  />
+                                )}
+                                {toolCall.toolName === 'calculateVisaFees' && (
+                                  <FeeSummaryVisualizer
+                                    data={toolCall.output as FeeCalculationResult}
+                                  />
+                                )}
+                                {toolCall.toolName === 'getRequiredDocuments' && (
+                                  <DocChecklistVisualizer
+                                    data={toolCall.output as RequiredDocumentsResult}
+                                  />
+                                )}
+                                {toolCall.toolName === 'checkPassportValidity' && (
+                                  <PassportValidityVisualizer
+                                    data={toolCall.output as PassportValidityResult}
+                                  />
+                                )}
+                                {toolCall.toolName === 'trackApplicationStatus' && (
+                                  <TrackingVisualizer
+                                    data={toolCall.output as TrackingStatusResult}
+                                  />
+                                )}
+                              </ToolContent>
+                            </Tool>
+                          );
+                        })()}
                     </MessageContent>
                   </Message>
                 );
