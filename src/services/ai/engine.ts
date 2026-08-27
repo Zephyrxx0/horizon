@@ -6,10 +6,19 @@ import {
   checkPassportValidity,
   trackApplicationStatus,
   explainJargon,
+  ALL_AI_TOOLS,
 } from './tools';
 import { resolveLanguageModel } from './models';
-import type { UIMessage } from 'ai';
+import { generateText, isStepCount, type UIMessage } from 'ai';
 import type { AttachedImage } from '../../components/ai-elements';
+
+const ASHA_SYSTEM_PROMPT = `You are Asha, the official AI Visa Guide for VisaReThink — a guided visa application service for Indian passport holders traveling abroad.
+Your role:
+- Provide friendly, reassuring, accurate, and culturally aware consular guidance.
+- You specialize in visa requirements, document specifications (including 2x2 inch photo specs), fee breakdowns (in INR ₹), passport validity checks, ARN tracking, and consular terminology (ECR/Non-ECR, Apostille, VFS, NOC, MRZ).
+- You have access to tools: getVisaDetails, calculateVisaFees, getRequiredDocuments, checkPassportValidity, trackApplicationStatus, explainJargon, getWizardNavigationLink. Use them whenever relevant to provide exact, authoritative catalog data.
+- Safety & Privacy: Never request payment PINs, CVV, or passwords. Never guarantee 100% visa approval.
+- Format responses cleanly with markdown bullet points and clear sections.`;
 
 export interface ChatEngineResponse {
   role: 'assistant';
@@ -314,6 +323,7 @@ export async function processChatMessage(
   // 1. Enforce Guardrails
   const guardrailResult = evaluateInputGuardrails(userText);
   if (!guardrailResult.allowed) {
+    console.warn(`[VisaAI] 🛡️ Guardrail deflection triggered:`, guardrailResult.reason);
     return {
       role: 'assistant',
       content:
@@ -323,14 +333,75 @@ export async function processChatMessage(
     };
   }
 
-  // 2. Check if live model is available
-  const { isLive } = resolveLanguageModel();
+  // 2. Multimodal image analysis (handles offline and attached images)
+  if (images && images.length > 0) {
+    console.info(`[VisaAI] 🖼️ Analyzing ${images.length} attached image(s)...`);
+    const { reasoning, content } = analyzeAttachedImages(images, guardrailResult.sanitizedInput);
+    return {
+      role: 'assistant',
+      content: `${content}\n\n> *Reasoning:* ${reasoning}`,
+      isSimulated: true,
+    };
+  }
 
-  if (!isLive) {
-    // Return deterministic simulator response
+  // 3. Check if live model is available
+  const { model, isLive, provider, modelName } = resolveLanguageModel();
+
+  if (!isLive || !model) {
+    console.info(`[VisaAI] ⚙️ Processing message via in-app simulation engine.`);
     return executeSimulatedAssistant(guardrailResult.sanitizedInput, images);
   }
 
-  // In live mode, simulate or execute live LLM with AI SDK
-  return executeSimulatedAssistant(guardrailResult.sanitizedInput, images);
+  // 4. Execute Live LLM with AI SDK and registered tools
+  try {
+    console.info(
+      `%c[VisaAI] 🚀 Dispatching query to live model: ${provider} ("${modelName}")`,
+      'color: #3b82f6; font-weight: bold;',
+    );
+    const startTime = performance.now();
+
+    const result = await generateText({
+      model,
+      system: ASHA_SYSTEM_PROMPT,
+      prompt: guardrailResult.sanitizedInput,
+      tools: ALL_AI_TOOLS,
+      stopWhen: isStepCount(5),
+    });
+
+    const elapsed = Math.round(performance.now() - startTime);
+    const toolCalls = result.toolCalls || [];
+    console.info(
+      `%c[VisaAI] ✨ Response received in ${elapsed}ms with ${toolCalls.length} tool call(s)`,
+      'color: #10b981; font-weight: bold;',
+      { textLength: result.text.length, toolCalls },
+    );
+
+    const executedToolCalls = toolCalls.map((tc) => {
+      const stepResults = result.steps?.flatMap((s) => s.toolResults || []) || [];
+      const match = stepResults.find((tr) => tr.toolCallId === tc.toolCallId);
+      return {
+        toolName: tc.toolName,
+        input: tc.args,
+        output: match ? match.result : undefined,
+      };
+    });
+
+    return {
+      role: 'assistant',
+      content: result.text,
+      toolCalls: executedToolCalls.length > 0 ? executedToolCalls : undefined,
+      isSimulated: false,
+    };
+  } catch (err: unknown) {
+    console.error(`[VisaAI] ❌ Live AI model call failed (${provider} / ${modelName}):`, err);
+    console.warn(`[VisaAI] Falling back gracefully to in-app simulation.`);
+    const fallbackResponse = await executeSimulatedAssistant(
+      guardrailResult.sanitizedInput,
+      images,
+    );
+    return {
+      ...fallbackResponse,
+      content: `${fallbackResponse.content}\n\n> ⚠️ *(Live AI request failed, showing response from in-app catalog. Check browser console for error details.)*`,
+    };
+  }
 }

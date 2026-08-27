@@ -8,14 +8,21 @@ import type { AIProviderConfig, AIProviderName } from './types';
  */
 export function getAIConfig(): AIProviderConfig {
   const envProvider = (import.meta.env.VITE_AI_PROVIDER as AIProviderName) || 'google';
-  const defaultModel = envProvider === 'openai' ? 'gpt-4o-mini' : 'gemini-2.5-flash';
+  const defaultModel = envProvider === 'openai' ? 'gpt-4o-mini' : 'gemini-1.5-flash';
   const modelName = import.meta.env.VITE_AI_MODEL || defaultModel;
 
-  const apiKey =
+  const rawKey =
     import.meta.env.VITE_GEMINI_API_KEY ||
     import.meta.env.VITE_GOOGLE_GENERATIVE_AI_API_KEY ||
     import.meta.env.VITE_OPENAI_API_KEY ||
     import.meta.env.VITE_AI_GATEWAY_API_KEY;
+
+  // Clean trailing spaces or quotes if pasted with wrappers
+  const apiKey = rawKey
+    ? String(rawKey)
+        .trim()
+        .replace(/^["']|["']$/g, '')
+    : undefined;
 
   return {
     provider: envProvider,
@@ -38,6 +45,10 @@ export function resolveLanguageModel(): {
 
   // If no API key is set, we use our deterministic in-app mock engine
   if (!config.apiKey && config.provider !== 'mock') {
+    console.info(
+      `%c[VisaAI] ⚠️ No API key found in environment (VITE_GEMINI_API_KEY / VITE_OPENAI_API_KEY). Running in offline simulated mode.`,
+      'color: #f59e0b; font-weight: bold;',
+    );
     return {
       model: null,
       provider: 'mock',
@@ -46,8 +57,16 @@ export function resolveLanguageModel(): {
     };
   }
 
+  const maskedKey = config.apiKey
+    ? `${config.apiKey.slice(0, 6)}...${config.apiKey.slice(-4)}`
+    : 'none';
+
   try {
     if (config.provider === 'google') {
+      console.info(
+        `%c[VisaAI] 🤖 Live Google Gemini initialized: model="${config.modelName}", key=${maskedKey}`,
+        'color: #10b981; font-weight: bold;',
+      );
       const googleProvider = createGoogleGenerativeAI({
         apiKey: config.apiKey,
       });
@@ -60,6 +79,10 @@ export function resolveLanguageModel(): {
     }
 
     if (config.provider === 'openai') {
+      console.info(
+        `%c[VisaAI] 🤖 Live OpenAI initialized: model="${config.modelName}", key=${maskedKey}`,
+        'color: #10b981; font-weight: bold;',
+      );
       const openaiProvider = createOpenAI({
         apiKey: config.apiKey,
       });
@@ -71,7 +94,10 @@ export function resolveLanguageModel(): {
       };
     }
   } catch (err) {
-    console.warn('Failed to initialize live AI provider, falling back to in-app simulation:', err);
+    console.error(
+      '[VisaAI] ❌ Failed to initialize live AI provider, falling back to simulation:',
+      err,
+    );
   }
 
   return {
