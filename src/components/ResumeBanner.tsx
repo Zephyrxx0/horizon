@@ -24,7 +24,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
   const hasDraftAnswers = Object.keys(answers).length > 0;
   const targetStepId = getFirstIncompleteStep(answers);
 
-  // If on the target step already, or if there's no saved draft answers, or dismissed, don't show the banner
+  // If on the target step already, or if there is no saved draft answers, or dismissed, don't show the banner
   if (!hasDraftAnswers || currentStepId === targetStepId || isDismissed) {
     return null;
   }
@@ -40,9 +40,9 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
     <div
       role="region"
       aria-label="Resume In-Progress Application"
-      className={`px-3.5 py-2 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all animate-in fade-in duration-150 ${className}`}
+      className={`p-3 sm:px-4 sm:py-2.5 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border)] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 transition-all animate-in fade-in duration-150 ${className}`}
     >
-      <div className="flex items-center gap-2.5 min-w-0">
+      <div className="flex items-center gap-2.5 min-w-0 flex-1">
         <div className="w-6 h-6 rounded-lg bg-[var(--color-indigo-primary)]/10 border border-[var(--color-indigo-primary)]/20 text-[var(--color-indigo-primary)] dark:text-blue-400 flex items-center justify-center shrink-0">
           <Bookmark className="w-3.5 h-3.5" aria-hidden="true" />
         </div>
@@ -56,11 +56,11 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
         <Button
           variant="primary"
           onClick={handleResume}
-          className="min-h-[32px] py-1 px-3 text-xs font-bold flex items-center gap-1.5 rounded-lg shadow-2xs cursor-pointer active:scale-[0.96]"
+          className="min-h-[36px] py-1.5 px-3 text-xs font-bold flex items-center justify-center gap-1.5 rounded-lg shadow-2xs cursor-pointer active:scale-[0.96] flex-1 sm:flex-initial"
         >
           <Play className="w-3 h-3" aria-hidden="true" />
           <span>Continue Application ({targetStep?.label || 'Next Step'})</span>
@@ -70,7 +70,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
           <Button
             variant="outline"
             onClick={onOpenBackupRestore}
-            className="min-h-[32px] py-1 px-2.5 text-xs font-semibold rounded-lg border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] cursor-pointer active:scale-[0.96]"
+            className="min-h-[36px] py-1.5 px-3 text-xs font-semibold rounded-lg border border-[var(--color-border)] text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] cursor-pointer active:scale-[0.96] flex-1 sm:flex-initial"
             data-testid="resume-restore-code-btn"
           >
             Restore from Code
@@ -80,7 +80,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
         <Button
           variant="secondary"
           onClick={resetDraft}
-          className="min-h-[32px] py-1 px-2 text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-error)] rounded-lg cursor-pointer"
+          className="min-h-[36px] py-1.5 px-2.5 text-xs text-[var(--color-ink-muted)] hover:text-[var(--color-error)] rounded-lg cursor-pointer flex items-center justify-center gap-1"
           title="Start Over"
         >
           <RotateCcw className="w-3 h-3" aria-hidden="true" />
@@ -90,7 +90,7 @@ export const ResumeBanner: React.FC<ResumeBannerProps> = ({
         <button
           type="button"
           onClick={() => setIsDismissed(true)}
-          className="p-1 rounded-lg text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg text-[var(--color-ink-muted)] hover:text-[var(--color-ink)] hover:bg-[var(--color-surface-subtle)] transition-colors cursor-pointer ml-auto md:ml-0"
           aria-label="Dismiss draft notice"
         >
           <X className="w-3.5 h-3.5" />

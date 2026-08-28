@@ -37,7 +37,7 @@ export function ProgressStepper({
         className={`flex ${
           orientation === 'vertical'
             ? 'flex-col gap-4'
-            : 'flex-row items-center justify-between gap-1 sm:gap-3 py-1'
+            : 'flex-col md:flex-row md:items-center md:justify-between gap-2.5 md:gap-1 lg:gap-3 py-1'
         }`}
       >
         {steps.map((step, idx) => {
@@ -88,14 +88,14 @@ export function ProgressStepper({
             <button
               type="button"
               onClick={() => onStepClick?.(step, idx)}
-              className="flex items-center gap-2 group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-indigo-primary)] rounded-lg p-1 transition-all active:scale-[0.98]"
+              className="flex items-center gap-2.5 w-full md:w-auto group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-indigo-primary)] rounded-lg p-1 transition-all active:scale-[0.98]"
               aria-label={`Go to Step ${idx + 1}: ${step.label} (${step.status})`}
             >
               {stepBadge}
               {stepLabel}
             </button>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5 w-full md:w-auto">
               {stepBadge}
               {stepLabel}
             </div>
@@ -104,7 +104,11 @@ export function ProgressStepper({
           return (
             <li
               key={step.id}
-              className={`flex items-center gap-2 ${orientation === 'horizontal' ? 'flex-1 min-w-0 last:flex-initial' : ''}`}
+              className={`flex items-center gap-2 ${
+                orientation === 'horizontal'
+                  ? 'w-full md:w-auto md:flex-1 md:min-w-0 md:last:flex-initial'
+                  : ''
+              }`}
               aria-current={isCurrent ? 'step' : undefined}
             >
               {content}

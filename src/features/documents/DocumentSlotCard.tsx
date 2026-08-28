@@ -205,7 +205,7 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
                   className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-[var(--color-surface-bg)] bg-[var(--color-indigo-primary)] rounded-lg hover:opacity-90 min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)] shadow-sm"
                 >
                   <Camera className="w-4 h-4" aria-hidden="true" />
-                  <span>📷 Take Photo</span>
+                  <span>Take Photo</span>
                 </button>
 
                 <button
@@ -214,7 +214,7 @@ export const DocumentSlotCard: React.FC<DocumentSlotCardProps> = ({
                   className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-medium text-[var(--color-ink)] bg-transparent border border-[var(--color-border)] rounded-lg hover:bg-[var(--color-surface-subtle)] min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[var(--color-indigo-primary)]"
                 >
                   <Upload className="w-4 h-4 text-[var(--color-ink-muted)]" aria-hidden="true" />
-                  <span>📁 Upload File / PDF</span>
+                  <span>Upload File / PDF</span>
                 </button>
               </div>
 

@@ -186,7 +186,6 @@ function MainContent() {
               <div className="max-w-5xl mx-auto w-full space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-xs font-semibold text-[var(--color-ink)]">
-                    <span className="w-2 h-2 rounded-full bg-[var(--color-saffron-bright)] animate-pulse" />
                     <span>e-Visa Application Process</span>
                     <span className="text-[var(--color-ink-muted)] font-normal">|</span>
                     <div className="flex items-center gap-1.5 text-xs text-[var(--color-ink-muted)] font-medium">

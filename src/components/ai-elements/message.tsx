@@ -18,7 +18,7 @@ export function Message({ from, children, className = '', ...props }: MessagePro
       <div
         className={`w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-xs font-bold border ${
           isUser
-            ? 'bg-[var(--color-indigo-primary)] text-white border-[var(--color-indigo-primary)]'
+            ? 'bg-[var(--color-indigo-primary)] text-white dark:text-[#0f1319] border-[var(--color-indigo-primary)]'
             : 'bg-[var(--color-saffron-bright)]/15 text-[var(--color-saffron-bright)] dark:text-amber-400 border-[var(--color-saffron-bright)]/30'
         }`}
         aria-hidden="true"

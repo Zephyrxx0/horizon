@@ -23,8 +23,8 @@ describe('DocumentSubSlot Component', () => {
     );
 
     expect(screen.getByText('Passport Bio Page (Pages 1–2)')).toBeDefined();
-    expect(screen.getByText('📷 Take Photo')).toBeDefined();
-    expect(screen.getByText('📁 Upload File / PDF')).toBeDefined();
+    expect(screen.getByText('Take Photo')).toBeDefined();
+    expect(screen.getByText('Upload File / PDF')).toBeDefined();
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

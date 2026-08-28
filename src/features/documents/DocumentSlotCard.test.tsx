@@ -18,8 +18,8 @@ describe('DocumentSlotCard Component', () => {
     expect(screen.getByText('Recent Passport Photograph (4×6cm)')).toBeDefined();
     expect(screen.getByText('Required')).toBeDefined();
     expect(screen.getByText('View sample & tips')).toBeDefined();
-    expect(screen.getByText('📷 Take Photo')).toBeDefined();
-    expect(screen.getByText('📁 Upload File / PDF')).toBeDefined();
+    expect(screen.getByText('Take Photo')).toBeDefined();
+    expect(screen.getByText('Upload File / PDF')).toBeDefined();
 
     const results = await axe(container);
     expect(results).toHaveNoViolations();

@@ -206,7 +206,7 @@ export function AssistantSheet({
                       className={
                         isAssistant
                           ? 'bg-[var(--color-surface-subtle)] text-[var(--color-ink)] border border-[var(--color-border)]'
-                          : 'bg-[var(--color-indigo-primary)] text-white font-medium'
+                          : 'bg-[var(--color-indigo-primary)] text-white dark:text-[#0f1319] font-medium'
                       }
                     >
                       {/* Attached user images preview in chat */}
