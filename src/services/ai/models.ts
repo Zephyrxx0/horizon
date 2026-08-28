@@ -43,12 +43,14 @@ export function resolveLanguageModel(): {
 } {
   const config = getAIConfig();
 
-  // If in test environment or no API key is set, use our deterministic in-app mock engine
-  const isTest =
-    (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') ||
-    import.meta.env?.MODE === 'test';
-
-  if (isTest || (!config.apiKey && config.provider !== 'mock')) {
+  // If in test environment, no API key is set, or mock is requested, we use our deterministic in-app mock engine
+  if (import.meta.env.MODE === 'test' || !config.apiKey || config.provider === 'mock') {
+    if (import.meta.env.MODE !== 'test') {
+      console.info(
+        `%c[VisaAI] ⚠️ No API key found in environment (VITE_GEMINI_API_KEY / VITE_OPENAI_API_KEY). Running in offline simulated mode.`,
+        'color: #f59e0b; font-weight: bold;',
+      );
+    }
     return {
       model: null,
       provider: 'mock',

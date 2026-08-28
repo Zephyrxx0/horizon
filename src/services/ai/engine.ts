@@ -396,8 +396,8 @@ export async function processChatMessage(
       const match = stepResults.find((tr) => tr.toolCallId === tc.toolCallId);
       return {
         toolName: tc.toolName,
-        input: tc.args,
-        output: match ? match.result : undefined,
+        input: tc.input,
+        output: match ? match.output : undefined,
       };
     });
 

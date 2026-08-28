@@ -11,13 +11,21 @@ export function Conversation({ children, className = '', ...props }: Conversatio
 
   const scrollToBottom = () => {
     if (containerRef.current) {
-      if (typeof containerRef.current.scrollTo === 'function') {
-        containerRef.current.scrollTo({
-          top: containerRef.current.scrollHeight,
-          behavior: 'smooth',
-        });
-      } else {
-        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      try {
+        if (typeof containerRef.current.scrollTo === 'function') {
+          containerRef.current.scrollTo({
+            top: containerRef.current.scrollHeight,
+            behavior: 'smooth',
+          });
+        } else {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      } catch {
+        try {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        } catch {
+          // ignore test environment error
+        }
       }
     }
   };

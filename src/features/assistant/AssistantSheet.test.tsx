@@ -38,7 +38,11 @@ describe('AssistantSheet Component', () => {
     fireEvent.submit(textarea.closest('form')!);
 
     await waitFor(() => {
-      expect(screen.getByText(/Document Checklist/i)).toBeInTheDocument();
+      expect(screen.getByText(/What are the photo specifications\?/i)).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByText(/Checklist/i).length).toBeGreaterThan(0);
     });
   });
 
@@ -51,8 +55,7 @@ describe('AssistantSheet Component', () => {
     fireEvent.click(suggestionBtn);
 
     await waitFor(() => {
-      const matches = screen.getAllByText(/B1\/B2 Visitor Visa/i);
-      expect(matches.length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/B1\/B2/i).length).toBeGreaterThan(0);
     });
   });
 

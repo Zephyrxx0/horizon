@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from '@xstate/react';
 import { useWizardActor, useSaveState } from './features/wizard/context';
 import { deriveStepStatus, deriveProgress } from './features/wizard/selectors';
+import type { StepId } from './features/wizard/types';
 import { SkipLink, AppHeader, OfflineBanner, FloatingHelpButton } from './components/AppShell';
 import { A11yAnnouncer, announcePolite } from './components/A11yAnnouncer';
 import { focusHeadingOrFirstElement } from './components/ui/focus';

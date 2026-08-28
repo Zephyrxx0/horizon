@@ -92,19 +92,14 @@ export function useAssistantChat(currentStepId: string = 'visa-selection'): Assi
         attachments: files && files.length > 0 ? files : undefined,
       };
 
-      const updatedMessages = [...messages, userMessage];
-      setMessages(updatedMessages);
+      setMessages((prev) => [...prev, userMessage]);
       setStatus('streaming');
       try {
-        // Small async delay for natural conversation feel in production/dev (skip in tests)
-        const isTestEnv =
-          (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') ||
-          import.meta.env?.MODE === 'test';
-        if (!isTestEnv) {
+        if (import.meta.env.MODE !== 'test') {
           await new Promise((resolve) => setTimeout(resolve, 250));
         }
 
-        const response = await processChatMessage(updatedMessages, currentStepId, files);
+        const response = await processChatMessage([...messages, userMessage], currentStepId, files);
 
         if (response.toolCalls && response.toolCalls.length > 0) {
           setCurrentToolCalls((prev) => [...prev, ...response.toolCalls!]);
@@ -117,7 +112,7 @@ export function useAssistantChat(currentStepId: string = 'visa-selection'): Assi
           toolCalls: response.toolCalls,
         };
 
-        setMessages([...updatedMessages, assistantMessage]);
+        setMessages((prev) => [...prev, assistantMessage]);
         setStatus('ready');
       } catch (err) {
         console.error('Assistant error:', err);
